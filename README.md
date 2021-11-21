@@ -94,7 +94,7 @@ Main DDoS function is on <strong>The Application layer</strong>.
   <li><strong>?vse [ip]</li></strong>
     <ul>
       <li>?vse 192.168.1.16</li>
-      - Flood UDP packets by random src port with valve source engine dst port. To the target server that used to host online games.
+      - Flood UDP packets("TSource Engine Query" request.) by random src port with valve source engine dst port. To the target server that used to host online games.
     </ul>
 </ul>
 
