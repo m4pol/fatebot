@@ -109,7 +109,7 @@ Main DDoS function is on <strong>The Application layer</strong>.
 <ul>
   <li><strong>?info</li></strong>
     <ul>
-      - Get bot system information.
+      - Get bot system information, For bot analysis.
     </ul>
 </ul>
 
