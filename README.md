@@ -116,7 +116,7 @@ Main DDoS function is on <strong>The Application layer</strong>.
 <ul>
   <li><strong>?kill</li></strong>
     <ul>
-      - Kick bot out of The server and Bot self-close.
+      - Bot self-close.
     </ul>
 </ul>
 
