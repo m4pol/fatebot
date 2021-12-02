@@ -100,7 +100,6 @@ func ssh_session(ssh_session *ssh.Client, command string) {
 	var set_session bytes.Buffer
 	session.Stdout = &set_session
 	session.Run(command)
-	session.Wait()
 	session.Close()
 }
 
