@@ -45,7 +45,7 @@ Main DDoS function is on <strong>The Application layer</strong>.
 <img src="assets/postfloodtraffic.png" alt="http post flood, dos example">
 
 # Build payload
-<img src="assets/buildpayload.gif" alt="how to build">
+<img src="assets/howtobuild.gif" alt="how to build">
 
 # Update Lists
 <p><strong>Fatebot v0.1</strong> = Fatebot open release.</p>
