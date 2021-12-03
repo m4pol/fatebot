@@ -10,10 +10,6 @@ import (
 	"bot/pkg"
 )
 
-////////////////////////////////////////////////////////////////////////////
-//                         START CONFIG HERE!!!                          //
-//////////////////////////////////////////////////////////////////////////
-
 const (
 	IRC_Server        = "" //config IRC server and port here. //xxx.xxx.xxx.xxx:xxx //127.0.0.1:6667
 	IRC_Backup_Server = "" //config like main server.
@@ -21,10 +17,6 @@ const (
 	IRC_Chan_Password = "" //config channel password here. //If you didn't have, Just leave it blank.
 	New_Payload_Name  = "" //config new payload name. //For curl process.
 )
-
-//////////////////////////////////////////////////////////////////////////
-//                         STOP CONFIG HERE!!!                         //
-////////////////////////////////////////////////////////////////////////
 
 func bot(server string) error {
 	irc := pkg.IRC_Conn(server)
