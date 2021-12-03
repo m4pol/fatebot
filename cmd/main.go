@@ -15,11 +15,11 @@ import (
 //////////////////////////////////////////////////////////////////////////
 
 const (
-	IRC_Server        = "192.168.57.132:6667" //config IRC server and port here. //xxx.xxx.xxx.xxx:xxx //127.0.0.1:6667
-	IRC_Backup_Server = "192.168.57.132:6667" //config like main server.
-	IRC_Channel       = "#Test"               //config channel here. //"#Example"
-	IRC_Chan_Password = ""                    //config channel password here. //If you didn't have, Just leave it blank.
-	New_Payload_Name  = "payload"             //config new payload name. //For curl process.
+	IRC_Server        = "" //config IRC server and port here. //xxx.xxx.xxx.xxx:xxx //127.0.0.1:6667
+	IRC_Backup_Server = "" //config like main server.
+	IRC_Channel       = "" //config channel here. //"#Example"
+	IRC_Chan_Password = "" //config channel password here. //If you didn't have, Just leave it blank.
+	New_Payload_Name  = "" //config new payload name. //For curl process.
 )
 
 //////////////////////////////////////////////////////////////////////////
