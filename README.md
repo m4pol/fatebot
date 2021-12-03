@@ -1,15 +1,15 @@
 <h2>Attention Attention!!! My english is terrible. I'm so sorry about that :( </h2>
 
 # Fatebot v0.4
-This is my first IRC bot for launch ddos attack, Mainly of scan target are IoT device that run linux and open default SSH port, This bot is write on Go language. For education purpose only. Please test it in your lab. And i create this for join university in the future not for attack anyone server with out any permission!!!
+This is my first IRC bot for launch DDoS attack, Mainly of scan target are Anything that run linux and open default SSH port, This bot is write on Go language. For education purpose only. Please test it in your lab. And i create this for join university in the future not for attack anyone server with out any permission!!!
 
 <strong>IRC commands are in the bottom of The page.</strong>
 
 <img src="assets/drfate.jpg" alt="Dr Fate">
 
 # Infect
-The infect function of this botnet is scanning by default SSH port<strong>(Scan on range of CHN network by default. You can add more or change it, if you want.)</strong>
-and login by Brute-force attack. This botnet will use "curl" to get payload from FTP server, so... please prepair your FTP server first, It very important for infect process.
+The infect function of this botnet is scanning by default SSH port<strong>(Scan on range of CHN network by default. You can add more or change it, If you want.)</strong>
+and login by Brute-force attack. This botnet will use "curl" to get payload from FTP server, So... Please prepair your FTP server first, It's very important for infect process.
 
 <strong>I scan on my private netowrk in SSH range, And comment a function of running session.(That's why bot is not join The server.)</strong>
 <img src="assets/scanprocess.png" alt="SSH scan">
@@ -55,7 +55,7 @@ Main DDoS function is on <strong>The Application layer</strong>.
   And Optimize by change ip range and default ping time, That will help to find SSH port faster.(Maybe, But fast than old one.)</p>
 <p><strong>Fatebot v0.3</strong> = Update new DDoS Vector. Set size of UDP packet to 700 as default when bot herder not input The size or Put The over size.</p>
 <p><strong>Fatebot v0.3.1</strong> = Fix vse and post flood. Fix IRC configuration that will make a little easy to config and change project layout.</p>
-<p><strong>Fatebot v0.4</strong> = Update IRC Backup configuration for The IRC Server that's got shutdown by accident. Add and remove some feature of info function.</p>
+<p><strong>Fatebot v0.4</strong> = Update IRC Backup Server configuration for Backup our bots When The Main IRC Server got shutdown by accident. Add and remove some feature of info function.</p>
 
 # IRC Commands
 <ul>
