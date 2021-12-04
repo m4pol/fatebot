@@ -53,7 +53,7 @@ Main DDoS function is on <strong>The Application layer</strong>.
 <p><strong>Fatebot v0.2.1</strong> = Cut private scanning and OS signal by change it to self remove when running. And change some IRC commands that will type easier.</p>
 <p><strong>Fatebot v0.2.2</strong> = Cut scan failed report for fix server overheat and excess flood, 
   And Optimize by change ip range and default ping time, That will help to find SSH port faster.(Maybe, But fast than old one.)</p>
-<p><strong>Fatebot v0.3</strong> = Update new DDoS Vector. Set size of UDP packet to 700 as default when bot herder not input The size or Put The over size.</p>
+<p><strong>Fatebot v0.3</strong> = Update new DDoS Vector. Set size of UDP packet to 700 as default when bot herder input The over size.</p>
 <p><strong>Fatebot v0.3.1</strong> = Fix vse and post flood. Fix IRC configuration that will make a little easy to config and change project layout.</p>
 <p><strong>Fatebot v0.4</strong> = Update IRC Backup Server configuration for Backup our bots When The Main IRC Server got shutdown by accident. Add and remove some feature of info function.</p>
 
