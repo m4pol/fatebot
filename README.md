@@ -20,7 +20,7 @@ and login by Brute-force attack. This botnet will use "curl" to get payload from
 
 		var_name = "224." //224.0.0.0 - 224.255.255.255
 		or
-		var_anme = "224.12" //224.12.0.0 - 224.255.255.255
+		var_anme = "224.12" //224.12.255.255
 
 (2) Go to "NextIP" function, And add The case for your ip range and return range of your ip.
 
