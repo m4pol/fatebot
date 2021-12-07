@@ -9,9 +9,13 @@ This is my first IRC bot for launch DDoS attack. Scan target are anything that r
 
 # Infect
 The infect function of this botnet is scanning by default SSH port<strong>(Scan on range of CHN network by default. You can add more or change it, If you want.)</strong>
-and login by Brute-force attack. This botnet will use "curl" to get payload from FTP server, So... Please prepair your FTP server first, It's very important for infect process.
+and login by Brute-force attack. This botnet will use "wget" to get payload from FTP server, So... Please prepair your FTP server first, It's very important for infect process.
 
-<strong>I scan on my private netowrk in SSH range, And comment a function of running session.(That's why bot is not join The server.)</strong>
+<strong>I scan on my private netowrk in SSH range.(That's why it's scan and login at The same ip address.)</strong>
+
+	my_ssh_ip = "192.168.57"
+	ipGen = append(ipGen, genRange(134, 133), ".")
+
 <img src="assets/scanprocess.png" alt="SSH scan">
 
 # Add more IP range
@@ -26,15 +30,22 @@ and login by Brute-force attack. This botnet will use "curl" to get payload from
 
 		case var_name:
 				return ManageIP_range(ipRange, GenRange(255, 0))
-		or
-		case var_name:
-				return ManageIP_range(ipRange, "")
+				
+(2.1) In case that ip range you don't want to config your second network prefix you can skip this section.
+	
+	Example:
+	
+		var_anme = "224.12"
+		var_anme = "224.20"
+		
+	#The ip that's look like this it will return range of The id since 0 - 255 by default.
+	
 
 (3) Then go to The "SSH_Conn" function, And add your ip constant to The slice name "NetList".
 
 		NetList := []string{
-			chpn1, chpn2, chpn3, chpn4, chpn5, cgpn1, cgpn2, cgpn3,
-			cgpn4, cgpn5, cgpn6, var_name,
+			ip1, ip2, ip3, ip4, ip5, ip6, ip7, ip8,
+			ip9, ip10, ip11, var_name,
 		}
 
 # DDoS
@@ -56,6 +67,7 @@ Main DDoS function is on <strong>The Application layer</strong>.
 <p><strong>Fatebot v0.3</strong> = Update new DDoS Vector. Set size of UDP packet to 700 as default when bot herder input The over size.</p>
 <p><strong>Fatebot v0.3.1</strong> = Fix vse and post flood. Fix IRC configuration that will make a little easy to config and change project layout.</p>
 <p><strong>Fatebot v0.4</strong> = Update IRC Backup Server configuration for Backup our bots When The Main IRC Server got shutdown by accident. Add and remove some feature of info function.</p>
+<p><strong>Fatebot v0.4.1</strong> = Change curl to wget add more Default IP range, Config some tutorial and assets.</p>
 
 # IRC Commands
 <ul>
