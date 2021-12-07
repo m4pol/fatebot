@@ -15,6 +15,8 @@ and login by Brute-force attack. This botnet will use "wget" to get payload from
 
 	my_ssh_ip = "192.168.57"
 	ipGen = append(ipGen, genRange(134, 133), ".")
+	
+	#Just example of my private scan!!!!
 
 <img src="assets/scanprocess.png" alt="SSH scan">
 
