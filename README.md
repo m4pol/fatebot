@@ -38,7 +38,7 @@ and login by Brute-force attack. This botnet will use "wget" to get payload from
 		var_anme = "224.12"
 		var_anme = "224.20"
 		
-	#The ip that's look like this it will return range of The id since 0 - 255 by default.
+	#The ip range that's look like this it will return range of The id since 0 - 255 by default.
 	
 
 (3) Then go to The "SSH_Conn" function, And add your ip constant to The slice name "NetList".
