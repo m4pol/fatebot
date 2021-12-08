@@ -70,7 +70,7 @@ Main DDoS function is on <strong>The Application layer</strong>.
 <p><strong>Fatebot v0.3</strong> = Update new DDoS Vector. Set size of UDP packet to 700 as default when bot herder input The over size.</p>
 <p><strong>Fatebot v0.3.1</strong> = Fix vse and post flood. Fix IRC configuration that will make a little easy to config and change project layout.</p>
 <p><strong>Fatebot v0.4</strong> = Update IRC Backup Server configuration for Backup our bots When The Main IRC Server got shutdown by accident. Add and remove some feature of info function.</p>
-<p><strong>Fatebot v0.4.1</strong> = Change curl to wget, Add more Default IP range, Config some assets and tutorial. Re-Write a shit code.</p>
+<p><strong>Fatebot v0.4.1</strong> = Change curl to wget, Add more Default IP range, Config some assets and tutorial. Re-Write a shit code and Fix post flood.</p>
 
 # IRC Commands
 <ul>
