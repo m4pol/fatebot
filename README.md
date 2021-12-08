@@ -26,7 +26,7 @@ and login by Brute-force attack. This botnet will use "wget" to get payload from
 
 		var_name = "224." //224.0.0.0 - 224.255.255.255
 		or
-		var_anme = "224.12" //224.12.255.255
+		var_name = "224.12" //224.12.255.255
 
 (2) Go to "NextIP" function, And add The case for your ip range and return range of your ip.
 
@@ -37,8 +37,8 @@ and login by Brute-force attack. This botnet will use "wget" to get payload from
 	
 	Example:
 	
-		var_anme = "224.12"
-		var_anme = "224.20"
+		var_name = "224.12"
+		var_name = "224.20"
 		
 	#The ip range that look like this it will return range of The id since 0 - 255 by default.
 	#So... That's mean you don't need to add a case of your ip range.
