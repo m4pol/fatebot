@@ -18,6 +18,7 @@ and login by Brute-force attack. This botnet will use "wget" to get payload from
 	
 	//Just example of my private scan!!!!
 
+<strong>I use shodan to do a static and analysis of scanning like how many of ssh port are open on which isp/org, what is the most os and more.</strong>
 <img src="assets/scanprocess.png" alt="SSH scan">
 
 # Add more IP range
