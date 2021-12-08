@@ -16,7 +16,7 @@ and login by Brute-force attack. This botnet will use "wget" to get payload from
 	my_ssh_ip = "192.168.57"
 	ipGen = append(ipGen, genRange(134, 133), ".")
 	
-	#Just example of my private scan!!!!
+	//Just example of my private scan!!!!
 
 <img src="assets/scanprocess.png" alt="SSH scan">
 
@@ -40,8 +40,8 @@ and login by Brute-force attack. This botnet will use "wget" to get payload from
 		var_name = "224.12"
 		var_name = "224.20"
 		
-	#The ip range that look like this it will return range of The id since 0 - 255 by default.
-	#So... That's mean you don't need to add a case of your ip range.
+	//The ip range that look like this it will return range of The id since 0 - 255 by default.
+	//So... That's mean you don't need to add a case of your ip range.
 	
 
 (3) Then go to The "SSH_Conn" function, And add your ip constant to The slice name "NetList".
