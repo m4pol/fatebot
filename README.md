@@ -18,7 +18,6 @@ and login by Brute-force attack. This botnet will use "wget" to get payload from
 	
 	//Just example of my private scan!!!!
 
-<strong>I use shodan to do a static and analysis of scanning like how many of ssh port are open on which isp/org, what is the most os and more.</strong>
 <img src="assets/scanprocess.png" alt="SSH scan">
 
 # Add more IP range
@@ -51,6 +50,8 @@ and login by Brute-force attack. This botnet will use "wget" to get payload from
 			ip1, ip2, ip3, ip4, ip5, ip6, ip7, ip8,
 			ip9, ip10, ip11, var_name,
 		}
+		
+<strong>I use shodan to do a static and analysis of scanning like how many of ssh port are open on which isp/org. What is the most used os, version and etc.</strong>
 
 # DDoS
 Raw socket programming is really hard for me. That's why all of <strong>The volumetric</strong> are a simple like udp and icmp flood.
