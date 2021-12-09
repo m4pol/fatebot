@@ -8,7 +8,7 @@ This is my first IRC bot for launch DDoS attack. Scan target are anything that r
 <img src="assets/drfate.jpg" alt="Dr Fate">
 
 # Infect
-The infect function of this botnet is scanning by default SSH port<strong>(Scan on range of CHN network by default. You can add more or change it, If you want.)</strong>
+The infect function of this bot is scanning by default SSH port<strong>(Scan on range of CHN network by default. You can add more or change it, If you want.)</strong>
 and login by Brute-force attack. This botnet will use "wget" to get payload from FTP server, So... Please prepair your FTP server first, It's very important for infect process.
 
 <strong>I scan on my private netowrk in SSH range.(That's why it's scan and login at The same ip address.)</strong>
