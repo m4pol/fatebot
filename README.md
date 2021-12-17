@@ -1,7 +1,7 @@
 <h2>Attention Attention!!! My english is terrible. I'm so sorry about that :( </h2>
 
 # Fatebot v0.4.1
-This is my first IRC botnet for launch Denial of Service attack. Scan target are anything that run linux, Open default SSH port, Use default username and password. This bot is write on Go language. For education purpose only. Please test it in your lab, And i create this for join university in the future not for attack anyone server with out any permission!!!
+This is my first IRC botnet for launch Denial of Service attack. Scan target are anything that run linux, Open default SSH port, Use default username and password. This bot is write on Go language. For education purpose only. Please test it in your lab, I create this for join university in the future not for attack anyone server with out any permission!!!
 
 <strong>IRC commands are in the bottom of The page.</strong>
 
@@ -16,7 +16,7 @@ and login by Brute-force attack. This botnet will use "wget" to get payload from
 	my_ssh_ip = "192.168.57"
 	ipGen = append(ipGen, genRange(134, 133), ".")
 	
-	//Just example of my private scan!!!!
+	#Just example of my private scan!!!!
 
 <img src="assets/scanprocess.png" alt="SSH scan">
 
@@ -40,8 +40,8 @@ and login by Brute-force attack. This botnet will use "wget" to get payload from
 		var_name = "224.12"
 		var_name = "224.20"
 		
-	//The ip range that look like this it will return range of The id since 0 - 255 by default.
-	//So... That's mean you don't need to add a case of your ip range.
+	#The ip range that look like this it will return range of The id since 0 - 255 by default.
+	#So... That's mean you don't need to add a case of your ip range.
 	
 
 (3) Then go to The "SSH_Conn" function, And add your ip constant to The slice name "NetList".
