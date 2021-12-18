@@ -28,7 +28,7 @@ and login by Brute-force attack. This botnet will use "wget" to get payload from
 		or
 		var_name = "224.12" //224.12.255.255
 
-(2) Go to "NextIP" function, And add The case for your ip range and return range of your ip.
+(2) Go to "NextIP" function and add The case for your ip range and return range of your ip.
 
 		case var_name:
 				return ManageIP_range(ipRange, GenRange(255, 0))
@@ -44,7 +44,7 @@ and login by Brute-force attack. This botnet will use "wget" to get payload from
 	#So... That's mean you don't need to add a case of your ip range.
 	
 
-(3) Then go to The "SSH_Conn" function, And add your ip constant to The slice name "NetList".
+(3) Then go to The "SSH_Conn" function and add your ip constant to The slice name "NetList".
 
 		netList := []string{
 			ip1, ip2, ip3, ip4, ip5, ip6, ip7, ip8,
@@ -66,9 +66,9 @@ Main DDoS function is on <strong>The Application layer</strong>.
 # Update Lists
 <p><strong>Fatebot v0.1</strong> = Fatebot open release.</p>
 <p><strong>Fatebot v0.2</strong> = Update get bot system information function and Add some tutorial in main and scan file.</p>
-<p><strong>Fatebot v0.2.1</strong> = Cut private scanning and OS signal by change it to self remove when running. And change some IRC commands that will type easier.</p>
-<p><strong>Fatebot v0.2.2</strong> = Cut scan failed report to fix server overheat and excess flood, 
-  And Optimize by change ip range and default ping time, That will help to find SSH port faster.(Maybe, But fast than old one.)</p>
+<p><strong>Fatebot v0.2.1</strong> = Cut private scanning and OS signal by change it to self remove when running. Change some IRC commands that will type easier.</p>
+<p><strong>Fatebot v0.2.2</strong> = Cut scan failed report to fix server overheat and excess flood 
+  and Optimize by change ip range and default ping time, That will help to find SSH port faster.(Maybe, But fast than old one.)</p>
 <p><strong>Fatebot v0.3</strong> = Update new DDoS Vector. Set size of UDP packet to 700 as default when bot herder input The over size.</p>
 <p><strong>Fatebot v0.3.1</strong> = Fix vse and post flood. Fix IRC configuration that will make a little easy to config and change project layout.</p>
 <p><strong>Fatebot v0.4</strong> = Update IRC Backup Server configuration for Backup our bots When The Main IRC Server got shutdown by accident. Add and remove some feature of info function.</p>
