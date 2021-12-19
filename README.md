@@ -1,7 +1,7 @@
 <h2>Attention Attention!!! My english is terrible. I'm so sorry about that :( </h2>
 
 # Fatebot v0.4.1
-This is my first IRC botnet for launch Denial of Service attack. Scan target are anything that run linux, Open default SSH port, Use default username and password. This bot are write in Go language. For education purpose only. Please test it in your lab, I create this for join university in the future not for attack anyone server with out any permission!!!
+This is my first IRC botnet for launch Denial of Service attack. Scan target are anything that run linux, Open default SSH port, Use default username and password. This bot are write in Go language. For education purpose only. <strong>Please test it in your lab, I create this for join university in the future not for attack anyone server with out any permission!!!</strong>
 
 <strong>IRC commands are in the bottom of The page.</strong>
 
