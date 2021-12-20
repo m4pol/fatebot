@@ -64,7 +64,7 @@ Main DDoS function is on <strong>The Application layer</strong>.
 <img src="assets/howtobuild.gif" alt="how to build">
 
 # Update Lists
-<p><strong>Fatebot v0.1</strong> = Fatebot pre release.</p>
+<p><strong>Fatebot v0.1</strong> = Fatebot release.</p>
 <p><strong>Fatebot v0.2</strong> = Update get bot system information function and Add some tutorial in main and scan file.</p>
 <p><strong>Fatebot v0.2.1</strong> = Cut private scanning and OS signal by change it to self remove when running. Change some IRC commands that will type easier.</p>
 <p><strong>Fatebot v0.2.2</strong> = Cut scan failed report to fix server overheat and excess flood 
