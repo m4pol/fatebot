@@ -1,6 +1,6 @@
 <h2>Attention Attention!!! My english is terrible. I'm so sorry about that :( </h2>
 
-# Fatebot v0.4.1
+# Fatebot
 This is my first IRC botnet for launch Denial of Service attack. Scan target are anything that run linux, Open default SSH port, Use default username and password. This bot are write in Go language. <strong>For education purpose only. Please test it in your lab, I create this for join university in the future not for attack anyone server with out any permission!!!</strong>
 
 <strong>IRC commands are in the bottom of The page.</strong>
@@ -62,17 +62,6 @@ Main DDoS function is on <strong>The Application layer</strong>.
 
 # Build payload
 <img src="assets/howtobuild.gif" alt="how to build">
-
-# Updated Lists
-<p><strong>Fatebot v0.1</strong> = Fatebot open release.</p>
-<p><strong>Fatebot v0.2</strong> = Update get bot system information function and Add some tutorial in main and scan file.</p>
-<p><strong>Fatebot v0.2.1</strong> = Cut private scanning and OS signal by change it to self remove when running. Change some IRC commands that will type easier.</p>
-<p><strong>Fatebot v0.2.2</strong> = Cut scan failed report to fix server overheat and excess flood 
-  and Optimize by change ip range and default ping time, That will help to find SSH port faster.(Maybe, But fast than old one.)</p>
-<p><strong>Fatebot v0.3</strong> = Update new DDoS Vector. Set size of UDP packet to 700 as default when bot herder input The over size.</p>
-<p><strong>Fatebot v0.3.1</strong> = Fix vse and post flood. Fix IRC configuration that will make a little easy to config and change project layout.</p>
-<p><strong>Fatebot v0.4</strong> = Update IRC Backup Server configuration for Backup our bots When The Main IRC Server got shutdown by accident. Add and remove some feature of info function.</p>
-<p><strong>Fatebot v0.4.1</strong> = Change curl to wget, Add more Default IP range, Config some assets and tutorial. Re-Write a shit code, Fix post and get flood.</p>
 
 # IRC Commands
 <ul>
