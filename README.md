@@ -51,7 +51,7 @@ and login by Brute-force attack. This botnet will use "wget" to get payload from
 			ip9, ip10, ip11, var_name,
 		}
 		
-<strong>I use shodan to do a static and analysis of scanning like how many of ssh port are open on which isp/org. What is the most used os, version and etc.</strong>
+<strong>I use shodan to do a static and analysis of scanning like how many of ssh port are open on which isp/org. What is the most used OS, version and etc.</strong>
 
 # DDoS
 Raw socket programming is really hard for me. That's why all of <strong>The volumetric</strong> are a simple like udp and icmp flood.
