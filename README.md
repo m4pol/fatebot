@@ -5,20 +5,11 @@ This is my first IRC botnet for launch Denial of Service attack. Scan target are
 
 <strong>IRC commands are in the bottom of The page.</strong>
 
-<img src="assets/drfate.jpg" alt="Dr Fate">
+<img src="assets/fatebot.png" alt="Fatebot">
 
 # Infect
 The infect function of this bot is scanning by default SSH port<strong>(Scan on range of CHN network by default. You can add more or change it, If you want.)</strong>
 and login by Brute-force attack. This botnet will use "wget" to get payload from FTP server, So... Please prepair your FTP server first, It's very important for infect process.
-
-<strong>I scan on my private netowrk in SSH range. That's why it's scan and login at The same ip address.</strong>
-
-	my_ssh_ip = "192.168.57"
-	ipGen = append(ipGen, genRange(134, 133), ".")
-	
-	#Just example of my private scan!!!!
-
-<img src="assets/scanprocess.png" alt="SSH scan">
 
 # Add more IP range
 
@@ -61,7 +52,6 @@ Main DDoS function is on <strong>The Application layer</strong>.
 <img src="assets/postfloodtraffic.png" alt="http post flood, dos example">
 
 # Build payload
-<img src="assets/howtobuild.gif" alt="how to build">
 
 # IRC Commands
 <ul>
