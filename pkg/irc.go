@@ -8,11 +8,7 @@ import (
 	"time"
 )
 
-type logFormation struct {
-	user, nick string
-}
-
-func IRC_Conn(server string) net.Conn {
+func IRCconn(server string) net.Conn {
 	conn, err := net.Dial("tcp", server)
 	for err != nil {
 		time.Sleep(10 * time.Second)
@@ -21,34 +17,37 @@ func IRC_Conn(server string) net.Conn {
 	return conn
 }
 
-func IRC_Find(read, msg string) bool {
+func IRCfind(read, msg string) bool {
 	return strings.Contains(read, msg)
 }
 
-func IRC_Recv(command string, arg int) string {
-	return strings.Split(command, " ")[arg]
+func IRCrecv(comd string, arg int) string {
+	for {
+		recv := strings.Split(comd, " ")
+		if len(recv) == arg {
+			continue
+		}
+		return recv[arg]
+	}
 }
 
-func (irc *IRC) IRC_Send(data string) {
+func (irc *IRC) IRCsend(data string) {
 	fmt.Fprintf(irc.Report, "%s\r\n", data)
 }
 
-func (irc *IRC) IRC_Report(msg string) {
-	irc.IRC_Send("PRIVMSG " + irc.Channel + " " + " :" + msg)
+func (irc *IRC) IRCreport(msg string) {
+	irc.IRCsend("PRIVMSG " + irc.Channel + " " + " :" + msg)
 }
 
-func (irc *IRC) IRC_Login() {
+func (irc *IRC) IRClogin() {
 	rand.Seed(time.Now().UnixNano())
 	alphabet := 'A' + rune(rand.Intn(26))
 	sAlphabet := string(alphabet)
-	botID := rand.Intn(1000000)
+	botID := rand.Intn(100000000)
 
-	//Change bot profile here.
-	botformation := logFormation{
-		user: fmt.Sprint("USER [FATE][", sAlphabet, "][", botID, "]", " 8 * :bot"),
-		nick: fmt.Sprint("NICK [FATE][", sAlphabet, "][", botID, "]"),
-	}
+	user := fmt.Sprint("USER [FATE][", sAlphabet, "][", botID, "]", " 8 * :bot")
+	nick := fmt.Sprint("NICK [FATE][", sAlphabet, "][", botID, "]")
 
-	irc.IRC_Send(botformation.user)
-	irc.IRC_Send(botformation.nick)
+	irc.IRCsend(user)
+	irc.IRCsend(nick)
 }

