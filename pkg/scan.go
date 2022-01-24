@@ -145,7 +145,7 @@ func (scan *SCAN) manageRange(secondRange string) string {
 	ipGen = append(ipGen, secondRange, ".")
 
 	for i := 0; i < 2; i++ {
-		ipGen = append(ipGen, genRange(132, 132), ".")
+		ipGen = append(ipGen, genRange(255, 0), ".")
 	}
 
 	ipGen[len(ipGen)-1] = ""
