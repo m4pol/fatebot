@@ -8,7 +8,7 @@ This is my first IRC botnet for launch Denial of Service attack. Scan target are
 # Infect
 The infect function of this bot is scan by default SSH port. Option about scan feature in this bot is scan on USA or CN network or You can do a random scan or even You can add you own mods like russia or india isp mods. All of these it's up to you. This bot will Brute-force attack to the target and use "wget" to get payload from FTP server, So... Please prepair your FTP server first... It's very important for The infect process. <strong>(It just me, You can use any option any server type that can host The payload.)</strong>
 
-# Add more IP range
+# Add more network
 
 (1) Go to "scan.go" file in pkg folder. Add your new ip range in to The group of varible.
 
