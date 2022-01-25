@@ -60,7 +60,6 @@ Main DDoS function is on <strong>The volumetric layer</strong>.
 
 	chmod +x build.sh
 	./build.sh <payload>
-	./bin/<payload>
 	
 	#Tip: You can download upx packer to make your payload have a smaller size. It's not help much but it's really useful.
 	
