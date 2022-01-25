@@ -76,7 +76,7 @@ Main DDoS function is on <strong>The volumetric layer</strong>.
 	?udp 	<ip> <size>		Flood UDP packets by random src and dst port to target. Min and Max of Buffer is 1 - 700bytes.
 	?icmp 	<ip>			Flood ICMP with large packets to target.
 	?vse 	<ip>			Flood TSource Engine Query request(UDP) on valve source engine dst port, By random src port. To The target server that used to host online games.
-	?scan 	<modes> <server>	Scan SSH port on The network, Brute-Force attack to The target and load The payload by "wget".
+	?scan 	<modes> <ftp>	Scan SSH port on The network, Brute-Force attack to The target and load The payload by "wget".
 	
 	Scanner modes:
 	
