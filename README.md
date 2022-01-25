@@ -62,7 +62,7 @@ Main DDoS function is on <strong>The volumetric layer</strong>.
 	./build.sh <payload>
 	./bin/<payload>
 	
-	#Tips: You can download upx packer to make your payload have a smaller size. It's not help much but it's really useful.
+	#Tip: You can download upx packer to make your payload have a smaller size. It's not help much but it's really useful.
 	
 	Redhat:
 		yum install upx -y && upx -9 bin/<payload>
