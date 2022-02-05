@@ -80,7 +80,7 @@ Main DDoS function is on <strong>The volumetric layer</strong>.
 	Scanner modes:
 	
 		-cn		Scan on china network. 
-		-usa		Scan on united states network. 
+		-usa		Scan on united state of america network. 
 		-r		Scan on random ip range. 	
 		
 	?info				Get bot system information, for bot analysis.
