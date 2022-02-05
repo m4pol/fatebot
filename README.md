@@ -65,6 +65,7 @@ Main DDoS function is on <strong>The volumetric layer</strong>.
 	
 	Redhat:
 		yum install upx -y && upx -9 bin/<payload>
+		
 	Debian:
 		apt install upx -y && upx -9 bin/<payload>
 
