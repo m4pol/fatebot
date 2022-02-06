@@ -82,7 +82,7 @@ Main DDoS function is on <strong>The volumetric layer</strong>.
 	
 		-cn		Scan on china network. 
 		-usa		Scan on united state of america network. 
-		-r		Scan on random ip range. 	
+		-r		Scan with random ip. 	
 		
 	?info				Get bot system information, for bot analysis.
 	?kill				Bot self-close.
