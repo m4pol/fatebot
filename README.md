@@ -6,7 +6,7 @@ This is my first <strong>IRC botnet</strong> for launch Denial of Service attack
 <img src="assets/FateBot.png" alt="Fatebot" width="400" height="400">
 
 # Infect
-The infect function of this bot is scan by default SSH port. Option about scan feature in this bot is scan on USA or CN network or you can do a random scan or even you can add you own mods like russia or india isp mods. All of these it's up to you. This bot will Brute-force attack to the target and use "wget" to get payload from FTP server, So... Please prepair your FTP server first... It's very important for The infect process. <strong>(It just me, You can use any option any server type that can host the payload.)</strong>
+The infect function of this bot is scan by default SSH port. Option about scan feature in this bot is scan on USA or CN network or you can do a random scan or even you can add you own mods like russia or india isp mods, all of these it's up to you. This bot will Brute-force attack to the target and use <strong>"wget"</strong> to get payload from FTP server, so... please prepair your FTP server first... It's very important for the infect process. <strong>(You can use any option any server type that can host the payload not maintionly to be an FTP server.)</strong>
 
 # Add more network
 
@@ -29,7 +29,7 @@ The infect function of this bot is scan by default SSH port. Option about scan f
 		case var_name:
 				return bot.manageRange(genRange(255, 0)) //max and min
 				
-(3.1) In case of The ip range that you don't want to custom your second network prefix.
+(3.1) In case of the ip range that you don't want to custom your second network prefix.
 	
 	Example:
 	
@@ -47,7 +47,7 @@ The infect function of this bot is scan by default SSH port. Option about scan f
 		case modes == "-uk": //custom your command.
 			bot.Scanner(UK_netList, false) //Just config the first argument to your network.
 		
-<strong>I use shodan to do a static and analysis of scanning like how many of ssh port are open on which isp/org. What is the most used OS, version and etc.</strong>
+<strong>I use shodan to do a static and analysis of scanning like how many of ssh port are open on which isp/org, what is the most used OS, version and etc.</strong>
 
 # DDoS
 Raw socket programming is really hard for me. That's why all of <strong>The volumetric</strong> are a simple like udp and icmp flood.
