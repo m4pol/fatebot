@@ -6,7 +6,7 @@ This is my first <strong>IRC botnet</strong> for launch Denial of Service attack
 <img src="assets/FateBot.png" alt="Fatebot" width="400" height="400">
 
 # Infect
-The infect function of this bot is scan by default SSH port. Option about scan feature in this bot is scan on USA or CN network or you can do a random scan or even you can add you own mods like russia or india isp mods, all of these it's up to you. This bot will Brute-force attack to the target and use <strong>"wget"</strong> to get payload from FTP server, so... please prepair your FTP server first... It's very important for the infect process. <strong>(You can use any option any server type that can host the payload not maintionly to be an FTP server.)</strong>
+The infect function of this bot is scan by default SSH port. Option about scan feature in this bot is scan on USA or CN network or you can do a random scan or even you can add you own mods like russia or india isp mods, all of these it's up to you. This bot will Brute-force attack to the target and use <strong>"wget"</strong> for download the payload from FTP server, so... please prepair your FTP server first... It's very important for the infect process. <strong>(You can use any option any server type that can host the payload not maintionly to be an FTP server.)</strong>
 
 # Add more network
 
