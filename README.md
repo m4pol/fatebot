@@ -47,7 +47,7 @@ The infect function of this bot is scan by default SSH port. Option about scan f
 		case modes == "-uk": //custom your command.
 			bot.Scanner(UK_netList, false) //Just config the first argument to your network.
 		
-<strong>I use shodan to do a static and analysis of scanning like how many of ssh port are open on which isp/org, what is the most used OS, version and etc.</strong>
+<strong>I use shodan to do a static and analysis of scanning like how many of SSH port are open on which isp/org, what is the most used OS, version and etc.</strong>
 
 # DDoS
 Raw socket programming is really hard for me. That's why all of <strong>The volumetric</strong> are a simple like udp and icmp flood.
