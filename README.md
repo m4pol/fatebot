@@ -33,8 +33,8 @@ The infect function of this bot is scan by default SSH port. Option about scan f
 	
 	Example:
 	
-		var_name = "224.12"
-		var_name = "224.20"
+		var_name = "123.12"
+		var_name = "123.20"
 		
 	#The IP that look like this it will return range of the id since 0 - 255 by default.
 	#That's mean you don't need to add a case in "nextIP" function for your IP.
