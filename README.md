@@ -10,11 +10,11 @@ The infect function of this bot is scan by default SSH port. Option about scan f
 
 # Add more network
 
-(1) Go to "scan.go" file in pkg folder. Add your new ip range in to the group of varible.
+(1) Go to "scan.go" file in pkg folder. Add your new network in to the group of varible.
 
-		var_name = "224." //224.0.0.0 - 224.255.255.255
+		var_name = "224." // 224.0.0.0/8
 		or
-		var_name = "224.12" //224.12.255.255
+		var_name = "224.12" // 224.12.0.0/16
 		
 (2) Create slice of your network.
 
@@ -24,20 +24,20 @@ The infect function of this bot is scan by default SSH port. Option about scan f
 			uk1, uk2, uk3, uk4, uk5,
 		}
 
-(3) Go to "nextIP" function and add the case for your ip range and return range of your ip.
+(3) Go to "nextIP" function, add the case for your network IP and then return a range of your network IP.
 
 		case var_name:
 				return bot.manageRange(genRange(255, 0)) //max and min
 				
-(3.1) In case of the ip range that you don't want to custom your second network prefix.
+(3.1) In case of the IP that you don't want to custom your second network prefix.
 	
 	Example:
 	
 		var_name = "224.12"
 		var_name = "224.20"
 		
-	#The ip range that look like this it will return range of the id since 0 - 255 by default.
-	#So... That's mean you don't need to add a case of your ip range.
+	#The IP that look like this it will return range of the id since 0 - 255 by default.
+	#That's mean you don't need to add a case in "nextIP" function for your IP.
 	
 
 (4) Then go down to the "ScanMode" function and add the case of your network and custom the command.
