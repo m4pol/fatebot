@@ -12,9 +12,9 @@ The infect function of this bot is scan by default SSH port. Option about scan f
 
 (1) Go to "scan.go" file in pkg folder. Add your new network in to the group of varible.
 
-		var_name = "224." // 224.0.0.0/8
+		var_name = "123." // 123.0.0.0/8
 		or
-		var_name = "224.12" // 224.12.0.0/16
+		var_name = "123.12" // 123.12.0.0/16
 		
 (2) Create slice of your network.
 
