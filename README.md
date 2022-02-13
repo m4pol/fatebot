@@ -44,8 +44,8 @@ The infect function of this bot is scan by default SSH port. Option about scan f
 	
 	Example:
 		
-		case modes == "-uk": //Custom your command.
-			bot.Scanner(UK_netList, false) //Just config the first argument to your network.
+		case modes == "-uk": //custom your command.
+			bot.Scanner(UK_netList, false) //just config the first argument to your network.
 		
 <strong>I use shodan to do a static and analysis of scanning like how many of SSH port are open on which isp/org, what is the most used OS, version and etc.</strong>
 
