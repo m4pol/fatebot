@@ -75,7 +75,7 @@ Main DDoS function is on <strong>The volumetric layer</strong>.
 	?post 	<url>			Flood HTTP post request to target. Shouldn't have "/" end of The url!!!
 	?udp 	<ip> <size>		Flood UDP packets by random src and dst port to target. Min and Max of buffer is 100 - 700bytes.
 	?icmp 	<ip>			Flood ICMP with large packets to target.
-	?vse 	<ip>			Flood TSource Engine Query request(UDP) on valve source engine dst port, By random src port to the target server that used to host online games.
+	?vse 	<ip>			Flood TSource Engine Query request on valve source engine dst port, By random src port to the target server that used to host online games.
 	?scan 	<modes> <ftp>		Scan SSH port on the network, Brute-Force attack to the target and load the payload by "wget".
 	
 	Scanner modes:
