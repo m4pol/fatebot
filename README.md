@@ -1,8 +1,8 @@
 # Fatebot
 This is my first <strong>IRC botnet</strong> for launch Denial of Service attack. Scan target are anything that run linux, open default SSH port, use default username and password. This bot are write in "Go" language. <strong>For education purpose only. Please test it in your lab, i create this for join university in the future not for attack anyone server with out any permission!!!</strong>
 
-Develop by Bozer\Bulldozer (old name is R4bin) feel free to do anything with it, read more in License.
-<br><strong>Attention!!!</strong> If you have an issue please understand that some of them i can't answer because it will make me have a trouble with legal.</br>
+<br>Develop by Bozer\Bulldozer (old name is R4bin) feel free to do anything with it, read more in License.</br>
+<strong>Attention!!!</strong> <ins>If you have an issue please understand that some of them i can't answer because it will make me have a trouble with legal.</ins>
 
 <img src="assets/FateBot.png" alt="Fatebot" width="400" height="400">
 
