@@ -68,6 +68,13 @@ Main DDoS function is on <strong>The volumetric layer</strong>.
 		
 	Debian:
 		apt install upx -y && upx -9 bin/<payload>
+		
+# Requirements
+<li>IRC server</li>
+<li>Backup IRC server <strong>(Optional)</strong></li>
+<li>FTP server</li>
+<li>Go compiler</li>
+<li>UPX packer <strong>(Optional)</strong></li>
 
 # IRC Commands
 
