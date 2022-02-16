@@ -71,12 +71,43 @@ Main DDoS function is on <strong>The volumetric layer</strong>.
 		apt install upx -y && upx -9 bin/<payload>
 		
 # Requirements
-<li>IRC server</li>
-<li>IRC backup server <strong>(Optional)</strong></li>
-<li>IRC client</li>
-<li>FTP server <strong>(Optional)</strong></li>
-<li>Go compiler</li>
-<li>UPX packer <strong>(Optional)</strong></li>
+<ul>
+	<li>IRC server</li>
+	<ul>
+		<li>UnrealIRCd</li>
+		<li>InspIRCd</li>
+		<li>ircd-hybrid</li>
+		<li>etc</li>
+	</ul>
+</ul>
+
+<ul><li>IRC backup server <strong>(Optional)</strong></li></ul>
+
+<ul>
+	<li>IRC client</li>
+	<ul>
+		<li>mIRC</li>
+		<li>HexChat</li>
+		<li>WeeChat</li>
+		<li>etc</li>
+	</ul>
+</ul>
+
+<ul><li>FTP server <strong>(Optional)</strong></li></ul>
+
+<ul><li>Go compiler</li></ul>
+
+<ul><li>UPX packer <strong>(Optional)</strong></li></ul>
+
+<ul>
+	<li>Code\Text editor</li>
+	<ul>
+		<li>Vim</li>
+		<li>GNU nano</li>
+		<li>Visual Studio Code</li>
+		<li>etc</li>
+	</ul>
+</ul>
 
 # IRC Commands
 
