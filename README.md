@@ -72,7 +72,8 @@ Main DDoS function is on <strong>The volumetric layer</strong>.
 		
 # Requirements
 <li>IRC server</li>
-<li>Backup IRC server <strong>(Optional)</strong></li>
+<li>IRC backup server <strong>(Optional)</strong></li>
+<li>IRC client</li>
 <li>FTP server <strong>(Optional)</strong></li>
 <li>Go compiler</li>
 <li>UPX packer <strong>(Optional)</strong></li>
