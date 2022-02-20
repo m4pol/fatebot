@@ -72,7 +72,7 @@ Main DDoS function is on <strong>The volumetric layer</strong>.
 		
 # Requirements
 <ul>
-	<li>IRC server</li>
+	<li>IRC Server</li>
 	<ul>
 		<li>UnrealIRCd</li>
 		<li>InspIRCd</li>
@@ -81,10 +81,10 @@ Main DDoS function is on <strong>The volumetric layer</strong>.
 	</ul>
 </ul>
 
-<ul><li>IRC backup server <strong>(Optional)</strong></li></ul>
+<ul><li>IRC Backup Server <strong>(Optional)</strong></li></ul>
 
 <ul>
-	<li>IRC client</li>
+	<li>IRC Client</li>
 	<ul>
 		<li>mIRC</li>
 		<li>HexChat</li>
@@ -93,14 +93,22 @@ Main DDoS function is on <strong>The volumetric layer</strong>.
 	</ul>
 </ul>
 
-<ul><li>FTP server <strong>(Optional)</strong></li></ul>
+<ul>
+	<li>Payload Hosting Server</li>
+	<ul>
+		<li>FTP</li>
+		<li>TFTP</li>
+		<li>HTTP&HTTPS</li>
+		<li>etc</li>
+	</ul>
+</ul>
 
-<ul><li>Go compiler</li></ul>
+<ul><li>Go Compiler</li></ul>
 
-<ul><li>UPX packer <strong>(Optional)</strong></li></ul>
+<ul><li>UPX Packer <strong>(Optional)</strong></li></ul>
 
 <ul>
-	<li>Code\Text editor</li>
+	<li>Code\Text Editor</li>
 	<ul>
 		<li>Vim</li>
 		<li>GNU nano</li>
