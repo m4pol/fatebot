@@ -85,9 +85,13 @@ Main DDoS function is on <strong>The volumetric layer</strong>.
 	<li>Payload Hosting Server</li>
 </ul>
 
-<ul><li>Go Compiler</li></ul>
+<ul>
+	<li>Go Compiler</li>
+</ul>
 
-<ul><li>UPX Packer <strong>(Optional)</strong></li></ul>
+<ul>
+	<li>UPX Packer <strong>(Optional)</strong></li>
+</ul>
 
 <ul>
 	<li>Code\Text Editor</li>
