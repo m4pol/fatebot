@@ -33,7 +33,7 @@ The infect function of this bot is scan by default SSH port. Option about scan f
 
 # DDoS
 Attack feature will play around with <strong>Volumetric</strong> mostly but also have an <strong>Application</strong> too.
-All of the attack vectors will be <strong>random source port automatically.</strong>
+All of the attack vectors will be <strong>random source port automatically, min and max of attack size will be 10 - 1450bytes.</strong>
 
 
 <img src="assets/synflood.png" alt="synflood, dos example">
