@@ -71,7 +71,6 @@ func (d *DDoS) setupTCP(src, dst *net.TCPAddr) []byte {
 		PSH:     d.pshFlag,
 		FIN:     d.finFlag,
 		URG:     d.urgFlag,
-		Window:  512,
 	}
 	tcpLayers.SetNetworkLayerForChecksum(ipv4)
 	gopacket.SerializeLayers(sBuffer, *sOpt, ipv4, tcpLayers, gopacket.Payload(d.ddosPayload))
