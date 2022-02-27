@@ -98,7 +98,7 @@ All of the attack vectors will be <strong>random source port automatically, min 
 	Scanner modes:
 	
 		-cn		Scan on china network.
-		-usa		Scan on united state of america network.
+		-usa		Scan on the united state of america network.
 		-kr		Scan on south korea network.
 		-r		Scan with random ip.	
 		
