@@ -20,7 +20,7 @@ The infect function of this bot is scan by default SSH port. Option about scan f
 			"234.234", // 234.234.0.0/16
 		}
 	
-	# After v0.6.0 will be use only 16bit of the ip range(I'm still confused about subnet mask lol).
+	# since v0.6.0 will be use only 16bit of the ip range(I'm still confused about subnet mask lol).
 
 (2) Then go down to the "ScanMode" function and add the case of your network and custom the command.
 	
