@@ -80,7 +80,7 @@ All of the attack vectors will be <strong>random source port automatically, min 
 
 # IRC Commands
 	
-	DDoS Vectors:
+	DDoS vectors:
 	
 		?udp 	 <srcIP> <dstIP> <port> <size>			Just a normal UDP Flood attack.
 		?syn 	 <srcIP> <dstIP> <port> <size>			Just a normal SYN Flood attack.	
