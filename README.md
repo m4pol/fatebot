@@ -95,7 +95,7 @@ All of the attack vectors will be <strong>random source port automatically, min 
 	
 	SCANNER:
 	
-		?scan 	 <modes> <server>                       	Scan SSH port on the network, Brute-Force attack to the target and install the payload by "wget".
+		?scan 	 <modes> <server>                  Scan SSH port on the network, Brute-Force attack to the target and install the payload by "wget".
 	
 			-cn		Scan on china network.
 			-usa		Scan on the united state of america network.
