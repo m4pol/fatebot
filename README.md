@@ -32,7 +32,7 @@ The infect function of this bot is scan by default SSH port. Option about scan f
 <strong>I use shodan to do a static and analysis of scanning like how many of SSH port are open on which isp/org, what is the most used OS, version and etc.</strong>
 
 # Attack
-Attack feature will play around with <strong>Volumetric</strong> mostly, but also have an <strong>Application</strong> too.
+Attack feature will play around with <strong>volumetric</strong> mostly, but also have an <strong>application</strong> too.
 All of the attack vectors will be <strong>random source port automatically, min and max of attack size will be 10 - 1450bytes.</strong>
 
 
