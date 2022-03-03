@@ -16,7 +16,7 @@ type Bot struct {
 	session           *ssh.Client
 }
 
-type DDoS struct {
+type Attack struct {
 	srcAddr, dstAddr                                     string
 	dstPort                                              string
 	ddosPayload                                          []byte

