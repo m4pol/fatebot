@@ -83,7 +83,7 @@ All of the attack vectors will be <strong>random source port automatically, min 
 	ATTACK VECTORS:
 	
 		?udp <srcIP> <dstIP> <port> <size>		Just a normal UDP Flood attack.
-		?syn <srcIP> <dstIP> <port> <size>		Just a normal SYN Flood attack.	
+		?syn <srcIP> <dstIP> <port> <size>		Just a normal SYN Flood attack.
 		?ack <srcIP> <dstIP> <port> <size>		Just a normal ACK Flood attack.
 		?fin <srcIP> <dstIP> <port> <size>		Flood TCP FIN packets to request close connection when target server are blocking a syn packet.
 		?rst <srcIP> <dstIP> <port> <size>		Flood TCP RST packets to broke a TCP connection between client and target server.
