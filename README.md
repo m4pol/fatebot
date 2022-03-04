@@ -15,7 +15,7 @@ The infect function of this bot is scan by default SSH port. Option about scan f
 
 	Example:
 	
-		var UK_netList = []string{
+		var UK_netList = []string {
 			"123.123", // 123.123.0.0/16
 			"234.234", // 234.234.0.0/16
 		}
