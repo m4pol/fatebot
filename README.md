@@ -100,7 +100,7 @@ All of the attack vectors will be <strong>random source port automatically, min 
 			-cn		Scan on china network.
 			-usa		Scan on the united state of america network.
 			-kr		Scan on south korea network.
-			-r		Scan with random ip.	
+			-r		Scan with random ip.
 		
 	?info				Get bot system information, for bot analysis.
 	?kill				Bot self-close.
