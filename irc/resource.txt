@@ -1,0 +1,8 @@
+# IRC server that i have used.
+https://www.unrealircd.org/download
+
+# IRC client that i have used.
+https://hexchat.github.io/
+
+# Mods for unrealircd server.
+https://modules.unrealircd.org/

