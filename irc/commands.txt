@@ -5,7 +5,7 @@ ATTACK VECTORS:
 	# Tip: you can use "-r" command for random dst port, but it can only use with this arg!!!
 	# Example: ?tcp -fin 127.0.0.1 192.168.50.129 -r 100
 
-	?udp <src> <dst> <port> <size>                Just a normal UDP Flood attack.
+	?udp <src> <dst> <port> <size>                Just a normal UDP flood attack.
 	?tcp <flags> <src> <dst> <port> <size>	      TCP flood with customize flags.
 	
 		-syn            TCP flood with syn packet, just a normal syn flood
