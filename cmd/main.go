@@ -53,8 +53,8 @@ func run(server string) error {
 
 		go func() {
 			if b.AccessPerms() && lib.Find(ircRead, IRC_USERNAME) {
-				if _, arg := lib.SetupCaller(lib.ComdSetup(3, ":")); arg {
-					if exeCall, exeKey := b.ExecuteCaller(lib.ComdSetup(3, ":")); exeKey {
+				if _, arg := lib.SetupCaller(); arg {
+					if exeCall, exeKey := b.ExecuteCaller(); exeKey {
 						lib.FunctionCaller(exeCall)
 					}
 				}
