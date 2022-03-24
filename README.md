@@ -40,7 +40,7 @@ Spread feature of this bot is scan on default SSH port and it will infect on lin
 				"123.456", //123.456.0.0/16
 			}
 			
-			# since v0.6.0 will be use only 16bit of the ip range (I'm still confused about subnet mask lol).
+			# since v0.6.0 will be use only 16 bit of the ip range (I'm still confused about subnet mask lol).
 			
 	2) Go to header.go file and scroll down to the map name "ScanMap".
 	3) Custom your key and value. The value of map is structure, so you need to call a value in "Bot" structure and fill it.
