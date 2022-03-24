@@ -38,7 +38,7 @@ func (b *Bot) Report(str string) {
 	b.Send("PRIVMSG " + b.Channel + "  :" + str)
 }
 
-func (b *Bot) Login() {
+func (b *Bot) Join() {
 	rand.Seed(time.Now().UnixNano())
 	id := rand.Intn(1000000)
 	group := genName('A')
