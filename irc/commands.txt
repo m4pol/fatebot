@@ -2,8 +2,8 @@ ATTACK VECTORS:
 	
         # Min and Max of attack size will be 10 - 1400 bytes. If you put over or lower size it will set to 100 automatically.
         
-	# Tip: you can use "-r" command for random dst port, but it can only use with this arg!!!
-	# Example: ?tcp -fin 127.0.0.1 192.168.50.129 -r 100
+	# Tip: you can use "-r" command for random dst port and src IP, but it can only use with these arg!!!
+	# Example: ?tcp -fin -r 192.168.50.129 -r 100
 
 	?udp <src> <dst> <port> <size>                Just a normal UDP flood attack.
 	?tcp <flags> <src> <dst> <port> <size>	      TCP flood with customize flags.

