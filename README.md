@@ -75,6 +75,7 @@ All of the attack vectors except "http" ddos vectors will be random source port 
 	
 	# Bot system arch is up to your compile system arch. 
 	# If you compile your payload by x86, the bot that you have scaned will be only x86.
+	# To run the payload you need to run with root access!!!
 
 # Requirements
 <ul>
