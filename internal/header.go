@@ -38,7 +38,6 @@ type Attack struct {
 type Caller struct {
 	CallAttack *Attack
 	CallBot    *Bot
-	CallFunc   func()
 }
 
 var ScanMap = map[string]Bot{
