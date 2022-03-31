@@ -5,7 +5,7 @@
 		<img src="https://img.shields.io/badge/license-Unlicense-red?style=plastic">
 	</a>
 	<a href="https://github.com/boz3r/Fatebot/releases">
-    		<img src="https://img.shields.io/badge/version-v0.7.2-lightgrey?style=plastic">
+    		<img src="https://img.shields.io/badge/version-v0.7.3-lightgrey?style=plastic">
 	</a>
 	<a href="https://go.dev/">
     		<img src="https://img.shields.io/badge/language-Go-red?style=plastic">
