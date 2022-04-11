@@ -16,7 +16,7 @@ import (
 
 func sockBuffer(size string) []byte {
 	iSize := convInt(size)
-	if iSize < 10 || iSize > 1400 {
+	if iSize < 50 || iSize > 1400 {
 		iSize = 100
 	}
 	return make([]byte, iSize)

