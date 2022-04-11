@@ -79,7 +79,7 @@ All of the attack vectors except "http" ddos vectors will be random source port 
 
 # Requirements
 <ul>
-	<li>x2 Bulletproof IRC Server (Recommend x2 in case for handle a lot of connections or you server is a low spec)</li>
+	<li>x2 Bulletproof IRC Server (Recommend x2 in case for handle a lot of connections or your server is a low spec)</li>
 </ul>
 
 <ul>
