@@ -58,7 +58,7 @@ Spread feature of this bot is scan on default SSH port and it will infect on lin
 	
 # Attack Feature
 Attack feature will play around with transport layer mostly, but also have an application and network layer too.
-All of the attack vectors except "http" ddos vectors will be random source port and windows size automatically but dst port will let bot herder config by them self.
+All of the attack vectors except "http" DDoS vectors will be random source port and windows size automatically but dst port will let bot herder config by them self.
 
 	# tcp -syn 127.0.0.1 192.168.50.129 -r 100 //command that's used in this screenshot.
 
