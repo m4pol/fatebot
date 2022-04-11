@@ -87,7 +87,7 @@ All of the attack vectors except "http" ddos vectors will be random source port 
 </ul>
 
 <ul>
-	<li>x1 Payload Hosting Server (If it's a bulletproof hosting will be great for your self)</li>
+	<li>x1 Payload Hosting Server (If it is a bulletproof hosting will be great for your self)</li>
 </ul>
 
 <ul>
