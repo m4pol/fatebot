@@ -1,5 +1,7 @@
 <p align="center">
-	<img src="assets/fatebot.png" alt="fatebot" width="440" height="440">
+	<a href="https://github.com/boz3r/Fatebot">
+		<img src="assets/fatebot.png" alt="fatebot" width="440" height="440">
+	</a>
 	<br>
 	<a href="https://github.com/boz3r/Fatebot/blob/master/LICENSE">
 		<img src="https://img.shields.io/badge/license-Unlicense-red?style=plastic">
