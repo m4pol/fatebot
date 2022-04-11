@@ -79,19 +79,19 @@ All of the attack vectors except "http" ddos vectors will be random source port 
 
 # Requirements
 <ul>
-	<li>IRC Server</li>
+	<li>x2 Bulletproof IRC Server (Recommend x2 servers in case for handle a lot of connections or you server is a low spec)</li>
 </ul>
 
 <ul>
-	<li>IRC Backup Server (Optional)</li>
+	<li>x1 Bulletproof IRC Backup Server (Optional)</li>
+</ul>
+
+<ul>
+	<li>x1 Payload Hosting Server (If it's a bulletproof hosting will be great for your self)</li>
 </ul>
 
 <ul>
 	<li>IRC Client</li>
-</ul>
-
-<ul>
-	<li>Payload Hosting Server</li>
 </ul>
 
 <ul>
