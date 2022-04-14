@@ -26,7 +26,7 @@ ATTACK VECTORS:
 
 SCAN FUNCTION:
 
-	?scan <network> <server>		Scan SSH port on the network, brute-force attack to the target and install the payload by "wget".
+	?scan <network> <server>		Scan default SSH port on network. Brute-force attack to the target and install payload by using "wget".
 
 		-cn		Scan on china network.
 		-hk		Scan on hong kong network.
