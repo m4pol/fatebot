@@ -6,7 +6,7 @@
 	<a href="https://github.com/boz3r/Fatebot/blob/master/LICENSE">
 		<img src="https://img.shields.io/badge/license-Unlicense-red?style=plastic">
 	</a>
-	<a href="https://github.com/boz3r/Fatebot/releases">
+	<a href="https://github.com/boz3r/Fatebot/releases/tag/0.7.4">
     		<img src="https://img.shields.io/badge/version-v0.7.4-lightgrey?style=plastic">
 	</a>
 	<a href="https://go.dev/">
