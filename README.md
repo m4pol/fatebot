@@ -30,7 +30,7 @@
 ---
 
 # Spread Feature
-Spread feature of this bot is scan on default SSH port and it will infect on linux only. Option about scan feature in this bot is scan on CN, HK, KR and BR network or you can do a random scan or even you can add you own mods, all of these it's up to you. This bot will brute-force attack to the target and use "wget" for download the payload from FTP server or any option any server type that you can host the payload not maintionly to be an FTP server.
+Spread feature of this bot is scan on default SSH port and it will infect on linux only. Option about scan feature in this bot is scan on CN, HK, KR and BR network or you can do a random scan or even you can add you own mods, all of these is up to you. This bot will brute-force attack to the target and use "wget" for download the payload from FTP server or any option any server type that you can host the payload not maintionly to be an FTP server.
 	
 	# How to add more scanner network (create your own scan mod).
 	
