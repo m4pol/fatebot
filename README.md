@@ -1,6 +1,6 @@
 <p align="center">
 	<a href="https://github.com/boz3r/Fatebot">
-		<img src="assets/fatebot.png" alt="fatebot" width="440" height="440">
+		<img src="assets/Not my image, i just add Fate text.png" alt="fatebot" width="440" height="440">
 	</a>
 	<br>
 	<a href="https://github.com/boz3r/Fatebot/blob/master/LICENSE">
@@ -75,8 +75,9 @@ All of the attack vectors except "http" DDoS vectors will be random source port 
 	chmod +x build.sh
 	./build.sh <payload>
 	
-	# Bot system arch is up to your compile system arch. 
-	# If you compile your payload by x86, the bot that you have scaned will be only x86.
+	# The bot system architecture is up to which payload you upload on your payload server.
+	# If you upload x32 on you payload server, the bot that you have scaned will be only x32 arch.
+	# The mips architecture is specific for doing an exploit only, so it doesn't count to the scan process!!!
 	# To run the payload you need to run with root access!!!
 
 # Requirements
