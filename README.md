@@ -30,7 +30,7 @@
 ---
 
 # Spread Feature
-Spread feature of this bot will scan on default SSH and HTTP port. Option about scan feature in this bot is scan on CN, HK, KR and BR network or you can do a random scan or even you can add you own mods, all of these is up to you. This bot will brute-force attack and exploit to the target device, server, etc that's run linux or mips x32. The loader will use "wget" and "curl" for download the payload from FTP server or any option any server type that you can host the payload not maintionly to be an FTP server.
+Spread feature of this bot will scan on default SSH and HTTP port. Option about scan feature in this bot is scan on CN, HK, KR and BR network or you can do a random scan or even you can add you own mods, all of these is up to you. This bot will brute-force attack and exploit to the target device, server, etc that's run linux or mips x32. The loader will use "wget" or "curl" as a default loader for download the payload from FTP server or any option any server type that you can host the payload not maintionly to be an FTP server.
 	
 	# How to add more scanner network (Create your own scan mod).
 	
