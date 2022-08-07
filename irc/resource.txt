@@ -1,8 +1,109 @@
-# IRC server that i have used.
+##################################
+## IRC server that i have used. ##
+##################################
+
 https://www.unrealircd.org/download
 
-# IRC client that i have used.
+##################################
+## IRC client that i have used. ##
+##################################
+
 https://hexchat.github.io/
 
-# Mods for unrealircd server.
-https://modules.unrealircd.org/
+##############################################
+## Inspiration that make me to create Fate. ##
+##############################################
+
+Akbot source code: https://github.com/maestron/botnets/tree/master/VirusPack/Akbot%20v0.4.1%5Bnetapi%5D
+Akbot author: Owen Thor Walker or AKILL (He's my big inspiration)
+
+Mirai source code: https://github.com/jgamblin/Mirai-Source-Code
+Mirai author: Paras Jha, Josiah White and Dalton Norman
+
+##############################################
+## Research and reference that i have used. ##
+##############################################
+
+/*
+        String managing code that i have used and adapt with my IRC code.
+*/
+https://github.com/iIIusi0n/Simple-IRC-Botnet/blob/master/main.go
+
+/*
+        RXbot research.
+*/
+https://www.youtube.com/watch?v=MBuQrde7wrc
+https://www.youtube.com/watch?v=u8kVw4FN9WA
+https://www.youtube.com/watch?v=tNBACAPL1Yg
+
+/*
+        Mirai research
+*/
+https://www.youtube.com/watch?v=5fVBB84OiAo
+https://www.youtube.com/watch?v=1pywzRTJDaY
+
+/*
+        BrickerBot research.
+*/
+https://www.youtube.com/watch?v=zgAtIG9WqsM
+
+/*
+        Communication protocol research.
+*/
+https://www.youtube.com/watch?v=hedFuWNUK9k
+https://www.youtube.com/watch?v=woPGoubVXsQ
+https://en.wikipedia.org/wiki/List_of_Internet_Relay_Chat_commands
+
+/*
+        F5 BIG-IP vulnerability research.
+*/
+https://www.bleepingcomputer.com/news/security/critical-f5-big-ip-vulnerability-exploited-to-wipe-devices
+https://packetstormsecurity.com/files/167007/F5-BIG-IP-Remote-Code-Execution.html
+https://github.com/horizon3ai/CVE-2022-1388
+https://github.com/0xf4n9x/CVE-2022-1388
+
+/*
+        Spring4Shell vulnerability research
+*/
+https://www.youtube.com/watch?v=9onnfvCFJHw
+https://sysdig.com/blog/cve-2022-22965-spring-core-spring4shell/
+https://michaelkoczwara.medium.com/spring4shell-rce-in-spring-core-simple-analysis-cd4436a577d5
+https://github.com/TheGejr/SpringShell/blob/master/exp.py
+
+/*
+        TOTOLINK vulnerability research
+*/
+https://www.youtube.com/watch?v=ypXqjZOlGAw&t=2727s
+https://github.com/EPhaha/IOT_vuln/tree/main/TOTOLink
+
+/*
+        Zyxel Firewall vulnerability research.
+*/
+https://www.rapid7.com/blog/post/2022/05/12/cve-2022-30525-fixed-zyxel-firewall-unauthenticated-remote-command-injection/
+
+/*
+        Realtek AP-Router SDK vulnerability research.
+*/
+https://blogs.juniper.net/en-us/threat-research/attacks-continue-against-realtek-vulnerabilities
+
+/*
+        Huawei HG532 remote code execution and Realtek SDK – Miniigd UPnP SOAP Command Execution vulnerability research.
+*/
+https://www.netscout.com/blog/asert/fast-furious-iot-botnets-regifting-exploits
+https://cujo.com/iot-botnet-report-2021-malware-and-vulnerabilities-targeted/
+
+/*
+        D-Link DNS-320 Firewall Remote Command Execution vulnerability research.
+*/
+https://unit42.paloaltonetworks.com/mirai-variant-iot-vulnerabilities/
+https://gist.github.com/WinMin/6f63fd1ae95977e0e2d49bd4b5f00675
+
+/*
+        Tenda AC15 AC1900 version 15.03.05.19 vulnerability research.
+*/
+https://cybersecurity.att.com/blogs/labs-research/att-alien-labs-finds-new-golang-malwarebotenago-targeting-millions-of-routers-and-iot-devices-with-more-than-30-exploits
+
+/*
+        Digital Watchdog DW MEGApix IP cameras vulnerability research.
+*/
+https://gist.github.com/secgrant/820faeeaa0cb4889edaa1d6fef83deab

