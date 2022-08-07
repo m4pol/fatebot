@@ -121,7 +121,7 @@ The exploit that's use in this botnet mostly will be a command injection (tbh it
 			exploitConnection: "example",					# Customize http connection.
 		}
 
-		b.exploitLauncher(enewCVE2,  b.selfRequest(enewCVE2))		# In the first you need to call "setupExploit" function but this example you don't need to call it.
+		b.exploitLauncher(enewCVE2,  b.selfRequest(enewCVE2))		# In the first example you need to call "setupExploit" function but this example you don't need to call it.
 										# Just call "exploitLauncher" function and in the second argument use "selfRequest" function instead of a newHeader value. 
 										# Because we only use default header set and then put our exploit structure in to the "selfRequest" argument.
 	}
