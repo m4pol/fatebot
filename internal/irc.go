@@ -30,7 +30,7 @@ func Find(read, str string) bool {
 	return strings.Contains(read, str)
 }
 
-func setupComd(args int, cut string) string {
+func SetupComd(args int, cut string) string {
 	return strings.Trim(Recv(*BotReader, args), cut)
 }
 

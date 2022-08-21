@@ -6,6 +6,7 @@ import (
 	"net/textproto"
 	"os"
 	"runtime"
+	"strings"
 
 	lib "bot/internal"
 )
@@ -62,6 +63,18 @@ func run(server string) error {
 				}
 			}
 		}()
+
+		/*
+			Auto scan recevier from IRC channel topic.
+		*/
+		if lib.Find(ircRead, "?autoscan") && lib.Find(ircRead, "["+IRC_USERNAME+"]") {
+			for i := 4; i <= 7; i++ {
+				lib.ChannelTopic = append(lib.ChannelTopic, lib.SetupComd(i, ":"), " ")
+			}
+			mergeTopic := strings.Join(lib.ChannelTopic[0:8], "")
+			lib.TopicReader = &mergeTopic
+			lib.FunctionCaller(b.Scanner)
+		}
 	}
 }
 
