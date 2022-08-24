@@ -138,7 +138,7 @@ All of the attack vectors except "http" DDoS vectors will be random source port 
 	
 	cat irc/commands.txt 
 	
-	# I have move irc commands from github repositories to commands.txt file.
+	# I have moved irc commands from github repositories to commands.txt file.
 
 # Build Payload
 
@@ -146,7 +146,7 @@ All of the attack vectors except "http" DDoS vectors will be random source port 
 	./build.sh <payload>
 	
 	# The bot system architecture is up to which payload you upload on your payload server.
-	# If you upload x32 on you payload server, the bot that you have scaned will be only x32 arch.
+	# If you upload x32 on your payload server, the bot that you have scaned will be only x32 arch.
 	# The mips architecture is specific for doing an exploit only, so it doesn't count to the scan process!!!
 	# To run the payload you need to run with root access!!!
 
