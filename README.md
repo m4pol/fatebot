@@ -23,7 +23,7 @@
 	<br>
 	Bozer\Bulldozer (old name is R4bin) the author of Fatebot.
 	<br>
-	I have created this for education purpose only, the use of this software is your responsibility!!!
+	I create this project for education purpose only, the use of this software is your responsibility!!!
 	<br>
 </p>
 
