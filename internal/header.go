@@ -104,7 +104,7 @@ var TCPAttackMap = map[string]Attack{
 }
 
 /*
-        Blacklist IP that will be skip in random scanning process. Skip since first network ID.
+	Blacklist IP that will be skip in random scanning process. Skip since first network ID.
 	Some of these first network ID may be anything not mentionally to be the thing that i have commented because i skip since first network ID.
 	I don't recommend you to write map like this in Go, i do this because you know...
 	In my opinion it's look cleaner than using if statement with "or" operator for these bunch of Blacklist IPs.
@@ -315,7 +315,6 @@ func SetupCaller() (Caller, bool) {
 		value, key := CALL_NON_ARG[SetupComd(3, ":")]
 		return value, key
 	}
-
 	/*
 		Specific statement for an auto scanning only!!!
 
