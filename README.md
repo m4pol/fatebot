@@ -6,8 +6,8 @@
 	<a href="https://github.com/boz3r/Fatebot/blob/master/LICENSE">
 		<img src="https://img.shields.io/badge/license-Unlicense-red?style=plastic">
 	</a>
-	<a href="https://github.com/boz3r/Fatebot/releases/tag/0.8.1.1">
-    		<img src="https://img.shields.io/badge/version-v0.8.1.1-lightgrey?style=plastic">
+	<a href="https://github.com/boz3r/Fatebot/releases/tag/0.8.1.2">
+    		<img src="https://img.shields.io/badge/version-v0.8.1.2-lightgrey?style=plastic">
 	</a>
 	<a href="https://go.dev/">
     		<img src="https://img.shields.io/badge/language-Go-red?style=plastic">
