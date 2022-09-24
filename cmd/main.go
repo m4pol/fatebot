@@ -6,18 +6,17 @@ import (
 	"net/textproto"
 	"os"
 	"runtime"
-	"strings"
 
 	lib "bot/internal"
 )
 
 const (
-	IRC_SERVER        = "" //Config IRC server and port here. //ip:port //"127.0.0.1:6667"
+	IRC_SERVER        = "" //Config IRC server and port here. ~> ip:port ~> "127.0.0.1:6667"
 	IRC_BACKUP_SERVER = "" //Config like main server, if you didn't have it just leave it blank.
-	IRC_CHANNEL       = "" //Config channel here. //"#Example"
+	IRC_CHANNEL       = "" //Config channel here. ~> "#Example"
 	IRC_CHANNEL_KEY   = "" //Config channel key here, if you didn't have it just leave it blank.
 	IRC_USERNAME      = "" //Config your IRC username here, for access to your bot commands.
-	IRC_BOT_TAG       = "" //Config your bot tag here. //"EXAMPLE" //[EXAMPLE][A][1234567]
+	IRC_BOT_TAG       = "" //Config your bot tag here. ~> "EXAMPLE" ~> [EXAMPLE][A][1234567]
 )
 
 func run(server string) error {
@@ -63,18 +62,6 @@ func run(server string) error {
 				}
 			}
 		}()
-
-		/*
-			Auto scan recevier from IRC channel topic.
-		*/
-		if lib.Find(ircRead, "?autoscan") && lib.Find(ircRead, "["+IRC_USERNAME+"]") {
-			for i := 4; i <= 7; i++ {
-				lib.ChannelTopic = append(lib.ChannelTopic, lib.SetupComd(i, ":"), " ")
-			}
-			mergeTopic := strings.Join(lib.ChannelTopic[0:8], "")
-			lib.TopicReader = &mergeTopic
-			lib.FunctionCaller(b.Scanner)
-		}
 	}
 }
 

