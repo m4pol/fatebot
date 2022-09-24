@@ -18,6 +18,6 @@ GOOS=linux GOARCH=mips go build -ldflags "-s -w" -o bin/$1_mips_x32 cmd/main.go 
 echo ""
 echo -e "\e[1;32m               BUILD SUCCESS!!!                \e[0m"
 echo -e "\e[1;37m-----------------------------------------------\e[0m"
-echo -e "\e[1;32m  YOUR EXECUTABLE FILEs ARE IN THE BIN FOLDER  \e[0m"
+echo -e "\e[1;32m  YOUR EXECUTABLE FILES ARE IN THE BIN FOLDER  \e[0m"
 echo -e "\e[1;37m-----------------------------------------------\e[0m"
 echo ""
