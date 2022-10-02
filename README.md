@@ -58,7 +58,7 @@ Spread feature of this bot will scan on default SSH and HTTP port. Option about 
 	4) Done... just save it.
 	
 # Add/Customize Exploit
-The exploit that's use in this botnet mostly will be a command injection (tbh it's all of it LMAO). You can add more new exploit if you want, but i recommend it to be a command injection vulnerability, because you don't need to add or write anything more you just need to config it. I try to make the exploit feature easy and felxible to configuration as much as i can. If 2 examples down below is not enough you can see more example in "internal/exploit.go".
+The exploit that's use in this botnet mostly will be a command injection (TBH it's all of it LMAO). You can add more new exploit if you want, but i recommend it to be a command injection vulnerability, because you don't need to add or write anything more you just need to config it. I try to make the exploit feature easy and felxible to configuration as much as i can. If 2 examples down below is not enough you can see more example in "internal/exploit.go".
 	
 	#############################################################
 	### Example 1 Incase that you want to add new HTTP header ###
