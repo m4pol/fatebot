@@ -8,7 +8,7 @@ import (
 	"golang.org/x/crypto/ssh"
 )
 
-var BotReader, TopicReader, server *string
+var BotReader, server *string
 var ChannelTopic []string //Just for a merge process.
 
 /*
