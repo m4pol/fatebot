@@ -30,7 +30,7 @@
 ---
 
 # Spread Feature
-Spread feature of this bot will scan on default SSH and HTTP port. Option about scan feature in this bot is scan on CN, HK, KR and BR network or you can do a random scan or even you can add you own mods, all of these is up to you. This bot will brute-force attack and exploit to the target device, server, etc that's run linux or using mips x32 architecture. The loader will use "wget" or "curl" as a default loader for download the payload from FTP server or any option any server type that you can host the payload not maintionly to be an FTP server.
+Spread feature of this bot will scan on default SSH and HTTP port. Option about scan feature in this bot is scan on CN, HK, KR and BR network or you can do a random scan or even you can add your own mods, all of these is up to you. This bot will brute-force attack and exploit to the target device, server, etc that's run linux or using mips x32 architecture. The loader will use "wget" or "curl" as a default loader for download payload from The FTP server or any option any server type that you can host your payload, not maintionly to be an FTP server.
 	
 	# How to add more scanner network (Create your own scan mod).
 	
@@ -58,7 +58,7 @@ Spread feature of this bot will scan on default SSH and HTTP port. Option about 
 	4) Done... just save it.
 	
 # Add/Customize Exploit
-The exploit that's use in this botnet mostly will be a command injection (tbh it's all of it lmao). You can add a new exploit if you want, but i recommend it to be a command injection vulnerability because you don't need to add or write anything more you just need to config it. I try to make the exploit feature easy and felxible to configuration as much as i can. If 2 examples down below is not enough you can see more example in "internal/exploit.go".
+The exploit that's use in this botnet mostly will be a command injection (tbh it's all of it LMAO). You can add more new exploit if you want, but i recommend it to be a command injection vulnerability, because you don't need to add or write anything more you just need to config it. I try to make the exploit feature easy and felxible to configuration as much as i can. If 2 examples down below is not enough you can see more example in "internal/exploit.go".
 	
 	#############################################################
 	### Example 1 Incase that you want to add new HTTP header ###
@@ -127,8 +127,8 @@ The exploit that's use in this botnet mostly will be a command injection (tbh it
 	}
 	
 # Attack Feature
-Attack feature will play around with transport layer mostly, but also have an application and network layer too.
-All of the attack vectors except "http" DDoS vectors will be random source port and windows size automatically but dst port will let bot herder config by them self.
+Attack feature mostly will play around with The Transport Layer, but also have an application and The Network Layer too.
+All of the attack vectors except "HTTP" DDoS vectors will be random source port and windows size automatically but dst port will let bot herder config by them self.
 
 	# tcp -syn 127.0.0.1 192.168.50.129 -r 100 //command that's used in this screenshot.
 
