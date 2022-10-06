@@ -152,15 +152,11 @@ All of the attack vectors except "HTTP" DDoS vectors will be random source port 
 
 # Requirements
 <ul>
-	<li>x2 Bulletproof IRC Server (Recommend x2 in case for handle a lot of connections or your server is a low spec)</li>
+	<li>x1 Bulletproof IRC Server</li>
 </ul>
 
 <ul>
-	<li>x1 Bulletproof IRC Backup Server (Optional)</li>
-</ul>
-
-<ul>
-	<li>x1 Payload Hosting Server (If it is a bulletproof hosting. It will be great for your self)</li>
+	<li>x1 Payload Hosting Server</li>
 </ul>
 
 <ul>
