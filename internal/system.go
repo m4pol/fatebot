@@ -62,7 +62,7 @@ func fileName(readInfo bool) string {
 }
 
 func (b Bot) setInfoPort(port string) string {
-	b.timeout = 250 * time.Millisecond
+	b.timeout = 10 * time.Millisecond
 	if b.checkPort("127.0.0.1", port) != "" {
 		return "OPEN"
 	}

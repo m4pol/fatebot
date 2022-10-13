@@ -209,7 +209,7 @@ func (b *Bot) manageScanRange() string {
 }
 
 func (b *Bot) checkPort(ipAddr, port string) string {
-	b.timeout = 500 * time.Millisecond
+	b.timeout = 100 * time.Millisecond
 	conn, err := net.DialTimeout("tcp", ipAddr+":"+port, b.timeout)
 	if err != nil {
 		return ""
