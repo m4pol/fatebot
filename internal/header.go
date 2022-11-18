@@ -12,8 +12,8 @@ var BotReader, server *string
 var ChannelTopic []string //Just for a merge process.
 
 /*
-	These 2 varibles doesn't merge with bot structure because of a "fileName" function,
-	i want it to be a global function that every structure can access.
+	These 2 variables doesn't merge with the bot structure because of a "fileName" function,
+	I want it to be a global function that every structure can access.
 */
 var BotGroup, BotID string
 
@@ -104,10 +104,10 @@ var TCPAttackMap = map[string]Attack{
 }
 
 /*
-	Blacklist IP that will be skip in random scanning process. Skip since first network ID.
-	Some of these first network ID may be anything not mentionally to be the thing that i have commented because i skip since first network ID.
-	I don't recommend you to write map like this in Go, i do this because you know...
-	In my opinion it's look cleaner than using if statement with "or" operator for these bunch of Blacklist IPs.
+	Blacklist IP that will be skipped in the random scanning process. Skip since first network ID.
+	Some of these first network IDs may be anything not mentionally to be the thing that I have commented on because I skip since the first network ID.
+	I don't recommend you to write a map like this in Go, I do this because you know...
+	In my opinion, it looks cleaner than using an if statement with an "or" operator for this bunch of Blacklist IPs.
 */
 var BlacklistIPs = map[string]struct{}{
 
