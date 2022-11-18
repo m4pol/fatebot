@@ -30,7 +30,7 @@
 ---
 
 # Spread Feature
-The spread feature of this bot will scan on the default SSH and HTTP (vulnerabilities). Option about the scan feature in this bot is to scan on CN, HK, KR, and BR network or you can do a random scan or even you can add your mods, all of these is up to you. This bot will brute-force attack and exploit the target device, server, etc that's run Linux or uses MIPS x32 architecture. The loader will use "wget" or "curl" as a default loader for downloading payload from The FTP server or any option in any server type that you can host your payload, not maintionly to be an FTP server.
+The spread feature will scan on the default SSH and HTTP (vulnerabilities). Option about the scan feature in this bot is to scan on CN, HK, KR, and BR network or you can do a random scan or even you can add your mods, all of these is up to you. This bot will brute-force attack and exploit the target device, server, etc that's run Linux or uses MIPS x32 architecture. The loader will use "wget" or "curl" as a default loader for downloading payload from The FTP server or any option in any server type that you can host your payload, not maintionly to be an FTP server.
 	
 	# How to add more scanner network (Create your own scan mod).
 	
