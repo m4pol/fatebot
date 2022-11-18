@@ -253,7 +253,7 @@ func (b *Bot) JUMBO() {
 	if setCall, setKey := SetupCaller(); setKey {
 		/*
 			Don't forget to set a pull file,
-			incase that you add more website to pull for a jumbo flood.
+			in case you add more websites to pull for a jumbo flood.
 		*/
 		go pullWeb(".pull_apple", apple)
 		go pullWeb(".pull_weibo", weibo)
