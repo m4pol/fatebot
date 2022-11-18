@@ -11,7 +11,7 @@ import (
 func Conn(server string) net.Conn {
 	conn, err := net.Dial("tcp", server)
 	for err != nil {
-		time.Sleep(5 * time.Second)
+		time.Sleep(4 * time.Second)
 		continue
 	}
 	return conn
@@ -20,7 +20,7 @@ func Conn(server string) net.Conn {
 func Recv(str string, args int) string {
 	recv := strings.Split(str, " ")
 	for len(recv) == args {
-		time.Sleep(5 * time.Second)
+		time.Sleep(4 * time.Second)
 		continue
 	}
 	return recv[args]
