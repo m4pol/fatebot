@@ -115,7 +115,7 @@ func (a *Attack) randSrcIP() string {
 		convIP := convInt(manageGetIP[0])
 
 		/*
-			Worst case (The bot info file not found).
+			If The bot info file is not found, then do a full randomization (worst case).
 		*/
 		if getIP == "Fail to execute command!!!" {
 			return manageSrcRange(4, 7, 0)
