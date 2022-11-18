@@ -10,7 +10,7 @@ clear
 GOOS=linux GOARCH=386 go build -ldflags "-s -w" -o bin/$1_x32 cmd/main.go && upx -9 bin/$1_x32 && clear
 GOOS=linux GOARCH=mips go build -ldflags "-s -w" -o bin/$1_mips_x32 cmd/main.go && upx -9 bin/$1_mips_x32 && clear
 
-# If you want to use the pure x64 executable just uncomment it, but idk why upx can't compress the mips x64 executable file.
+# If you want to use the pure x64 executable just uncomment it, but IDK why UPX can't compress the MIPS x64 executable file.
 
 # GOOS=linux GOARCH=amd64 go build -ldflags "-s -w" -o bin/$1_x64 cmd/main.go && upx -9 bin/$1_x64 && clear
 # GOOS=linux GOARCH=mips64 go build -ldflags "-s -w" -o bin/$1_mips_x64 cmd/main.go && upx -9 bin/$1_mips_x64 && clear
