@@ -1,6 +1,6 @@
 <p align="center">
 	<a href="https://github.com/boz3r/Fatebot">
-		<img src="assets/Not my image, i just add Fate text.png" alt="fatebot" width="440" height="440">
+		<img src="assets/just_add_Fate_txt.png" alt="fatebot" width="440" height="440">
 	</a>
 	<br>
 	<a href="https://github.com/boz3r/Fatebot/blob/master/LICENSE">
