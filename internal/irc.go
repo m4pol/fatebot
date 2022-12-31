@@ -48,7 +48,7 @@ func (b *Bot) Report(str string) {
 
 func (b *Bot) Join() {
 	rand.Seed(time.Now().UnixNano())
-	BotGroup = genName('A')
+	BotGroup = string('A' + rune(rand.Intn(26)))
 	BotID = fmt.Sprint(rand.Intn(10000000))
 
 	user := fmt.Sprint("USER ["+b.BotTag+"][", BotGroup, "][", BotID, "]", " 8 * :bot")
