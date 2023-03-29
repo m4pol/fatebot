@@ -21,8 +21,6 @@
 <p align="center">
 	<b><ins>⚠️ DISCLAIMER ⚠️</ins></b>
 	<br>
-	Bozer\Bulldozer (Old GitHub name was R4bin) the author of Fatebot.
-	<br>
 		I create this project for education purposes only, the use of this software is your responsibility!!!
 	<br>
 </p>
