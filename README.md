@@ -1,31 +1,5 @@
-<p align="center">
-	<a href="https://github.com/boz3r/Fatebot">
-		<img src="assets/just_add_Fate_txt.png" alt="fatebot" width="440" height="440">
-	</a>
-	<br>
-	<a href="https://github.com/boz3r/Fatebot/blob/master/LICENSE">
-		<img src="https://img.shields.io/badge/license-Unlicense-red?style=plastic">
-	</a>
-	<a href="https://github.com/boz3r/Fatebot">
-    		<img src="https://img.shields.io/badge/version-v0.8.2-lightgrey?style=plastic">
-	</a>
-	<a href="https://go.dev/">
-    		<img src="https://img.shields.io/badge/language-Go-red?style=plastic">
-	</a>
-	<a href="https://en.wikipedia.org/wiki/Linux">
-    		<img src="https://img.shields.io/badge/platform-linux-lightgrey?style=plastic">
-	</a>
-  	</br>
-</p>
-
-<p align="center">
-	<b><ins>⚠️ DISCLAIMER ⚠️</ins></b>
-	<br>
-		I create this project for education purposes only, the use of this software is your responsibility!!!
-	<br>
-</p>
-
----
+# Fatebot
+An IRC botnet, that's mainly used to launch denial-of-service attacks. This botnet will primarily scan on SSH default port, and exploit on IoT devices vulnerability. The main scanning method involves SSH default port brute-force, which mostly used by servers, even there is a scope scan. Also the loader process are not that effective for multiple architecture. So, do not expect many bot hits.
 
 # Spread Feature
 The spread feature will scan on the default SSH and HTTP (vulnerabilities). Option about the scan feature in this bot is to scan on CN, USA, KR, and BR networks or you can do a random scan or even you can add your own networks, all of these is up to you. This bot will brute-force attack and exploit the target device, server, etc that's run Linux or uses MIPS/ARM x32 architecture. The loader will use "wget" or "curl" as a default loader for downloading payload from The FTP server or any option in any server type that you can host your payload, not maintionly to be an FTP server.
