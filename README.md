@@ -1,8 +1,5 @@
 # Fatebot
-An IRC botnet, that's mainly used to launch denial-of-service attacks. This botnet will primarily scan on SSH default port, and exploit on IoT devices vulnerability. The main scanning method involves SSH default port brute-force, which mostly used by servers, even there is a scope scan. Also the loader process are not that effective for multiple architecture. So, do not expect many bot hits.
-
-# Spread Feature
-The spread feature will scan on the default SSH and HTTP (vulnerabilities). Option about the scan feature in this bot is to scan on CN, USA, KR, and BR networks or you can do a random scan or even you can add your own networks, all of these is up to you. This bot will brute-force attack and exploit the target device, server, etc that's run Linux or uses MIPS/ARM x32 architecture. The loader will use "wget" or "curl" as a default loader for downloading payload from The FTP server or any option in any server type that you can host your payload, not maintionly to be an FTP server.
+An IRC botnet, that's mainly used to launch denial-of-service attacks. This botnet will primarily scan on SSH default port to brute-force attack, and HTTP for IoT or server vulnerabilities exploit. <b>The "main" scanning method that's involves SSH default port brute-force attack, which mostly used by servers. Also the loader process are not that effective for multiple architecture. So, do not expect many bot hits.</b> Option about the scan feature in this bot is to scope scan on CN, USA, KR, and BR networks by default. However, you can also do a random scan, or even add your own networks. All of these is up to you.
 	
 	# How to add more scanner network (Create your own scan mod).
 	
