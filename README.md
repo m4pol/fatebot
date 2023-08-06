@@ -29,7 +29,7 @@ Option about the scan feature in this bot is to scope scan on CN, USA, KR, and B
 	4) Done... Just save it.
 	
 # Add/Customize Exploit
-The exploit that's used in this botnet mostly will be a command injection (TBH it's all of it LMAO). You can add more new exploits if you want, but I recommend it to be a command injection vulnerability because you don't need to add or write anything more you just need to config it. I try to make the exploit feature easy and flexible to the configuration as much as I can. If two examples down below is not enough you can see more example in "internal/exploit.go".
+The vulnerability exploit that's used in this botnet will mostly be command injection exploits. You can add more new exploits if you want, but I recommend using a command injection vulnerability exploit. This is because you won't need to add or write anything more; you just need to configure it. I try to make the exploit feature easy and flexible to the configuration as much as i can. If the two examples down below is not enough, you can also see more examples in <b>"internal/exploit.go".</b>
 
 	#################################################################
 	### Example 1: In case that you want to add a new HTTP header ###
@@ -98,8 +98,7 @@ The exploit that's used in this botnet mostly will be a command injection (TBH i
 	}
 	
 # Attack Feature
-The attack feature mostly will play around with The Transport Layer, but also have an application and The Network Layer too.
-All of the attack vectors except "HTTP" DDoS vectors will be random source ports and windows size automatically, but the DST port will let the bot herder config by themself.
+The attack feature will mostly focus on the transport layer attack, but it will also include application and network layer attacks. All of the attack vectors, except for the "HTTP" DDoS attack vectors, will use random source ports and windows size automatically. However, the destination port will be configurable by the bot herder themselves.
 
 	# tcp -syn 127.0.0.1 192.168.50.129 -r 100 //a command that's used in this screenshot.
 
@@ -109,8 +108,6 @@ All of the attack vectors except "HTTP" DDoS vectors will be random source ports
 	
 	cat irc/commands.txt 
 	
-	# I have moved IRC commands from GitHub repositories to the file name commands.txt in irc folder.
-
 # Build Payload
 
 	chmod +x build.sh
