@@ -1,6 +1,7 @@
-# Scanner Method
-This botnet will primarily scan on SSH default port to brute-force attack, and HTTP for IoT or server vulnerabilities exploit. <b>The "main" scanning method that's involves SSH default port brute-force attack, which mostly used by servers. Also the loader process are not that effective for multiple architecture. So, do not expect many bot hits.</b> 
+# Fatebot
+An IRC botnet, that's mainly used to launch denial-of-service attacks. This botnet will primarily scan on SSH default port to brute-force attack, and HTTP for IoT or server vulnerabilities exploit. <b>The "main" scanning method that's involves SSH default port brute-force attack, which mostly used by servers. Also the loader process are not that effective for multiple architecture. So, do not expect many bot hits.</b>
 
+# Scan Method
 Option about the scan feature in this bot is to scope scan on CN, USA, KR, and BR networks by default. However, you can also do a random scan, or even add your own networks. All of these is up to you.
 	
 	# How to add more scanner network (Create your own scan mod).
