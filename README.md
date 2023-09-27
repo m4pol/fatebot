@@ -96,7 +96,7 @@ The vulnerability exploit that's used in this botnet will mostly be command inje
 # Attack Feature
 The attack feature will mostly focus on the transport layer attack, but it will also include application and network layer attacks. All of the attack vectors, except for the "HTTP" DDoS attack vectors, will use random source ports and windows size automatically. However, the destination port will be configurable by the bot herder themselves.
 
-	# tcp -syn 127.0.0.1 192.168.50.129 -r 100
+	# ?tcp -syn 127.0.0.1 192.168.50.129 -r 100
 
 <img src="assets/synflood.png" alt="synflood, DoS example">
 
