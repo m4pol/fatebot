@@ -11,7 +11,7 @@ https://www.unrealircd.org/download
 https://hexchat.github.io/
 	 
 ##############################################
-## Inspiration that makes me create Fate. ##
+## Inspiration that makes me create Fate.   ##
 ##############################################
 	 
 Akbot source code: https://github.com/maestron/botnets/tree/master/VirusPack/Akbot%20v0.4.1%5Bnetapi%5D
@@ -23,11 +23,6 @@ Mirai authors: Paras Jha, Josiah White, and Dalton Norman
 ##############################################
 ## Research and reference that I have used. ##
 ##############################################
-	 
-/*
-        String managing code that I use and adapt with my IRC code.
-*/
-https://github.com/iIIusi0n/Simple-IRC-Botnet/blob/master/main.go
 	 
 /*
         RXbot research.
