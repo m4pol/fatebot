@@ -23,6 +23,11 @@ Mirai authors: Paras Jha, Josiah White, and Dalton Norman
 ##############################################
 ## Research and reference that I have used. ##
 ##############################################
+
+/*
+        String managing code that I use and adapt with my IRC code.
+*/
+source has removed, or edited.
 	 
 /*
         RXbot research.
