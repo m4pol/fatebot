@@ -1,3 +1,6 @@
+# Note
+This is the forked version. After I accidentally deleted the original repositories, I was still able to restore it thanks to GitHub support and the forker! However, if you have an issue with building the payload, please check the issue. Otherwise, I will not answer any questions or fix any bugs, as I have archived this repository.
+
 # IRC Commands
  	ATTACK VECTORS:
 	
